@@ -1,28 +1,40 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <v-app>
+    <v-app-bar app color="indigo lighten-1" dark>
+      <router-link to="/">
+        <div class="d-flex align-center">
+          <v-icon large class="orange--text text--lighten-3">mdi-bike-fast</v-icon>
+          <span class="ml-2 font-weight-medium orange--text text--lighten-3">FDS</span>
+        </div>
+      </router-link>
+    </v-app-bar>
+
+    <v-content>
+      <Landing />
+    </v-content>
+  </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Landing from "./components/Landing";
 
 export default {
-  name: 'App',
+  name: "App",
+
   components: {
-    HelloWorld
-  }
-}
+    Landing
+  },
+
+  data: () => ({
+    //
+  }),
+
+  methods: {}
+};
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+  a {
+    text-decoration: none;
+  }
 </style>
