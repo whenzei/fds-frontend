@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row algin="center" justify="center">
-      <v-icon size="300" class="orange--text text--lighten-1 pa-5 mt-3">mdi-bike-fast</v-icon>
+      <v-icon size="250" class="orange--text text--lighten-1">mdi-bike-fast</v-icon>
     </v-row>
     <v-row align="center" justify="center">
       <v-col lg="12">
@@ -15,8 +15,12 @@
     </v-row>
     <v-row align="center" justify="center">
       <v-col lg="4">
-        <v-select outlined :items="users" label="Select User Type" color="orange"></v-select>
+        <v-text-field v-model="username" label="Username" outlined></v-text-field>
+        <v-text-field v-model="password" label="Password" outlined type="password"></v-text-field>
       </v-col>
+    </v-row>
+    <v-row align="center" justify="center">
+      <v-btn class="orange darken-2" title="">Login</v-btn>
     </v-row>
   </v-container>
 </template>
@@ -26,7 +30,8 @@ export default {
   name: "Landing",
 
   data: () => ({
-    users: ["Customer", "Rider", "Restaurant Staff", "FDS Manager"]
+    name: null,
+    password: null
   })
 };
 </script>
