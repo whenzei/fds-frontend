@@ -1,22 +1,19 @@
 <template>
   <v-app>
     <NavBar/>
-
     <v-content>
-      <Landing/>
+      <router-view></router-view>
     </v-content>
   </v-app>
 </template>
 
 <script>
-import Landing from "./components/Landing";
 import NavBar from "./components/NavBar";
 
 export default {
   name: "App",
 
   components: {
-    Landing,
     NavBar
   },
 
