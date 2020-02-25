@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row algin="center" justify="center">
-      <v-icon size="250" class="orange--text text--lighten-1">mdi-bike-fast</v-icon>
+      <v-icon size="250" class="orange--text text--darken-1">mdi-bike-fast</v-icon>
     </v-row>
     <v-row align="center" justify="center">
       <v-col lg="12">
@@ -18,7 +18,7 @@
       </v-col>
     </v-row>
     <v-row align="center" justify="center">
-      <v-btn class="orange darken-2" title>Login</v-btn>
+      <v-btn class="orange darken-1 black--text" title>Login</v-btn>
     </v-row>
   </v-container>
 </template>

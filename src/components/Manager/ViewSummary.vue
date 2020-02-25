@@ -1,11 +1,11 @@
 <template>
     <v-container>
-        <v-subheader>Summary of Something</v-subheader>
+        <v-subheader class="orange darken-1 black--text">Summary of Something</v-subheader>
         <v-data-table
             :headers="headers"
             :items="records"
             :items-per-page="5"
-            class="elevation-1"
+            
             ></v-data-table>
     </v-container>
 </template>
