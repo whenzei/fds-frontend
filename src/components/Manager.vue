@@ -1,5 +1,6 @@
 <template>
   <v-container fluid>
+    <h2>{{name}}</h2>
     <v-row align="center" justify="center">
       <v-col lg="11 ">
         <v-toolbar color="black orange--text text--darken-2 font-weight-black" dark>
@@ -37,6 +38,11 @@ export default {
     ViewSummary,
     AddPromotion
   },
-  data: () => ({})
+  data: () => ({
+    name: null
+  }),
+  created() {
+    this.name = this.$store.getters["manager/name"];
+  }
 };
 </script>

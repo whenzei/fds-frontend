@@ -1,14 +1,14 @@
 import Vue from 'vue'
-import Router from 'vue-router'
+import VueRouter from 'vue-router'
 import Landing from '@/components/Landing'
 import Customer from '@/components/Customer'
 import Rider from '@/components/Rider'
 import Staff from '@/components/Staff'
 import Manager from '@/components/Manager'
 
-Vue.use(Router);
+Vue.use(VueRouter);
 
-export default new Router({
+export default new VueRouter({
     mode: 'history',
     routes: [
         {
