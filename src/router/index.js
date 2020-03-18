@@ -27,16 +27,34 @@ const router = new VueRouter({
             path: '/customer',
             name: 'Customer',
             component: Customer,
+            beforeEnter: (to, from, next) => {
+                if (store.getters.role != 'Customer') {
+                    router.push({ name: 'ErrorLanding' })
+                }
+                else { next() }
+            }
         },
         {
             path: '/staff',
             name: 'Staff',
             component: Staff,
+            beforeEnter: (to, from, next) => {
+                if (store.getters.role != 'Staff') {
+                    router.push({ name: 'ErrorLanding' })
+                }
+                else { next() }
+            }
         },
         {
             path: '/rider',
             name: 'Rider',
             component: Rider,
+            beforeEnter: (to, from, next) => {
+                if (store.getters.role != 'Rider') {
+                    router.push({ name: 'ErrorLanding' })
+                }
+                else { next() }
+            }
         },
         {
             path: '/manager',
