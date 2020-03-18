@@ -13,7 +13,7 @@ export default {
         name: null,
     }),
     created () {
-        this.name = this.$store.getters['rider/name'];
+        this.name = this.$store.getters.name;
     }
 }
 </script>
