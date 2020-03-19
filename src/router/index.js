@@ -1,10 +1,11 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Landing from '@/components/Landing'
-import Customer from '@/components/Customer'
-import Rider from '@/components/Rider'
-import Staff from '@/components/Staff'
-import Manager from '@/components/Manager'
+import Customer from '@/components/Customer/Customer'
+import CustomerBrowse from '@/components/Customer/Browse'
+import Rider from '@/components/Rider/Rider'
+import Staff from '@/components/Staff/Staff'
+import Manager from '@/components/Manager/Manager'
 import ErrorLanding from '@/components/ErrorLanding'
 import store from '../store'
 
@@ -27,6 +28,16 @@ const router = new VueRouter({
             path: '/customer',
             name: 'Customer',
             component: Customer,
+            beforeEnter: (to, from, next) => {
+                if (store.getters.role != 'Customer') {
+                    router.push({ name: 'ErrorLanding' })
+                }
+                else { next() }
+            }
+        },
+        {
+            path: '/customer/browse',
+            component: CustomerBrowse,
             beforeEnter: (to, from, next) => {
                 if (store.getters.role != 'Customer') {
                     router.push({ name: 'ErrorLanding' })

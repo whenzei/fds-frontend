@@ -4,7 +4,8 @@ import customer from './modules/customer'
 import staff from './modules/staff'
 import rider from './modules/rider'
 import manager from './modules/manager'
-import axios from "axios";
+import axios from 'axios';
+import createPersistedState from 'vuex-persistedstate'
 
 Vue.use(Vuex)
 const debug = process.env.NODE_ENV !== 'production'
@@ -19,7 +20,13 @@ const getDefaultState = () => {
 }
 
 export default new Vuex.Store({
-    state: getDefaultState,
+    plugins: [createPersistedState()],
+    state: {
+        name: null,
+        role: null,
+        token: null,
+        isLoggedIn: false
+    },
     getters: {
         name(state) {
             return state.name;
@@ -29,6 +36,9 @@ export default new Vuex.Store({
         },
         isLoggedIn(state) {
             return state.isLoggedIn;
+        },
+        token(state) {
+            return state.token;
         }
     },
     mutations: {
@@ -54,7 +64,7 @@ export default new Vuex.Store({
                 return 401;
             }
         },
-        async logout({commit}) {
+        async logout({ commit }) {
             commit('resetData');
         }
     },

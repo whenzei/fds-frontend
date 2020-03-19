@@ -7,7 +7,7 @@
       </div>
     </router-link>
     <v-spacer></v-spacer>
-    <v-btn outlined color="orange" @click="signup">signup</v-btn>
+    <v-btn outlined color="orange" @click="logout">Logout</v-btn>
   </v-app-bar>
 </template>
 
@@ -16,12 +16,10 @@ export default {
   data: () => ({
   }),
   computed: {
-    checkLoginStatus() {
-      return this.$store.getters.isLoggedIn;
-    }
   },
   methods: {
-    signup() {
+    async logout() {
+      await this.$store.dispatch('logout');
       this.$router.push('/');
     }
   }
