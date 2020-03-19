@@ -30,8 +30,8 @@
 </template>
 
 <script>
-import ViewSummary from "./Manager/ViewSummary";
-import AddPromotion from "./Manager/AddPromotion";
+import ViewSummary from "./ViewSummary";
+import AddPromotion from "./AddPromotion";
 
 export default {
   components: {

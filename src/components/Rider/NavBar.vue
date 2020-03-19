@@ -6,8 +6,11 @@
         <span class="ml-2 orangeText">FDS</span>
       </div>
     </router-link>
+    <v-btn class="ml-10 orange darken-2" tile>Deliveries</v-btn>
+    <v-btn class="ml-5 orange darken-2" tile>Payouts</v-btn>
+    <v-btn class="ml-5 orange darken-2" tile>Schedule</v-btn>
     <v-spacer></v-spacer>
-    <v-btn outlined color="orange" @click="signup">signup</v-btn>
+    <v-btn outlined color="orange" @click="logout">Logout</v-btn>
   </v-app-bar>
 </template>
 
@@ -16,12 +19,10 @@ export default {
   data: () => ({
   }),
   computed: {
-    checkLoginStatus() {
-      return this.$store.getters.isLoggedIn;
-    }
   },
   methods: {
-    signup() {
+    async logout() {
+      await this.$store.dispatch('logout');
       this.$router.push('/');
     }
   }

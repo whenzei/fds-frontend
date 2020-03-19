@@ -1,7 +1,8 @@
 <template>
   <v-container>
-    <h1>Customer</h1>
-    <h2>Hi {{name}}</h2>
+    <v-card min-height="500">
+      <v-card-title>Hi {{name}}</v-card-title>
+    </v-card>
   </v-container>
 </template>
 
@@ -11,7 +12,8 @@ export default {
     name: null
   }),
   created() {
-    this.name = this.$store.getters["customer/name"];
+    this.name = this.$store.getters.name;
+    
   }
 };
 </script>
