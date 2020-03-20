@@ -12,7 +12,7 @@
         hide-details
       ></v-text-field>
     </v-card-title>
-    <v-data-table :headers="headers" :items="allItems" :search="search">
+    <v-data-table :headers="headers" :items="allItems" :search="search" item-key="fname">
       <template v-slot:item.qty="{ item }">
         <v-row>
           <div max-width="100">
