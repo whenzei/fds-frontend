@@ -1,7 +1,8 @@
 <template>
   <v-card>
+    <CartDialog class="pt-3 pr-3" align="end" :items="cartItems" :rid="rid"/>
     <v-card-title>
-      <span class="display-1 font-weight-black orangeText">{{rname}}</span>
+      <span class="display-2 font-weight-black orangeText">{{rname}}</span>
       <v-spacer></v-spacer>
       <v-text-field
         v-model="search"
@@ -25,7 +26,7 @@
               value="0"
             ></v-text-field>
           </div>
-          <v-btn class="mb-2" icon :disabled="item.qty <= 0">
+          <v-btn class="mb-2" icon :disabled="item.qty <= 0" @click="addToCart(item)">
             <v-icon class="green--text">mdi-plus-circle</v-icon>
           </v-btn>
         </v-row>
@@ -35,8 +36,10 @@
 </template>
 
 <script>
+import CartDialog from "./CartDialog";
+
 export default {
-  props: ["menu", "rname"],
+  props: ["menu", "rname", "rid"],
   data: () => ({
     search: "",
     headers: [
@@ -44,7 +47,8 @@ export default {
       { text: "Category", value: "category" },
       { text: "Price ($)", value: "price" },
       { text: "Quantity", value: "qty" }
-    ]
+    ],
+    cart: []
   }),
   computed: {
     allItems() {
@@ -53,12 +57,35 @@ export default {
         category: item.category,
         price: (item.price / 100).toLocaleString("en-SG", {
           style: "currency",
-          currency: "SGD"
+          currency: "SGD",
         }),
+        priceInteger: item.price,
         qty: 0
       }));
       return items;
+    },
+    cartItems() {
+      return this.cart;
     }
+  },
+  methods: {
+    addToCart(newItem) {
+      const existingItem = this.cart.filter(
+        item => item.fname === newItem.fname
+      )[0];
+      if (existingItem) {
+        existingItem.qty = existingItem.qty + parseInt(newItem.qty);
+      } else {
+        this.cart.push({
+          fname: newItem.fname,
+          priceInteger: newItem.priceInteger,
+          qty: parseInt(newItem.qty),
+        });
+      }
+    },
+  },
+  components: {
+    CartDialog
   }
 };
 </script>
