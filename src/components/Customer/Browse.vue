@@ -44,21 +44,13 @@ export default {
   }),
   methods: {
     async getMenu(rid, rname) {
-      const res = await axios.get(
-        `/customer/restaurants/${rid}`,
-        this.tokenConfig()
-      );
+      const res = await axios.get(`/customer/restaurants/${rid}`);
       this.menu = res.data;
       this.rname = rname;
-    },
-    tokenConfig() {
-      return {
-        headers: { Authorization: `bearer ${this.$store.getters.token}` }
-      };
     }
   },
   async created() {
-    const res = await axios.get("/customer/restaurants", this.tokenConfig());
+    const res = await axios.get("/customer/restaurants");
     this.restaurants = res.data;
   },
   components: {
