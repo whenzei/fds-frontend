@@ -1,7 +1,6 @@
 <template>
   <v-container>
-    <h1>Staff</h1>
-    <h2>Hi {{name}}</h2>
+    <h1>Hi {{name}}</h1>
   </v-container>
 </template>
 
@@ -11,7 +10,7 @@ export default {
     name: null
   }),
   created() {
-    this.name = this.$store.getters["staff/name"];
+    this.name = this.$store.getters.name;
   }
 };
 </script>
