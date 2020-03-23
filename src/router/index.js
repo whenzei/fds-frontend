@@ -5,6 +5,8 @@ import Customer from '@/components/Customer/Customer'
 import CustomerBrowse from '@/components/Customer/Browse'
 import Rider from '@/components/Rider/Rider'
 import Staff from '@/components/Staff/Staff'
+import ViewSummary from '@/components/Staff/ViewSummary'
+import AddPromotion from '@/components/Staff/AddPromotion'
 import Manager from '@/components/Manager/Manager'
 import ErrorLanding from '@/components/ErrorLanding'
 import store from '../store'
@@ -49,6 +51,26 @@ const router = new VueRouter({
             path: '/staff',
             name: 'Staff',
             component: Staff,
+            beforeEnter: (to, from, next) => {
+                if (store.getters.role != 'Staff') {
+                    router.push({ name: 'ErrorLanding' })
+                }
+                else { next() }
+            }
+        },
+        {
+            path: '/staff/view-summary',
+            component: ViewSummary,
+            beforeEnter: (to, from, next) => {
+                if (store.getters.role != 'Staff') {
+                    router.push({ name: 'ErrorLanding' })
+                }
+                else { next() }
+            }
+        },
+        {
+            path: '/staff/add-promo',
+            component: AddPromotion,
             beforeEnter: (to, from, next) => {
                 if (store.getters.role != 'Staff') {
                     router.push({ name: 'ErrorLanding' })
