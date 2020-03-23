@@ -6,7 +6,7 @@
       </v-toolbar>
       <v-tabs vertical color="orange darken-2" left>
         <v-tab @click="getOrderStatistics">Monthly Breakdown</v-tab>
-        <v-tab>Top 5 Food Items</v-tab>
+        <v-tab>Food Items Summary</v-tab>
         <v-tab-item v-show="showTable">
           <v-col>
             <v-data-table :headers="orderHeaders" :items="getOrderItems"></v-data-table>
@@ -38,7 +38,7 @@
                   type="month"
                   class="mt-4"
                   min="2004-01"
-                  max="2020-12"
+                  max="2023-12"
                   color="orange darken-3"
                   @input="getFoodCount(chosenDate); menu = false;"
                 ></v-date-picker>
