@@ -38,8 +38,8 @@
                   v-model="chosenDate"
                   type="month"
                   class="mt-4"
-                  min="2004-01"
-                  max="2023-12"
+                  :min="minDate"
+                  :max="maxDate"
                   color="orange darken-3"
                   @input="getFoodCount(chosenDate); menu = false;"
                 ></v-date-picker>
