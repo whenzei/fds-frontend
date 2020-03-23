@@ -7,6 +7,7 @@
       <v-tabs vertical color="orange darken-2" left>
         <v-tab @click="getOrderStatistics">Monthly Breakdown</v-tab>
         <v-tab>Food Items Summary</v-tab>
+        <v-tab>Promotion Summary</v-tab>
         <v-tab-item v-show="showTable">
           <v-col>
             <v-data-table :headers="orderHeaders" :items="getOrderItems"></v-data-table>
@@ -70,6 +71,9 @@
           <v-col>
             <v-data-table :headers="foodHeaders" :items="getFoodItems" hide-default-footer></v-data-table>
           </v-col>
+        </v-tab-item>
+        <v-tab-item>
+          Promotion Summary
         </v-tab-item>
       </v-tabs>
     </v-row>
