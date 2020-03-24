@@ -21,7 +21,7 @@
         </v-card>
       </v-col>
       <v-col lg="9">
-        <Menu v-if="menu" :menu="menu" :rname="rname" />
+        <Menu v-if="menu" :menu="menu" :rname="rname" :key="rname"/>
         <v-card v-else>
           <v-card-title>
             <v-icon>mdi-arrow-left-bold</v-icon>
