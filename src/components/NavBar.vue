@@ -15,8 +15,7 @@
 
 <script>
 export default {
-  data: () => ({
-  }),
+  data: () => ({}),
   computed: {
     checkLoginStatus() {
       return this.$store.getters.isLoggedIn;
@@ -24,15 +23,15 @@ export default {
   },
   methods: {
     signup() {
-      this.$router.push('/');
+      this.$router.push("/");
     },
     toggleNavDrawer() {
-      this.$store.commit('toggleNavDrawer')
+      this.$store.commit("toggleNavDrawer");
     },
     async logout() {
       await this.$store.dispatch("logout");
       this.$router.push("/");
-    },
+    }
   }
 };
 </script>

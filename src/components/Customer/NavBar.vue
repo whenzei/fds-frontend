@@ -1,7 +1,5 @@
 <template>
   <v-app-bar app clipped-left color="black" dark>
-        <v-app-bar-nav-icon @click.stop="toggleNavDrawer" />
-
     <router-link to="/">
       <div class="d-flex align-center">
         <v-icon large class="orange--text text--darken-1">mdi-bike-fast</v-icon>
@@ -28,9 +26,6 @@ export default {
       await this.$store.dispatch("logout");
       this.$router.push("/");
     },
-    toggleNavDrawer() {
-      this.$store.commit('toggleNavDrawer')
-    }
   }
 };
 </script>
