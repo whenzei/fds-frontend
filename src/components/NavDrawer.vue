@@ -1,6 +1,6 @@
 <template>
   <v-navigation-drawer
-    v-show="isLoggedIn && showNavDrawer"
+    :value="showNavDrawer"
     :color="color"
     :expand-on-hover="expandOnHover"
     :mini-variant="miniVariant"
@@ -10,12 +10,12 @@
     clipped
   >
     <v-list dense nav class="py-0">
-      <v-list-item two-line :class="miniVariant && 'px-0'">
+      <v-list-item two-line :class="miniVariant && 'px-0'" v-if="isLoggedIn">
         <v-list-item-avatar>
           <img :src="require('@/assets/shigeo.jpg')" />
         </v-list-item-avatar>
 
-        <v-list-item-content>
+        <v-list-item-content :v-if="isLoggedIn">
           <v-list-item-title>{{name}}</v-list-item-title>
           <v-list-item-subtitle>{{role}}</v-list-item-subtitle>
         </v-list-item-content>
@@ -53,11 +53,11 @@ export default {
       if (!this.isLoggedIn) return [];
       else if (this.role == "Rider") {
         return [
-          { title: "Shifts", icon: "mdi-calendar-clock", linkTo: "/rider/shifts" },
-          { title: "Salary", icon: "mdi-cash-usd-outline", linkTo: "/rider/salary" },
-          { title: "Dashboard", icon: "mdi-view-dashboard", linkTo: "/rider/dashboard" },
-          { title: "About", icon: "mdi-help-box", linkTo: "/rider/about" },
-          { title: "Recent", icon: "mdi-history", linkTo: "/rider/recent" },
+          { title: "Shifts", icon: "mdi-calendar-clock", linkTo: "/Rider/shifts" },
+          { title: "Salary", icon: "mdi-cash-usd-outline", linkTo: "/Rider/salary" },
+          { title: "Dashboard", icon: "mdi-view-dashboard", linkTo: "/Rider/dashboard" },
+          { title: "About", icon: "mdi-help-box", linkTo: "/Rider/about" },
+          { title: "Recent", icon: "mdi-history", linkTo: "/Rider/recent" },
         ];
       } else return [];
     }

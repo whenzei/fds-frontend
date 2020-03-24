@@ -8,7 +8,8 @@
       </div>
     </router-link>
     <v-spacer></v-spacer>
-    <v-btn outlined color="orange" @click="signup">signup</v-btn>
+    <v-btn outlined color="orange" @click="logout" v-if="checkLoginStatus">logout</v-btn>
+    <v-btn outlined color="orange" @click="signup" v-else>signup</v-btn>
   </v-app-bar>
 </template>
 
@@ -27,7 +28,11 @@ export default {
     },
     toggleNavDrawer() {
       this.$store.commit('toggleNavDrawer')
-    }
+    },
+    async logout() {
+      await this.$store.dispatch("logout");
+      this.$router.push("/");
+    },
   }
 };
 </script>
