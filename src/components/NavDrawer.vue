@@ -1,10 +1,9 @@
 <template>
   <v-navigation-drawer
-    v-show="navDrawer"
+    v-show="isLoggedIn && showNavDrawer"
     :color="color"
     :expand-on-hover="expandOnHover"
     :mini-variant="miniVariant"
-    :src="bg"
     absolute
     dark
     app
@@ -13,18 +12,18 @@
     <v-list dense nav class="py-0">
       <v-list-item two-line :class="miniVariant && 'px-0'">
         <v-list-item-avatar>
-          <img src="https://randomuser.me/api/portraits/men/81.jpg" />
+          <img :src="require('@/assets/shigeo.jpg')" />
         </v-list-item-avatar>
 
         <v-list-item-content>
-          <v-list-item-title>Application</v-list-item-title>
-          <v-list-item-subtitle>Subtext</v-list-item-subtitle>
+          <v-list-item-title>{{name}}</v-list-item-title>
+          <v-list-item-subtitle>{{role}}</v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
 
       <v-divider></v-divider>
 
-      <v-list-item v-for="item in items" :key="item.title" link>
+      <v-list-item v-for="item in items" :key="item.title" link :to="item.linkTo">
         <v-list-item-icon>
           <v-icon>{{ item.icon }}</v-icon>
         </v-list-item-icon>
@@ -38,29 +37,29 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   data: () => ({
     drawer: true,
-    items: [
-      { title: "Dashboard", icon: "mdi-view-dashboard" },
-      { title: "Photos", icon: "mdi-image" },
-      { title: "About", icon: "mdi-help-box" }
-    ],
-    color: "primary",
-    colors: ["primary", "blue", "success", "red", "teal"],
+    color: "secondary",
     right: true,
     miniVariant: false,
     expandOnHover: false,
-    background: false,
   }),
   computed: {
-    bg() {
-      return this.background
-        ? "https://cdn.vuetifyjs.com/images/backgrounds/bg-2.jpg"
-        : undefined;
-    },
-    navDrawer() {
-      return this.$store.getters.showNavDrawer
+    ...mapGetters(["showNavDrawer", "name", "isLoggedIn", "role"]),
+    items() {
+      if (!this.isLoggedIn) return [];
+      else if (this.role == "Rider") {
+        return [
+          { title: "Shifts", icon: "mdi-calendar-clock", linkTo: "/rider/shifts" },
+          { title: "Salary", icon: "mdi-cash-usd-outline", linkTo: "/rider/salary" },
+          { title: "Dashboard", icon: "mdi-view-dashboard", linkTo: "/rider/dashboard" },
+          { title: "About", icon: "mdi-help-box", linkTo: "/rider/about" },
+          { title: "Recent", icon: "mdi-history", linkTo: "/rider/recent" },
+        ];
+      } else return [];
     }
   },
   methods: {}

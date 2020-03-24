@@ -16,7 +16,7 @@ const getDefaultState = () => {
         role: null,
         token: null,
         isLoggedIn: false,
-        showNavDrawer: false
+        showNavDrawer: false,
     }
 }
 
@@ -27,7 +27,7 @@ export default new Vuex.Store({
         role: null,
         token: null,
         isLoggedIn: false,
-        showNavDrawer: false
+        showNavDrawer: false,
     },
     getters: {
         name(state) {
@@ -44,7 +44,7 @@ export default new Vuex.Store({
         },
         showNavDrawer(state) {
             return state.showNavDrawer
-        }
+        },
     },
     mutations: {
         setData(state, data) {
@@ -58,7 +58,7 @@ export default new Vuex.Store({
         },
         toggleNavDrawer(state) {
             state.showNavDrawer = !state.showNavDrawer;
-        }
+        },
     },
     actions: {
         async login({ commit }, payload) {
