@@ -14,7 +14,7 @@
         >Cart is empty</v-card-title>
         <v-card-title class="display-1 orangeText" v-else>Cart</v-card-title>
         <v-divider></v-divider>
-        <v-container style="height: 300px">
+        <v-container>
           <v-row v-for="(item,index) in items" :key="item.fname">
             <v-col lg="6">{{index+1}}) {{item.fname}}</v-col>
             <v-col lg="1">
@@ -31,7 +31,7 @@
             </v-col>
           </v-row>
         </v-container>
-        <v-container>
+        <v-container v-if="items !== null && items.length > 0">
           <v-row>
             <v-col lg="12">
               <v-card flat>
@@ -39,27 +39,51 @@
               </v-card>
               <v-divider></v-divider>
             </v-col>
-            <v-col></v-col>
             <v-col lg="12">
-              <v-autocomplete
-                v-model="selectedAddress"
-                :search-input.sync="addressSearch"
-                color="orange"
-                dense
-                filled
-                hide-details
-                hide-no-data
-                disable-lookup
-                label="Enter Address"
-                solo-inverted
-                :items="possibleAddresses"
-              ></v-autocomplete>
+              <v-radio-group row v-model="isRecent">
+                <v-radio label="Enter New Address" :value="false"></v-radio>
+                <v-radio label="Choose Recent Address" :value="true"></v-radio>
+              </v-radio-group>
             </v-col>
-            <v-col lg="6">
-              <v-text-field color="orange" v-model="unit" dense filled label="Enter Unit#"></v-text-field>
-            </v-col>
-            <v-col lg="6">
-              <v-text-field color="orange" v-model="postalCode" label="Postal Code" disabled></v-text-field>
+            <template v-if="!isRecent">
+              <v-col lg="12">
+                <v-autocomplete
+                  v-model="selectedAddress"
+                  :search-input.sync="addressSearch"
+                  color="orange"
+                  dense
+                  filled
+                  hide-details
+                  hide-no-data
+                  disable-lookup
+                  label="Enter Address"
+                  solo-inverted
+                  :items="possibleAddresses"
+                ></v-autocomplete>
+              </v-col>
+              <v-col lg="6">
+                <v-text-field
+                  color="orange"
+                  v-model="unit"
+                  dense
+                  filled
+                  label="Enter Unit#"
+                  maxlength="10"
+                ></v-text-field>
+              </v-col>
+              <v-col lg="6">
+                <v-text-field color="orange" v-model="postalCode" label="Postal Code" disabled></v-text-field>
+              </v-col>
+            </template>
+            <v-col lg="12" v-else>
+              <v-radio-group v-model="selectedRecent">
+                <v-radio
+                  v-for="recentAddress in recentAddresses"
+                  :label="recentAddress.address + ' ' + recentAddress.postal + ' #' + recentAddress.unit"
+                  :key="recentAddress.postal"
+                  :value="recentAddress"
+                ></v-radio>
+              </v-radio-group>
             </v-col>
             <v-col lg="6">
               <v-select
@@ -72,10 +96,21 @@
               ></v-select>
             </v-col>
             <v-col lg="6">
-              <v-checkbox color="orange" label="Use points to wave delivery fee?"></v-checkbox>
+              <v-checkbox
+                color="orange"
+                label="Use points to wave delivery fee?"
+                v-if="points >= 300"
+              ></v-checkbox>
             </v-col>
           </v-row>
         </v-container>
+        <v-card-actions class="justify-center">
+          <v-btn
+            color="green darken-3"
+            v-if="items !== null && items.length > 0"
+            :disabled="isNotReady"
+          >Checkout</v-btn>
+        </v-card-actions>
       </v-card>
     </v-dialog>
   </div>
@@ -85,16 +120,20 @@
 import axios from "axios";
 
 export default {
-  props: ["items", "rid"],
+  props: ["items", "rid", "minSpending"],
   data: () => ({
     dialog: false,
+    isRecent: false,
     unit: null,
     promo: null,
+    points: null,
     possibleAddresses: [],
     selectedAddress: null,
     addressSearch: null,
     postalCode: null,
-    postalMap: {},
+    recentAddresses: [],
+    selectedRecent: null,
+    postalMap: {}
   }),
   computed: {
     totalPriceString() {
@@ -107,14 +146,28 @@ export default {
       return this.items
         .map(item => item.priceInteger * item.qty)
         .reduce((a, b) => a + b, 0);
+    },
+    isNotReady() {
+      if (this.totalPriceInteger < this.minSpending) {
+        return true;
+      }
+      if (this.isRecent) {
+        return this.selectedRecent == null;
+      } else {
+        return (
+          this.selectedAddress == null ||
+          this.postalCode == null ||
+          this.unit == null
+        );
+      }
     }
   },
   watch: {
-    addressSearch (val) {
+    addressSearch(val) {
       val && val !== this.selectedAddress && this.getAddresses(val);
     },
     selectedAddress(val) {
-      this.postalCode = (this.postalMap)[val];
+      this.postalCode = this.postalMap[val];
     }
   },
   methods: {
@@ -138,15 +191,25 @@ export default {
         params: { search: searchStr }
       });
       if (res.status == 200) {
-        this.possibleAddresses = (res.data).map(item => item.address);
+        this.possibleAddresses = res.data.map(item => item.address);
         let tempMap = {};
-        (res.data).forEach(item => {
+        res.data.forEach(item => {
           tempMap[item.address] = item.postal;
         });
         this.postalMap = tempMap;
       } else {
         this.possibleAddresses = [];
       }
+    }
+  },
+  async created() {
+    const res1 = await axios.get("/customer/frequents");
+    if (res1.status == 200 || res1.status == 304) {
+      this.recentAddresses = res1.data;
+    }
+    const res2 = await axios.get("/customer/account");
+    if (res2.status == 200 || res2.status == 304) {
+      this.points = res2.data[0].points;
     }
   }
 };

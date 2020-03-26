@@ -8,7 +8,7 @@
           </v-toolbar>
           <v-list>
             <v-list-item
-              @click="getMenu(restaurant.rid, restaurant.rname)"
+              @click="getMenu(restaurant)"
               v-for="restaurant in restaurants"
               :restaurant="restaurant"
               :key="restaurant.rid"
@@ -21,7 +21,7 @@
         </v-card>
       </v-col>
       <v-col lg="9">
-        <Menu v-if="menu" :menu="menu" :rname="rname" :key="rname"/>
+        <Menu v-if="menu" :menu="menu" :rname="rname" :key="rname" :minSpending="minSpending"/>
         <v-card v-else>
           <v-card-title>
             <v-icon>mdi-arrow-left-bold</v-icon>
@@ -40,13 +40,15 @@ export default {
   data: () => ({
     restaurants: [],
     menu: null,
-    rname: ""
+    rname: "",
+    minSpending: null,
   }),
   methods: {
-    async getMenu(rid, rname) {
-      const res = await axios.get(`/customer/restaurants/${rid}`);
+    async getMenu(restaurant) {
+      const res = await axios.get(`/customer/restaurants/${restaurant.rid}`);
       this.menu = res.data;
-      this.rname = rname;
+      this.rname = restaurant.rname;
+      this.minSpending = restaurant.minspending * 100;
     }
   },
   async created() {
