@@ -53,6 +53,7 @@ export default {
       if (!this.isLoggedIn) return [];
       else if (this.role == "Rider") {
         return [
+          { title: "Orders", icon: "mdi-cart", linkTo: "/rider/orders" },
           { title: "Shifts", icon: "mdi-calendar-clock", linkTo: "/rider/shifts" },
           { title: "Salary", icon: "mdi-cash-usd-outline", linkTo: "/rider/salary" },
           { title: "Dashboard", icon: "mdi-view-dashboard", linkTo: "/rider/dashboard" },
