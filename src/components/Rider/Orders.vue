@@ -56,12 +56,18 @@
                 <v-list-item v-for="(key, index) in filteredKeys" :key="index">
                   <v-list-item-content :class="{ 'blue--text': sortBy === key }">{{ key }}:</v-list-item-content>
                   <v-list-item-content
+                    v-if="key in formattedHeaders"
+                    class="align-end"
+                    :class="{ 'blue--text': sortBy === key }"
+                  >{{ formattedHeaders[key](item[key]) }}</v-list-item-content>
+                  <v-list-item-content
+                    v-else
                     class="align-end"
                     :class="{ 'blue--text': sortBy === key }"
                   >{{ item[key] }}</v-list-item-content>
                 </v-list-item>
                 <v-list-item class="d-flex justify-center">
-                    <v-btn color="orange" dark large>Select</v-btn>
+                  <v-btn color="orange" dark large>Select</v-btn>
                 </v-list-item>
               </v-list>
               <v-row></v-row>
@@ -107,6 +113,18 @@
 </template>
 
 <script>
+const formatCurrency = amountInCents => {
+  return `$ ${(amountInCents / 100).toFixed(2)}`;
+};
+
+const formatDistance = distanceInMetres => {
+  if (distanceInMetres > 1000) {
+    return `${(distanceInMetres / 1000).toFixed(2)} km`;
+  } else {
+    return `${distanceInMetres} m`;
+  }
+};
+
 export default {
   data() {
     return {
@@ -127,10 +145,16 @@ export default {
         "Final Price"
       ],
       sortableHeaders: [
+        "Restaurant",
         "Distance To Restaurant",
         "Distance to Customer",
         "Final Price"
       ],
+      formattedHeaders: {
+        "Distance To Restaurant": formatDistance,
+        "Distance to Customer": formatDistance,
+        "Final Price": formatCurrency
+      },
       items: [
         {
           Restaurant: "Bagnonald",
