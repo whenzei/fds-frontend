@@ -53,11 +53,11 @@ export default {
       if (!this.isLoggedIn) return [];
       else if (this.role == "Rider") {
         return [
-          { title: "Shifts", icon: "mdi-calendar-clock", linkTo: "/Rider/shifts" },
-          { title: "Salary", icon: "mdi-cash-usd-outline", linkTo: "/Rider/salary" },
-          { title: "Dashboard", icon: "mdi-view-dashboard", linkTo: "/Rider/dashboard" },
-          { title: "About", icon: "mdi-help-box", linkTo: "/Rider/about" },
-          { title: "Recent", icon: "mdi-history", linkTo: "/Rider/recent" },
+          { title: "Shifts", icon: "mdi-calendar-clock", linkTo: "/rider/shifts" },
+          { title: "Salary", icon: "mdi-cash-usd-outline", linkTo: "/rider/salary" },
+          { title: "Dashboard", icon: "mdi-view-dashboard", linkTo: "/rider/dashboard" },
+          { title: "About", icon: "mdi-help-box", linkTo: "/rider/about" },
+          { title: "Recent", icon: "mdi-history", linkTo: "/rider/recent" },
         ];
       } else return [];
     }
