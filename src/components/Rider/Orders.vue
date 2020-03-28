@@ -28,7 +28,7 @@
               solo-inverted
               hide-details
               :items="sortableHeaders"
-              prepend-inner-icon="mdi-magnify"
+              prepend-inner-icon="mdi-sort"
               label="Sort by"
             ></v-select>
             <v-spacer></v-spacer>
@@ -60,7 +60,11 @@
                     :class="{ 'blue--text': sortBy === key }"
                   >{{ item[key] }}</v-list-item-content>
                 </v-list-item>
+                <v-list-item class="d-flex justify-center">
+                    <v-btn color="orange" dark large>Select</v-btn>
+                </v-list-item>
               </v-list>
+              <v-row></v-row>
             </v-card>
           </v-col>
         </v-row>
