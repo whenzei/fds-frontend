@@ -9,6 +9,7 @@ import ViewSummary from '@/components/Staff/ViewSummary'
 import AddPromotion from '@/components/Staff/AddPromotion'
 import RiderSalary from '@/components/Rider/Salary'
 import RiderOrders from '@/components/Rider/Orders'
+import RiderCurrentOrder from '@/components/Rider/CurrentOrder'
 import Manager from '@/components/Manager/Manager'
 import ErrorLanding from '@/components/ErrorLanding'
 import store from '../store'
@@ -78,6 +79,13 @@ const router = new VueRouter({
             path: '/rider/orders',
             name: 'RiderOrders',
             component: RiderOrders,
+            beforeEnter: (to, from, next) => navGuard(to, from, next, 'Rider')
+        },
+        
+        {
+            path: '/rider/curr',
+            name: 'RiderCurrentOrder',
+            component: RiderCurrentOrder,
             beforeEnter: (to, from, next) => navGuard(to, from, next, 'Rider')
         },
         {
