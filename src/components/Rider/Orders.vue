@@ -25,7 +25,7 @@
             <v-select
               v-model="sortBy"
               flat
-              solo-inverted
+              outlined
               hide-details
               :items="sortableHeaders"
               prepend-inner-icon="mdi-sort"
@@ -142,18 +142,21 @@ export default {
         "Customer Address",
         "Distance to Customer",
         "Payment Method",
-        "Final Price"
+        "Final Price",
+        "Delivery Fee"
       ],
       sortableHeaders: [
         "Restaurant",
         "Distance To Restaurant",
         "Distance to Customer",
-        "Final Price"
+        "Final Price",
+        "Delivery Fee"
       ],
       formattedHeaders: {
         "Distance To Restaurant": formatDistance,
         "Distance to Customer": formatDistance,
-        "Final Price": formatCurrency
+        "Final Price": formatCurrency,
+        "Delivery Fee": formatCurrency
       },
       items: [
         {
@@ -163,7 +166,8 @@ export default {
           "Customer Address": "Choa Chu Kang",
           "Distance to Customer": 100,
           "Payment Method": "Cash",
-          "Final Price": 1000
+          "Final Price": 1000,
+          "Delivery Fee": 500
         },
         {
           Restaurant: "WaCnonald",
@@ -172,7 +176,8 @@ export default {
           "Customer Address": "Yio Chu Kang",
           "Distance to Customer": 1000,
           "Payment Method": "Credit",
-          "Final Price": 5000
+          "Final Price": 5000,
+          "Delivery Fee": 500
         },
         {
           Restaurant: "Donald Telur",
@@ -181,7 +186,8 @@ export default {
           "Customer Address": "Lim Chu Kang",
           "Distance to Customer": 99,
           "Payment Method": "Cash",
-          "Final Price": 123
+          "Final Price": 123,
+          "Delivery Fee": 500
         },
         {
           Restaurant: "Caff C",
@@ -190,7 +196,8 @@ export default {
           "Customer Address": "Phua Chu Kang",
           "Distance to Customer": 919,
           "Payment Method": "Credit",
-          "Final Price": 1231
+          "Final Price": 1231,
+          "Delivery Fee": 500
         }
       ]
     };
