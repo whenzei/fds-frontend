@@ -5,7 +5,7 @@
       :items-per-page.sync="itemsPerPage"
       :page="page"
       :search="search"
-      :sort-by="sortBy.toLowerCase()"
+      :sort-by="sortBy"
       :sort-desc="sortDesc"
       hide-default-footer
     >
@@ -27,16 +27,16 @@
               flat
               solo-inverted
               hide-details
-              :items="keys"
+              :items="sortableHeaders"
               prepend-inner-icon="mdi-magnify"
               label="Sort by"
             ></v-select>
             <v-spacer></v-spacer>
             <v-btn-toggle v-model="sortDesc" mandatory>
-              <v-btn large depressed color="blue" :value="false">
+              <v-btn large depressed color="orange" :value="false">
                 <v-icon>mdi-arrow-up</v-icon>
               </v-btn>
-              <v-btn large depressed color="blue" :value="true">
+              <v-btn large depressed color="orange" :value="true">
                 <v-icon>mdi-arrow-down</v-icon>
               </v-btn>
             </v-btn-toggle>
@@ -48,7 +48,7 @@
         <v-row>
           <v-col v-for="item in props.items" :key="item.name" cols="12" sm="6" md="4" lg="3">
             <v-card>
-              <v-card-title class="subheading font-weight-bold">{{ item.name }}</v-card-title>
+              <v-card-title class="subheading font-weight-bold">{{ item["Restaurant"] }}</v-card-title>
 
               <v-divider></v-divider>
 
@@ -58,7 +58,7 @@
                   <v-list-item-content
                     class="align-end"
                     :class="{ 'blue--text': sortBy === key }"
-                  >{{ item[key.toLowerCase()] }}</v-list-item-content>
+                  >{{ item[key] }}</v-list-item-content>
                 </v-list-item>
               </v-list>
             </v-card>
@@ -113,36 +113,56 @@ export default {
       page: 1,
       itemsPerPage: 20,
       sortBy: "name",
-      keys: [
-        "Name",
-        "Calories",
-        "Fat",
-        "Carbs",
-        "Protein",
-        "Sodium",
-        "Calcium",
-        "Iron"
+      headers: [
+        "Restaurant",
+        "Restaurant Address",
+        "Distance To Restaurant",
+        "Customer Address",
+        "Distance to Customer",
+        "Payment Method",
+        "Final Price"
+      ],
+      sortableHeaders: [
+        "Distance To Restaurant",
+        "Distance to Customer",
+        "Final Price"
       ],
       items: [
         {
-          name: "Donut",
-          calories: 452,
-          fat: 25.0,
-          carbs: 51,
-          protein: 4.9,
-          sodium: 326,
-          calcium: "2%",
-          iron: "22%"
+          Restaurant: "Bagnonald",
+          "Restaurant Address": "Jalan Bahar",
+          "Distance To Restaurant": 10,
+          "Customer Address": "Choa Chu Kang",
+          "Distance to Customer": 100,
+          "Payment Method": "Cash",
+          "Final Price": 1000
         },
         {
-          name: "KitKat",
-          calories: 518,
-          fat: 26.0,
-          carbs: 65,
-          protein: 7,
-          sodium: 54,
-          calcium: "12%",
-          iron: "6%"
+          Restaurant: "WaCnonald",
+          "Restaurant Address": "Jalan Besar",
+          "Distance To Restaurant": 100,
+          "Customer Address": "Yio Chu Kang",
+          "Distance to Customer": 1000,
+          "Payment Method": "Credit",
+          "Final Price": 5000
+        },
+        {
+          Restaurant: "Donald Telur",
+          "Restaurant Address": "Jalan Bakar",
+          "Distance To Restaurant": 1110,
+          "Customer Address": "Lim Chu Kang",
+          "Distance to Customer": 99,
+          "Payment Method": "Cash",
+          "Final Price": 123
+        },
+        {
+          Restaurant: "Caff C",
+          "Restaurant Address": "Jalan Baba",
+          "Distance To Restaurant": 9999,
+          "Customer Address": "Phua Chu Kang",
+          "Distance to Customer": 919,
+          "Payment Method": "Credit",
+          "Final Price": 1231
         }
       ]
     };
@@ -152,7 +172,7 @@ export default {
       return Math.ceil(this.items.length / this.itemsPerPage);
     },
     filteredKeys() {
-      return this.keys.filter(key => key !== `Name`);
+      return this.headers.filter(key => key !== `Restaurant`);
     }
   },
   methods: {
