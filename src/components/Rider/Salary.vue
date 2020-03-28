@@ -15,38 +15,42 @@
 export default {
   data: function() {
     return {
-        selectedYear:'',
+      selectedYear: "",
       years: [2012, 2013],
       headers: [
+        { text: "Month Number", value: "monthNumber" },
         { text: "Month", value: "month" },
         { text: "Salary (SGD)", value: "salary" }
       ],
       salaryInfo: {
         2012: [
           {
+            monthNumber: 1,
             month: "Jan",
             salary: 5000 / 100
           },
           {
-            month: "March",
+            monthNumber: 3,
+            month: "Mar",
             salary: 700 / 100
           }
         ],
         2013: [
           {
+            monthNumber: 2,
             month: "Feb",
             salary: 5000 / 100
           },
           {
+            monthNumber: 10,
             month: "Oct",
             salary: 700 / 100
           }
-        ],
+        ]
       },
       itemsPerPage: 12
     };
-  },
-  created: function() {}
+  }
 };
 </script>
 
