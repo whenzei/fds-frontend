@@ -10,13 +10,14 @@ import AddPromotion from '@/components/Staff/AddPromotion'
 import RiderSalary from '@/components/Rider/Salary'
 import RiderOrders from '@/components/Rider/Orders'
 import RiderCurrentOrder from '@/components/Rider/CurrentOrder'
+import RiderCurrentSchedule from '@/components/Rider/CurrentSchedule'
 import Manager from '@/components/Manager/Manager'
 import ErrorLanding from '@/components/ErrorLanding'
 import store from '../store'
 
 Vue.use(VueRouter);
 
-const navGuard = function(to, from, next, role) {
+const navGuard = function (to, from, next, role) {
     if (store.getters.role != role) {
         router.push({ name: 'ErrorLanding' })
     }
@@ -81,11 +82,17 @@ const router = new VueRouter({
             component: RiderOrders,
             beforeEnter: (to, from, next) => navGuard(to, from, next, 'Rider')
         },
-        
+
         {
             path: '/rider/curr',
             name: 'RiderCurrentOrder',
             component: RiderCurrentOrder,
+            beforeEnter: (to, from, next) => navGuard(to, from, next, 'Rider')
+        },
+        {
+            path: '/rider/schedule',
+            name: 'RiderCurrentSchedule',
+            component: RiderCurrentSchedule,
             beforeEnter: (to, from, next) => navGuard(to, from, next, 'Rider')
         },
         {
