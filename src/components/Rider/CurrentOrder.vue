@@ -75,7 +75,6 @@ export default {
   methods: {
     handleButtonClick() {
       if (this.statusIdx < this.statuses.length - 1) this.statusIdx += 1;
-      console.log(this.statusIdx)
     }
   }
 };
