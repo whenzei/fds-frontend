@@ -21,7 +21,14 @@
         </v-card>
       </v-col>
       <v-col lg="9">
-        <Menu v-if="menu" :menu="menu" :rname="rname" :key="rname" :minSpending="minSpending"/>
+        <Menu
+          v-if="menu"
+          :menu="menu"
+          :rname="rname"
+          :key="rname"
+          :minSpending="minSpending"
+          :rid="rid"
+        />
         <v-card v-else>
           <v-card-title>
             <v-icon>mdi-arrow-left-bold</v-icon>
@@ -42,18 +49,27 @@ export default {
     menu: null,
     rname: "",
     minSpending: null,
+    rid: null
   }),
   methods: {
     async getMenu(restaurant) {
       const res = await axios.get(`/customer/restaurants/${restaurant.rid}`);
-      this.menu = res.data;
-      this.rname = restaurant.rname;
-      this.minSpending = restaurant.minspending * 100;
+      if (res.status == 200) {
+        this.menu = res.data;
+        this.rname = restaurant.rname;
+        this.minSpending = restaurant.minspending * 100;
+        this.rid = restaurant.rid;
+      }
+    },
+    async getRestaurants() {
+      const res = await axios.get("/customer/restaurants");
+      if (res.status == 200) {
+        this.restaurants = res.data;
+      }
     }
   },
   async created() {
-    const res = await axios.get("/customer/restaurants");
-    this.restaurants = res.data;
+    this.getRestaurants();
   },
   components: {
     Menu

@@ -85,17 +85,17 @@
                 ></v-radio>
               </v-radio-group>
             </v-col>
-            <v-col lg="6">
+            <v-col lg="12">
               <v-select
                 v-model="promo"
-                :items="['promo1']"
+                :items="promos"
                 label="Apply promotions?"
                 outlined
                 dense
                 color="orange"
               ></v-select>
             </v-col>
-            <v-col lg="6">
+            <v-col lg="8">
               <v-checkbox
                 color="orange"
                 label="Use points to wave delivery fee?"
@@ -109,6 +109,7 @@
             color="green darken-3"
             v-if="items !== null && items.length > 0"
             :disabled="isNotReady"
+            @click="checkout"
           >Checkout</v-btn>
         </v-card-actions>
       </v-card>
@@ -133,7 +134,9 @@ export default {
     postalCode: null,
     recentAddresses: [],
     selectedRecent: null,
-    postalMap: {}
+    postalMap: {},
+    promos: [],
+    promosMap: {}
   }),
   computed: {
     totalPriceString() {
@@ -149,6 +152,12 @@ export default {
     },
     isNotReady() {
       if (this.totalPriceInteger < this.minSpending) {
+        return true;
+      }
+      if (
+        this.promo != null &&
+        this.totalPriceInteger < this.promosMap[this.promo].minSpending
+      ) {
         return true;
       }
       if (this.isRecent) {
@@ -200,17 +209,52 @@ export default {
       } else {
         this.possibleAddresses = [];
       }
+    },
+    async populatePoints() {
+      const res = await axios.get("/customer/account");
+      if (res.status == 200 || res.status == 304) {
+        this.points = res.data[0].points;
+      }
+    },
+    async populateRecentAddresses() {
+      const res = await axios.get("/customer/frequents");
+      if (res.status == 200 || res.status == 304) {
+        this.recentAddresses = res.data;
+      }
+    },
+    async populatePromos() {
+      const res = await axios.get(`/customer/promos/${this.rid}`);
+      if (res.status == 200 || res.status == 304) {
+        res.data.forEach(item => {
+          let promoStr = `Promo ${item.pid}: `;
+          promoStr += item.percentoff > 0 ? `[${item.percentoff}% OFF]` : "";
+          promoStr += item.points > 0 ? `[${item.points} points]` : "";
+          let minSpendingStr = this.convertToPriceStr(item.minspending)
+          promoStr += item.minspending > 0 ? `  (Min ${minSpendingStr} spent)` : "";
+          this.promosMap[promoStr] = {
+            minSpending: item.minspending,
+            pid: item.pid
+          };
+          this.promos.push(promoStr);
+        });
+      }
+    },
+    // TO DO: Integrate with backend post order
+    checkout() {
+      const selectedPromo = this.promosMap[this.promo].pid;
+      console.log(selectedPromo);
+    },
+    convertToPriceStr(num) {
+      return (num / 100).toLocaleString("en-SG", {
+        style: "currency",
+        currency: "SGD"
+      });
     }
   },
   async created() {
-    const res1 = await axios.get("/customer/frequents");
-    if (res1.status == 200 || res1.status == 304) {
-      this.recentAddresses = res1.data;
-    }
-    const res2 = await axios.get("/customer/account");
-    if (res2.status == 200 || res2.status == 304) {
-      this.points = res2.data[0].points;
-    }
+    this.populateRecentAddresses();
+    this.populatePoints();
+    this.populatePromos();
   }
 };
 </script>
