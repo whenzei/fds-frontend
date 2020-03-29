@@ -41,7 +41,7 @@
           ref="calendar"
           v-model="focus"
           color="primary"
-          :events="events"
+          :events="timeSlots"
           :event-color="getEventColor"
           :now="today"
           :type="type"
@@ -84,6 +84,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -101,7 +102,6 @@ export default {
       selectedEvent: {},
       selectedElement: null,
       selectedOpen: false,
-      events: [],
       colors: [
         "blue",
         "indigo",
@@ -111,19 +111,11 @@ export default {
         "orange",
         "grey darken-1"
       ],
-      names: [
-        "Meeting",
-        "Holiday",
-        "PTO",
-        "Travel",
-        "Event",
-        "Birthday",
-        "Conference",
-        "Party"
-      ]
+      names: ["Meeting", "Holiday"]
     };
   },
   computed: {
+    ...mapGetters({ timeSlots: "rider/timeSlots" }),
     title() {
       const { start, end } = this;
       if (!start || !end) {
@@ -195,27 +187,11 @@ export default {
 
       nativeEvent.stopPropagation();
     },
-    updateRange() {
-      const first = new Date();
-      const second = new Date();
-      second.setTime(first.getTime() + 1000 * 60 * 60 * 8)
-      this.events = [
-        {
-          name: first.getHours() + "00hr - "+ second.getHours() + "00hr",
-          start: this.formatDate(first, true),
-          color: this.colors[this.rnd(0, this.colors.length - 1)],
-          end: this.formatDate(second, true),
-        }
-      ];
-      console.log(this.events[0])
-    },
+    updateRange() {},
     nth(d) {
       return d > 3 && d < 21
         ? "th"
         : ["th", "st", "nd", "rd", "th", "th", "th", "th", "th", "th"][d % 10];
-    },
-    rnd(a, b) {
-      return Math.floor((b - a + 1) * Math.random()) + a;
     },
     formatDate(a, withTime) {
       return withTime
@@ -223,6 +199,9 @@ export default {
             1}-${a.getDate()} ${a.getHours()}:${a.getMinutes()}`
         : `${a.getFullYear()}-${a.getMonth() + 1}-${a.getDate()}`;
     }
+  },
+  created() {
+    this.$store.dispatch("rider/fetchTimeSlots");
   }
 };
 </script>
