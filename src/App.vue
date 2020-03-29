@@ -1,8 +1,8 @@
 <template>
   <v-app>
+    <NavDrawer/>
     <CustomerNavBar v-if="role === 'Customer'"/>
     <ManagerNavBar v-else-if="role === 'Manager'"/>
-    <RiderNavBar v-else-if="role === 'Rider'"/>
     <StaffNavBar v-else-if="role === 'Staff'"/>
     <NavBar v-else/>
     <v-content>
@@ -14,19 +14,19 @@
 <script>
 import NavBar from "./components/NavBar";
 import ManagerNavBar from "./components/Manager/NavBar";
-import RiderNavBar from "./components/Rider/NavBar";
 import StaffNavBar from "./components/Staff/NavBar";
 import CustomerNavBar from "./components/Customer/NavBar";
+import NavDrawer from './components/NavDrawer'
 
 export default {
   name: "App",
 
   components: {
     NavBar,
-    RiderNavBar,
     CustomerNavBar,
     StaffNavBar,
-    ManagerNavBar
+    ManagerNavBar,
+    NavDrawer
   },
 
   data: () => ({

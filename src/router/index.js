@@ -5,11 +5,23 @@ import Customer from '@/components/Customer/Customer'
 import CustomerBrowse from '@/components/Customer/Browse'
 import Rider from '@/components/Rider/Rider'
 import Staff from '@/components/Staff/Staff'
+import ViewSummary from '@/components/Staff/ViewSummary'
+import AddPromotion from '@/components/Staff/AddPromotion'
+import RiderSalary from '@/components/Rider/Salary'
+import RiderOrders from '@/components/Rider/Orders'
+import RiderCurrentOrder from '@/components/Rider/CurrentOrder'
 import Manager from '@/components/Manager/Manager'
 import ErrorLanding from '@/components/ErrorLanding'
 import store from '../store'
 
 Vue.use(VueRouter);
+
+const navGuard = function(to, from, next, role) {
+    if (store.getters.role != role) {
+        router.push({ name: 'ErrorLanding' })
+    }
+    else { next() }
+}
 
 const router = new VueRouter({
     mode: 'history',
@@ -28,55 +40,59 @@ const router = new VueRouter({
             path: '/customer',
             name: 'Customer',
             component: Customer,
-            beforeEnter: (to, from, next) => {
-                if (store.getters.role != 'Customer') {
-                    router.push({ name: 'ErrorLanding' })
-                }
-                else { next() }
-            }
+            beforeEnter: (to, from, next) => navGuard(to, from, next, 'Customer')
         },
         {
             path: '/customer/browse',
             component: CustomerBrowse,
-            beforeEnter: (to, from, next) => {
-                if (store.getters.role != 'Customer') {
-                    router.push({ name: 'ErrorLanding' })
-                }
-                else { next() }
-            }
+            beforeEnter: (to, from, next) => navGuard(to, from, next, 'Customer')
         },
         {
             path: '/staff',
             name: 'Staff',
             component: Staff,
-            beforeEnter: (to, from, next) => {
-                if (store.getters.role != 'Staff') {
-                    router.push({ name: 'ErrorLanding' })
-                }
-                else { next() }
-            }
+            beforeEnter: (to, from, next) => navGuard(to, from, next, 'Staff')
+        },
+        {
+            path: '/staff/view-summary',
+            component: ViewSummary,
+            beforeEnter: (to, from, next) => navGuard(to, from, next, 'Staff')
+        },
+        {
+            path: '/staff/add-promo',
+            component: AddPromotion,
+            beforeEnter: (to, from, next) => navGuard(to, from, next, 'Staff')
         },
         {
             path: '/rider',
             name: 'Rider',
             component: Rider,
-            beforeEnter: (to, from, next) => {
-                if (store.getters.role != 'Rider') {
-                    router.push({ name: 'ErrorLanding' })
-                }
-                else { next() }
-            }
+            beforeEnter: (to, from, next) => navGuard(to, from, next, 'Rider')
+        },
+        {
+            path: '/rider/salary',
+            name: 'RiderSalary',
+            component: RiderSalary,
+            beforeEnter: (to, from, next) => navGuard(to, from, next, 'Rider')
+        },
+        {
+            path: '/rider/orders',
+            name: 'RiderOrders',
+            component: RiderOrders,
+            beforeEnter: (to, from, next) => navGuard(to, from, next, 'Rider')
+        },
+        
+        {
+            path: '/rider/curr',
+            name: 'RiderCurrentOrder',
+            component: RiderCurrentOrder,
+            beforeEnter: (to, from, next) => navGuard(to, from, next, 'Rider')
         },
         {
             path: '/manager',
             name: 'Manager',
             component: Manager,
-            beforeEnter: (to, from, next) => {
-                if (store.getters.role != 'Manager') {
-                    router.push({ name: 'ErrorLanding' })
-                }
-                else { next() }
-            }
+            beforeEnter: (to, from, next) => navGuard(to, from, next, 'Manager')
         }
     ]
 })

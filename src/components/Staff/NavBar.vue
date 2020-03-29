@@ -6,6 +6,12 @@
         <span class="ml-2 orangeText">FDS</span>
       </div>
     </router-link>
+    <router-link to="/staff/add-promo">
+        <v-btn class="ml-10 orange--text text--darken-1" outlined>Add Promotion</v-btn>
+    </router-link>
+    <router-link to="/staff/view-summary">
+        <v-btn class="ml-10 orange--text text--darken-1" outlined>View Summary</v-btn>
+    </router-link>
     <v-spacer></v-spacer>
     <v-btn outlined color="orange" @click="logout">Logout</v-btn>
   </v-app-bar>
