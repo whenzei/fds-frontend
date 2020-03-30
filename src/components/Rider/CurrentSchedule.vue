@@ -48,7 +48,7 @@
           @click:event="showEvent"
           @click:more="viewDay"
           @click:date="viewDay"
-          @change="updateRange"
+          @change="updateCalendar"
         ></v-calendar>
         <v-menu
           v-model="selectedOpen"
@@ -187,7 +187,6 @@ export default {
 
       nativeEvent.stopPropagation();
     },
-    updateRange() {},
     nth(d) {
       return d > 3 && d < 21
         ? "th"
@@ -198,10 +197,13 @@ export default {
         ? `${a.getFullYear()}-${a.getMonth() +
             1}-${a.getDate()} ${a.getHours()}:${a.getMinutes()}`
         : `${a.getFullYear()}-${a.getMonth() + 1}-${a.getDate()}`;
+    },
+    updateCalendar({ start }) {
+      this.$store.dispatch("rider/fetchTimeSlots", {
+        year: start.year,
+        month: start.month
+      });
     }
-  },
-  created() {
-    this.$store.dispatch("rider/fetchTimeSlots");
   }
 };
 </script>
