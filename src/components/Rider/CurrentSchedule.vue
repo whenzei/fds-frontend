@@ -102,16 +102,6 @@ export default {
       selectedEvent: {},
       selectedElement: null,
       selectedOpen: false,
-      colors: [
-        "blue",
-        "indigo",
-        "deep-purple",
-        "cyan",
-        "green",
-        "orange",
-        "grey darken-1"
-      ],
-      names: ["Meeting", "Holiday"]
     };
   },
   computed: {
