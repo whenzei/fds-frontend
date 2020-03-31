@@ -1,6 +1,12 @@
 <template>
   <v-card>
-    <CartDialog class="pt-3 pr-3" align="end" :items="cartItems" :rid="rid"/>
+    <CartDialog
+      class="pt-3 pr-3"
+      align="end"
+      :items="cartItems"
+      :rid="rid"
+      :minSpending="minSpending"
+    />
     <v-card-title>
       <span class="display-2 font-weight-black orangeText">{{rname}}</span>
       <v-spacer></v-spacer>
@@ -32,6 +38,9 @@
         </v-row>
       </template>
     </v-data-table>
+    <v-snackbar color="orange darken-4" v-model="snackbar" :timeout="500">
+      Item added to cart.
+    </v-snackbar>
   </v-card>
 </template>
 
@@ -39,7 +48,7 @@
 import CartDialog from "./CartDialog";
 
 export default {
-  props: ["menu", "rname", "rid"],
+  props: ["menu", "rname", "rid", "minSpending"],
   data: () => ({
     search: "",
     headers: [
@@ -48,7 +57,8 @@ export default {
       { text: "Price ($)", value: "price" },
       { text: "Quantity", value: "qty" }
     ],
-    cart: []
+    cart: [],
+    snackbar: false,
   }),
   computed: {
     allItems() {
@@ -57,7 +67,7 @@ export default {
         category: item.category,
         price: (item.price / 100).toLocaleString("en-SG", {
           style: "currency",
-          currency: "SGD",
+          currency: "SGD"
         }),
         priceInteger: item.price,
         qty: 0
@@ -70,6 +80,7 @@ export default {
   },
   methods: {
     addToCart(newItem) {
+      this.snackbar = true;
       const existingItem = this.cart.filter(
         item => item.fname === newItem.fname
       )[0];
@@ -79,10 +90,10 @@ export default {
         this.cart.push({
           fname: newItem.fname,
           priceInteger: newItem.priceInteger,
-          qty: parseInt(newItem.qty),
+          qty: parseInt(newItem.qty)
         });
       }
-    },
+    }
   },
   components: {
     CartDialog
