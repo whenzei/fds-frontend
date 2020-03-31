@@ -16,9 +16,9 @@ export default {
         }
     },
     actions: {
-        async rid({ commit }, payload) {
+        async fetchRid({ commit }) {
             try {
-                const res = await axios(payload);
+                const res = await axios.get('/staff/get-rid/');
                 if (res.status == 200 || res.status == 304) {
                     commit('setRid', res.data);
                 }

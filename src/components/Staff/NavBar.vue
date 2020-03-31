@@ -25,14 +25,10 @@ export default {
     async logout() {
       await this.$store.dispatch("logout");
       this.$router.push("/");
-    },
-    async getRid() {
-      const payload = {
-        method: "get",
-        url: "/staff/get-rid/"
-      };
-      await this.$store.dispatch("staff/rid", payload);
     }
+  },
+  async created() {
+    this.$store.dispatch("staff/fetchRid");
   }
 };
 </script>
