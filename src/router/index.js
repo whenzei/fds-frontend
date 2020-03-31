@@ -10,7 +10,8 @@ import AddPromotion from '@/components/Staff/AddPromotion'
 import RiderSalary from '@/components/Rider/Salary'
 import RiderOrders from '@/components/Rider/Orders'
 import RiderCurrentOrder from '@/components/Rider/CurrentOrder'
-import RiderCurrentSchedule from '@/components/Rider/CurrentSchedule'
+import RiderApplySchedule from '@/components/Rider/ApplySchedule'
+import RiderSchedule from '@/components/Rider/Schedule'
 import Manager from '@/components/Manager/Manager'
 import ErrorLanding from '@/components/ErrorLanding'
 import store from '../store'
@@ -91,8 +92,14 @@ const router = new VueRouter({
         },
         {
             path: '/rider/schedule',
-            name: 'RiderCurrentSchedule',
-            component: RiderCurrentSchedule,
+            name: 'RiderSchedule',
+            component: RiderSchedule,
+            beforeEnter: (to, from, next) => navGuard(to, from, next, 'Rider')
+        },
+        {
+            path: '/rider/apply-schedule',
+            name: 'RiderApplySchedule',
+            component: RiderApplySchedule,
             beforeEnter: (to, from, next) => navGuard(to, from, next, 'Rider')
         },
         {

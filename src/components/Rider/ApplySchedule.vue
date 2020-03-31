@@ -2,7 +2,7 @@
   <v-container>
     <v-card>
       <v-card-title>Year: {{year}}</v-card-title>
-      <v-card-title>Month: {{month}}</v-card-title>
+      <v-card-title>Month: {{months[month - 1]}}</v-card-title>
       <v-card-title>Shifts:</v-card-title>
       <v-list>
         <v-list-item
@@ -74,24 +74,42 @@
 </template>
 <script>
 export default {
-  data: () => ({
-    year: null,
-    month: null,
-    valid: true,
-    firstDay: null,
-    firstDayShiftId: null,
-    secondDayShiftId: null,
-    thirdDayShiftId: null,
-    fourthDayShiftId: null,
-    fifthDayShiftId: null,
-    firstDays: [1, 2, 3, 4],
-    shifts: [
-      { shiftId: 1, info: "1pm-5pm" },
-      { shiftId: 2, info: "1pm-5pm" },
-      { shiftId: 3, info: "1pm-5pm" },
-      { shiftId: 4, info: "1pm-5pm" }
-    ]
-  }),
+  data: () => {
+    const nextMonthDate = new Date();
+    nextMonthDate.setMonth(nextMonthDate.getMonth() + 1)
+    return {
+      year: nextMonthDate.getFullYear(),
+      month: nextMonthDate.getMonth(),
+      months: [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+      ],
+      valid: true,
+      firstDay: null,
+      firstDayShiftId: null,
+      secondDayShiftId: null,
+      thirdDayShiftId: null,
+      fourthDayShiftId: null,
+      fifthDayShiftId: null,
+      firstDays: [1, 2, 3, 4],
+      shifts: [
+        { shiftId: 1, info: "1pm-5pm" },
+        { shiftId: 2, info: "1pm-5pm" },
+        { shiftId: 3, info: "1pm-5pm" },
+        { shiftId: 4, info: "1pm-5pm" }
+      ]
+    };
+  },
   methods: {
     validate() {
       this.$refs.form.validate();
