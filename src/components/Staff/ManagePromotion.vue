@@ -30,6 +30,7 @@
                 <span class="headline">{{ formTitle }}</span>
               </v-card-title>
 
+              <v-form ref="form" v-model="validForm" lazy-validation>
               <v-card-text>
                 <v-container>
                   <v-row>
@@ -45,6 +46,7 @@
                       >
                         <template v-slot:activator="{ on }">
                           <v-text-field
+                              required
                             :rules="rules.dates"
                             v-model="computedDateFormatted"
                             label="Choose start and end date (read only text field)"
@@ -53,7 +55,12 @@
                             color="orange darken-3"
                           ></v-text-field>
                         </template>
-                        <v-date-picker v-model="rangeDates" color="orange darken-4" no-title range>
+                          <v-date-picker
+                            v-model="rangeDates"
+                            color="orange darken-4"
+                            no-title
+                            range
+                          >
                           <v-spacer></v-spacer>
                           <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
                           <v-btn text color="primary" @click="$refs.menu.save(rangeDates)">OK</v-btn>
@@ -62,6 +69,7 @@
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
                       <v-text-field
+                          required
                         :rules="rules.points"
                         v-model="editedItem.points"
                         color="orange darken-3"
@@ -70,6 +78,7 @@
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
                       <v-text-field
+                          required
                         :rules="rules.percent"
                         v-model="editedItem.percentoff"
                         color="orange darken-3"
@@ -78,6 +87,7 @@
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
                       <v-text-field
+                          required
                         prefix="$"
                         :rules="rules.minSpend"
                         v-model="editedItem.minspending"
@@ -87,6 +97,7 @@
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
                       <v-text-field
+                          required
                         :rules="rules.monthsWithNoOrders"
                         v-model="editedItem.monthswithnoorders"
                         color="orange darken-3"
@@ -100,8 +111,9 @@
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn color="orange darken-1" text @click="close">Cancel</v-btn>
-                <v-btn color="orange darken-1" text @click="save">Save</v-btn>
+                  <v-btn :disabled="!validForm" color="orange darken-1" text @click="save">Save</v-btn>
               </v-card-actions>
+              </v-form>
             </v-card>
           </v-dialog>
         </v-toolbar>
@@ -125,6 +137,7 @@ export default {
     rangeDates: [],
     menu: false,
     dateToday: null,
+    validForm: true,
     editedItem: {
       pid: null,
       startdate: null,
