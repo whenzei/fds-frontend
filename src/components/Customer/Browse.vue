@@ -57,7 +57,7 @@ export default {
       if (res.status == 200) {
         this.menu = res.data;
         this.rname = restaurant.rname;
-        this.minSpending = restaurant.minspending * 100;
+        this.minSpending = restaurant.minspending;
         this.rid = restaurant.rid;
       }
     },
