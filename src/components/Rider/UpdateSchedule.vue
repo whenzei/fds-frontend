@@ -8,14 +8,14 @@
         <v-list-item
           v-for="shift in shifts"
           :key="shift.shiftId"
-        >Shift {{shift.shiftId}}: {{shift.info}}</v-list-item>
+        >{{formatShift(shift)}}</v-list-item>
         <v-spacer></v-spacer>
       </v-list>
     </v-card>
     <v-form ref="form" v-model="valid" lazy-validation>
       <v-select
-        v-model="firstDay"
-        :items="firstDays"
+        v-model="startDayOfMonth"
+        :items="startDaysOfMonth"
         :rules="[v => !!v || 'Start day is required']"
         label="1st Day of Month to start working"
         required
@@ -26,7 +26,7 @@
         :items="shifts"
         :rules="[v => !!v || 'Shift number is required']"
         label="1st day shift"
-        item-text="shiftId"
+        item-text="shiftid"
         required
       ></v-select>
 
@@ -35,7 +35,7 @@
         :items="shifts"
         :rules="[v => !!v || 'Shift number is required']"
         label="2nd day shift"
-        item-text="shiftId"
+        item-text="shiftid"
         required
       ></v-select>
 
@@ -44,7 +44,7 @@
         :items="shifts"
         :rules="[v => !!v || 'Shift number is required']"
         label="3rd day shift"
-        item-text="shiftId"
+        item-text="shiftid"
         required
       ></v-select>
 
@@ -53,7 +53,7 @@
         :items="shifts"
         :rules="[v => !!v || 'Shift number is required']"
         label="4th day shift"
-        item-text="shiftId"
+        item-text="shiftid"
         required
       ></v-select>
 
@@ -62,7 +62,7 @@
         :items="shifts"
         :rules="[v => !!v || 'Shift number is required']"
         label="5th day shift"
-        item-text="shiftId"
+        item-text="shiftid"
         required
       ></v-select>
 
@@ -73,7 +73,7 @@
   </v-container>
 </template>
 <script>
-import { postScheduleUpdate  } from "../../helpers/rider";
+import { postScheduleUpdate, getShifts, getStartDaysOfMonth  } from "../../helpers/rider";
 
 export default {
   data: () => {
@@ -97,22 +97,25 @@ export default {
         "December"
       ],
       valid: true,
-      firstDay: 1,
+      startDayOfMonth: 1,
       firstDayShiftId: 1,
       secondDayShiftId: 1,
       thirdDayShiftId: 1,
       fourthDayShiftId: 1,
       fifthDayShiftId: 1,
-      firstDays: [1, 2, 3, 4],
-      shifts: [
-        { shiftId: 1, info: "1pm-5pm" },
-        { shiftId: 2, info: "1pm-5pm" },
-        { shiftId: 3, info: "1pm-5pm" },
-        { shiftId: 4, info: "1pm-5pm" }
-      ]
+      startDaysOfMonth: [1, 2, 3, 4],
+      shifts: []
     };
   },
   methods: {
+    formatShift(shift) {
+      const s1 = shift.starttime1, s2 = shift.starttime2, e1 = shift.endtime1, e2 = shift.endtime2;
+      const interval1 = (s1 > 9 ? "" : "0") + s1 + "00hr - " + (e1 > 9 ? "" : "0") + e1 + "00hr";
+      const interval2 = (s2 > 9 ? "" : "0") + s2 + "00hr - " + (e2 > 9 ? "" : "0") + e2 + "00hr";
+      return `
+      Shift ${shift.shiftid}: ${interval1} | ${interval2} 
+      `
+    },
     validate() {
       return this.$refs.form.validate();
     },
@@ -126,7 +129,7 @@ export default {
       const payLoad = {
         year: this.year,
         month: this.month,
-        startDayOfMonth: this.firstDay,
+        startDayOfMonth: this.startDayOfMonth,
         firstDayShiftId: this.firstDayShiftId,
         secondDayShiftId: this.secondDayShiftId,
         thirdDayShiftId: this.thirdDayShiftId,
@@ -136,10 +139,16 @@ export default {
       postScheduleUpdate(payLoad)
         .then(() => {
           alert("Updated");
+          this.$router.push("/rider/schedule")
         })
         .catch(err => alert(err));
     }
+  },
+  created: async function() {
+    this.shifts = await getShifts();
+    this.startDaysOfMonth = await getStartDaysOfMonth(this.year, this.month);
   }
+  ,
 };
 </script>
 
