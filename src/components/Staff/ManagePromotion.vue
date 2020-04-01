@@ -173,14 +173,14 @@ export default {
     rules: {
       points: [
         num => {
-          const pattern = /\b(?<!\.)\d+(?!\.)\b/;
+          const pattern = /^\d+$/;
           return pattern.test(num) || "Points must be an integer";
         },
         num => num >= 0 || "Points must be a non-negative integer"
       ],
       percent: [
         num => {
-          const pattern = /\b(?<!\.)\d+(?!\.)\b/;
+          const pattern = /^\d+$/;
           return pattern.test(num) || "Percent off must be an integer";
         },
         num =>
@@ -197,7 +197,7 @@ export default {
       ],
       monthsWithNoOrders: [
         num => {
-          const pattern = /\b(?<!\.)\d+(?!\.)\b/;
+          const pattern = /^\d+$/;
           return pattern.test(num) || "Value must be an integer";
         },
         num => num >= 0 || "Value must be a non-negative integer"
