@@ -10,20 +10,20 @@
               <v-btn color="orange darken-2" dark class="mb-2" @click="getPromos">Refresh</v-btn>
             </v-row>
           </v-col>
-          
+
           <v-dialog v-model="dialog" max-width="700px">
             <template v-slot:activator="{ on }">
-                <v-col cols="4" md="2">
-                    <v-row justify="end">
-              <v-btn
-                color="orange darken-2"
-                dark
-                class="mb-2"
-                @click="resetDates"
-                v-on="on"
-              >New Item</v-btn>
-                    </v-row>
-                </v-col>
+              <v-col cols="4" md="2">
+                <v-row justify="end">
+                  <v-btn
+                    color="orange darken-2"
+                    dark
+                    class="mb-2"
+                    @click="resetDates"
+                    v-on="on"
+                  >New Item</v-btn>
+                </v-row>
+              </v-col>
             </template>
             <v-card>
               <v-card-title>
@@ -31,88 +31,88 @@
               </v-card-title>
 
               <v-form ref="form" v-model="validForm" lazy-validation>
-              <v-card-text>
-                <v-container>
-                  <v-row>
-                    <v-col cols="12" sm="6" md="4">
-                      <v-menu
-                        ref="menu"
-                        v-model="menu"
-                        :close-on-content-click="false"
-                        transition="scale-transition"
-                        offset-y
-                        max-width="290px"
-                        min-width="290px"
-                      >
-                        <template v-slot:activator="{ on }">
-                          <v-text-field
+                <v-card-text>
+                  <v-container>
+                    <v-row>
+                      <v-col cols="12" sm="6" md="4">
+                        <v-menu
+                          ref="menu"
+                          v-model="menu"
+                          :close-on-content-click="false"
+                          transition="scale-transition"
+                          offset-y
+                          max-width="290px"
+                          min-width="290px"
+                        >
+                          <template v-slot:activator="{ on }">
+                            <v-text-field
                               required
-                            :rules="rules.dates"
-                            v-model="computedDateFormatted"
-                            label="Choose start and end date (read only text field)"
-                            readonly
-                            v-on="on"
-                            color="orange darken-3"
-                          ></v-text-field>
-                        </template>
+                              :rules="rules.dates"
+                              v-model="computedDateFormatted"
+                              label="Choose start and end date (read only text field)"
+                              readonly
+                              v-on="on"
+                              color="orange darken-3"
+                            ></v-text-field>
+                          </template>
                           <v-date-picker
                             v-model="rangeDates"
                             color="orange darken-4"
                             no-title
                             range
                           >
-                          <v-spacer></v-spacer>
-                          <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
-                          <v-btn text color="primary" @click="$refs.menu.save(rangeDates)">OK</v-btn>
-                        </v-date-picker>
-                      </v-menu>
-                    </v-col>
-                    <v-col cols="12" sm="6" md="4">
-                      <v-text-field
+                            <v-spacer></v-spacer>
+                            <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
+                            <v-btn text color="primary" @click="$refs.menu.save(rangeDates)">OK</v-btn>
+                          </v-date-picker>
+                        </v-menu>
+                      </v-col>
+                      <v-col cols="12" sm="6" md="4">
+                        <v-text-field
                           required
-                        :rules="rules.points"
-                        v-model="editedItem.points"
-                        color="orange darken-3"
-                        label="Points"
-                      ></v-text-field>
-                    </v-col>
-                    <v-col cols="12" sm="6" md="4">
-                      <v-text-field
+                          :rules="rules.points"
+                          v-model="editedItem.points"
+                          color="orange darken-3"
+                          label="Points"
+                        ></v-text-field>
+                      </v-col>
+                      <v-col cols="12" sm="6" md="4">
+                        <v-text-field
                           required
-                        :rules="rules.percent"
-                        v-model="editedItem.percentoff"
-                        color="orange darken-3"
-                        label="Percent Off (%)"
-                      ></v-text-field>
-                    </v-col>
-                    <v-col cols="12" sm="6" md="4">
-                      <v-text-field
+                          :rules="rules.percent"
+                          v-model="editedItem.percentoff"
+                          color="orange darken-3"
+                          label="Percent Off (%)"
+                        ></v-text-field>
+                      </v-col>
+                      <v-col cols="12" sm="6" md="4">
+                        <v-text-field
                           required
-                        prefix="$"
-                        :rules="rules.minSpend"
-                        v-model="editedItem.minspending"
-                        color="orange darken-3"
-                        label="Minimum Spend (SGD)"
-                      ></v-text-field>
-                    </v-col>
-                    <v-col cols="12" sm="6" md="4">
-                      <v-text-field
+                          prefix="$"
+                          :rules="rules.minSpend"
+                          v-model="editedItem.minspending"
+                          color="orange darken-3"
+                          label="Minimum Spend (SGD)"
+                        ></v-text-field>
+                      </v-col>
+                      <v-col cols="12" sm="6" md="4">
+                        <v-text-field
                           required
-                        :rules="rules.monthsWithNoOrders"
-                        v-model="editedItem.monthswithnoorders"
-                        color="orange darken-3"
-                        label="Months With No Orders"
-                      ></v-text-field>
-                    </v-col>
-                  </v-row>
-                </v-container>
-              </v-card-text>
+                          :rules="rules.monthsWithNoOrders"
+                          v-model="editedItem.monthswithnoorders"
+                          color="orange darken-3"
+                          label="Months With No Orders"
+                        ></v-text-field>
+                      </v-col>
+                    </v-row>
+                  </v-container>
+                </v-card-text>
 
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="orange darken-1" text @click="close">Cancel</v-btn>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn color="orange darken-1" text @click="close">Cancel</v-btn>
                   <v-btn :disabled="!validForm" color="orange darken-1" text @click="save">Save</v-btn>
-              </v-card-actions>
+                </v-card-actions>
               </v-form>
             </v-card>
           </v-dialog>
@@ -173,17 +173,18 @@ export default {
     rules: {
       points: [
         num => {
-            const pattern = /\b(?<!\.)\d+(?!\.)\b/
-            return pattern.test(num) || "Points must be an integer"
+          const pattern = /\b(?<!\.)\d+(?!\.)\b/;
+          return pattern.test(num) || "Points must be an integer";
         },
         num => num >= 0 || "Points must be a non-negative integer"
       ],
       percent: [
         num => {
-            const pattern = /\b(?<!\.)\d+(?!\.)\b/
-            return pattern.test(num) || "Percent off must be an integer"
+          const pattern = /\b(?<!\.)\d+(?!\.)\b/;
+          return pattern.test(num) || "Percent off must be an integer";
         },
-        num => num >= 0 && num <=100 || "Percent off must be between 0 to 100"
+        num =>
+          (num >= 0 && num <= 100) || "Percent off must be between 0 to 100"
       ],
       minSpend: [
         num => {
@@ -196,8 +197,8 @@ export default {
       ],
       monthsWithNoOrders: [
         num => {
-            const pattern = /\b(?<!\.)\d+(?!\.)\b/
-            return pattern.test(num) || "Value must be an integer"
+          const pattern = /\b(?<!\.)\d+(?!\.)\b/;
+          return pattern.test(num) || "Value must be an integer";
         },
         num => num >= 0 || "Value must be a non-negative integer"
       ],
@@ -237,7 +238,7 @@ export default {
       this.rangeDates = [this.dateToday, this.dateToday];
     },
     async insertIntoDatabase(item) {
-      const params = { rid: this.rid, item: item };
+      const params = { item: item };
       const res = await axios.post(`/staff/add-promos/`, params);
       if (res.status == 200) {
         return res.data;
@@ -300,27 +301,22 @@ export default {
     async save() {
       this.editedItem.startdate = this.rangeDates[0];
       this.editedItem.enddate = this.rangeDates[1];
-      this.editedItem.minspending = Math.round(this.editedItem.minspending * 100);
       this.editedItem.points = parseInt(this.editedItem.points);
       this.editedItem.percentoff = parseInt(this.editedItem.percentoff);
-      this.editedItem.monthswithnoorders = parseInt(this.editedItem.monthswithnoorders);
+      this.editedItem.monthswithnoorders = parseInt(
+        this.editedItem.monthswithnoorders
+      );
       if (this.editedIndex > -1) {
         await this.updateDatabase(this.editedItem);
-        this.editedItem.minspending = (this.editedItem.minspending / 100).toLocaleString(
-            undefined,
-            {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2
-            });
+        this.editedItem.minspending = (
+          Math.round(this.editedItem.minspending * 100) / 100
+        ).toFixed(2);
         Object.assign(this.promoList[this.editedIndex], this.editedItem);
       } else {
         const newPid = await this.insertIntoDatabase(this.editedItem);
-        this.editedItem.minspending = (this.editedItem.minspending / 100).toLocaleString(
-            undefined,
-            {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2
-            });
+        this.editedItem.minspending = (
+          Math.round(this.editedItem.minspending * 100) / 100
+        ).toFixed(2);
         this.editedItem.pid = newPid;
         this.promoList.push(this.editedItem);
       }
