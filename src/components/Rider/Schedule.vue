@@ -3,7 +3,7 @@
     <CurrentSchedule />
     <br/>
     <v-row align="center" justify="center">
-      <v-btn to="/rider/apply-schedule">Apply next month's schedule</v-btn>
+      <v-btn to="/rider/update-schedule">Update next month's schedule</v-btn>
     </v-row>
   </v-container>
 </template>

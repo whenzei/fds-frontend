@@ -66,20 +66,22 @@
         required
       ></v-select>
 
-      <v-btn :disabled="!valid" color="success" class="mr-4" @click="validate">Validate</v-btn>
+      <v-btn :disabled="!valid" color="success" class="mr-4" @click="applySchedule">Apply</v-btn>
 
       <v-btn color="error" class="mr-4" @click="reset">Reset Form</v-btn>
     </v-form>
   </v-container>
 </template>
 <script>
+import { postScheduleUpdate  } from "../../helpers/rider";
+
 export default {
   data: () => {
     const nextMonthDate = new Date();
-    nextMonthDate.setMonth(nextMonthDate.getMonth() + 1)
+    nextMonthDate.setMonth(nextMonthDate.getMonth() + 1);
     return {
       year: nextMonthDate.getFullYear(),
-      month: nextMonthDate.getMonth(),
+      month: nextMonthDate.getMonth() + 1,
       months: [
         "January",
         "February",
@@ -95,12 +97,12 @@ export default {
         "December"
       ],
       valid: true,
-      firstDay: null,
-      firstDayShiftId: null,
-      secondDayShiftId: null,
-      thirdDayShiftId: null,
-      fourthDayShiftId: null,
-      fifthDayShiftId: null,
+      firstDay: 1,
+      firstDayShiftId: 1,
+      secondDayShiftId: 1,
+      thirdDayShiftId: 1,
+      fourthDayShiftId: 1,
+      fifthDayShiftId: 1,
       firstDays: [1, 2, 3, 4],
       shifts: [
         { shiftId: 1, info: "1pm-5pm" },
@@ -112,10 +114,30 @@ export default {
   },
   methods: {
     validate() {
-      this.$refs.form.validate();
+      return this.$refs.form.validate();
     },
     reset() {
       this.$refs.form.reset();
+    },
+    applySchedule() {
+      if (!this.validate()) {
+        return;
+      }
+      const payLoad = {
+        year: this.year,
+        month: this.month,
+        startDayOfMonth: this.firstDay,
+        firstDayShiftId: this.firstDayShiftId,
+        secondDayShiftId: this.secondDayShiftId,
+        thirdDayShiftId: this.thirdDayShiftId,
+        fourthDayShiftId: this.fourthDayShiftId,
+        fifthDayShiftId: this.fifthDayShiftId
+      };
+      postScheduleUpdate(payLoad)
+        .then(() => {
+          alert("Updated");
+        })
+        .catch(err => alert(err));
     }
   }
 };
