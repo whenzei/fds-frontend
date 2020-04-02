@@ -73,7 +73,7 @@
   </v-container>
 </template>
 <script>
-import { postScheduleUpdate, getShifts, getStartDaysOfMonth  } from "../../helpers/rider";
+import { postFTScheduleUpdate, getShifts, getStartDaysOfMonth  } from "../../helpers/rider";
 
 export default {
   data: () => {
@@ -136,7 +136,7 @@ export default {
         fourthDayShiftId: this.fourthDayShiftId,
         fifthDayShiftId: this.fifthDayShiftId
       };
-      postScheduleUpdate(payLoad)
+      postFTScheduleUpdate(payLoad)
         .then(() => {
           alert("Updated");
           this.$router.push("/rider/schedule")

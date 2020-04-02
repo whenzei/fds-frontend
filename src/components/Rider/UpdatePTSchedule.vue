@@ -39,11 +39,13 @@
           </v-list-item-group>
         </v-list-item>
       </v-list>
+      <v-btn color="orange" class="mr-4" @click="updateSchedule">Update</v-btn>
     </v-form>
   </v-container>
 </template>
 <script>
 import moment from "moment";
+import { postPTScheduleUpdate } from "../../helpers/rider";
 export default {
   props: ["year", "week"],
   data: function() {
@@ -72,6 +74,36 @@ export default {
         },
         {
           day: 1,
+          selectStart: 10,
+          selectEnd: 13,
+          slots: []
+        },
+        {
+          day: 2,
+          selectStart: 10,
+          selectEnd: 13,
+          slots: []
+        },
+        {
+          day: 3,
+          selectStart: 10,
+          selectEnd: 13,
+          slots: []
+        },
+        {
+          day: 4,
+          selectStart: 10,
+          selectEnd: 13,
+          slots: []
+        },
+        {
+          day: 5,
+          selectStart: 10,
+          selectEnd: 13,
+          slots: []
+        },
+        {
+          day: 6,
           selectStart: 10,
           selectEnd: 13,
           slots: []
@@ -106,6 +138,17 @@ export default {
         end +
         "00hr";
       return interval;
+    },
+    updateSchedule() {
+      console.log(this.dailySchedules)
+      postPTScheduleUpdate(this.year, this.week, this.dailySchedules)
+        .then(() => {
+          alert("Updated");
+          this.$router.push("/rider/schedule")
+        })
+        .catch(e => {
+          alert(e);
+        });
     }
   }
 };
