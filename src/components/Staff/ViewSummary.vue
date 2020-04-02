@@ -56,7 +56,6 @@
                     v-model="chosenDate"
                     color="orange darken-2"
                     label="Choose month and year"
-                    prepend-icon="mdi-event"
                     readonly
                     v-on="on"
                   ></v-text-field>
@@ -111,6 +110,7 @@
     </v-row>
   </v-container>
 </template>
+
 <script>
 import axios from "axios";
 
@@ -256,7 +256,7 @@ export default {
     }
   },
   async created() {
-    this.rid = await this.getRid();
+    this.rid = this.$store.getters["staff/rid"];
     [this.minDate, this.maxDate] = await this.getMinMaxDate();
 
     const today = new Date();
