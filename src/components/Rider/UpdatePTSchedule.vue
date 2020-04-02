@@ -8,16 +8,31 @@
       <v-list>
         <v-list-item v-for="dailySchedule in dailySchedules" :key="dailySchedule.day">
           <v-list-item-group>
-            <v-list-item-content>{{start.clone().add(dailySchedule.day, 'day').format('LL')}}</v-list-item-content>
-            <v-list-item
-              v-for="(slot, i) in dailySchedule.slots"
-              :key="i"
-              dense
-            >{{formatSlot(slot.startTime, slot.endTime)}}</v-list-item>
+            <v-list-item-content>Day {{dailySchedule.day + 1}}: {{start.clone().add(dailySchedule.day, 'day').format('LL')}}</v-list-item-content>
+            <v-row v-for="(slot, i) in dailySchedule.slots" :key="i">
+              {{formatSlot(slot.startTime, slot.endTime)}}
+              <v-btn @click="deleteSlot(dailySchedule.day, i)" icon color="red">
+                <v-icon>mdi-delete</v-icon>
+              </v-btn>
+            </v-row>
             <v-row>
-              <v-autocomplete :items="allowedStartTimes" v-model="dailySchedule.selectStart" label="Start time"></v-autocomplete>
-              <v-autocomplete :items="allowedEndTimes" v-model="dailySchedule.selectEnd" label="End time"></v-autocomplete>
-              <v-btn @click="addSlot(dailySchedule.day, dailySchedule.selectStart, dailySchedule.selectEnd)" class="mx-2" fab dark color="orange">
+              <v-autocomplete
+                :items="allowedStartTimes"
+                v-model="dailySchedule.selectStart"
+                label="Start time"
+              ></v-autocomplete>
+              <v-autocomplete
+                :items="allowedEndTimes"
+                v-model="dailySchedule.selectEnd"
+                label="End time"
+              ></v-autocomplete>
+              <v-btn
+                @click="addSlot(dailySchedule.day, dailySchedule.selectStart, dailySchedule.selectEnd)"
+                class="mx-2"
+                fab
+                dark
+                color="orange"
+              >
                 <v-icon dark>mdi-plus</v-icon>
               </v-btn>
             </v-row>
@@ -72,16 +87,27 @@ export default {
       this.$refs.form.reset();
     },
     addSlot(day, startTime, endTime) {
-      if (startTime >= endTime) return alert("Start time must be before End time")
+      if (startTime >= endTime)
+        return alert("Start time must be before End time");
       this.dailySchedules[day].slots.push({
-        startTime, endTime
-      })
+        startTime,
+        endTime
+      });
+    },
+    deleteSlot(day, i) {
+      this.dailySchedules[day].slots.splice(i, 1);
     },
     formatSlot(start, end) {
-      const interval = (start > 9 ? "" : "0") + start + "00hr - " + (end > 9 ? "" : "0") + end + "00hr";
-      return interval
-    },
-  },
+      const interval =
+        (start > 9 ? "" : "0") +
+        start +
+        "00hr - " +
+        (end > 9 ? "" : "0") +
+        end +
+        "00hr";
+      return interval;
+    }
+  }
 };
 </script>
 
