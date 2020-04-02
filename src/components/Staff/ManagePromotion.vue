@@ -49,7 +49,7 @@
                               required
                               :rules="rules.dates"
                               v-model="computedDateFormatted"
-                              label="Choose start and end date (read only text field)"
+                              label="Choose start and end date"
                               readonly
                               v-on="on"
                               color="orange darken-3"
@@ -160,12 +160,12 @@ export default {
       { text: "Promo ID", sortable: true, value: "pid" },
       { text: "Start Date", sortable: true, value: "startdate" },
       { text: "End Date", sortable: true, value: "enddate" },
-      { text: "Points", sortable: false, value: "points" },
-      { text: "Percent Off (%)", sortable: false, value: "percentoff" },
-      { text: "Minimum Spend (SGD)", sortable: false, value: "minspending" },
+      { text: "Points", sortable: true, value: "points" },
+      { text: "Percent Off (%)", sortable: true, value: "percentoff" },
+      { text: "Minimum Spend (SGD)", sortable: true, value: "minspending" },
       {
         text: "Months With No Orders",
-        sortable: false,
+        sortable: true,
         value: "monthswithnoorders"
       },
       { text: "Actions", value: "actions", sortable: false }
