@@ -10,7 +10,8 @@ import ManagePromotion from '@/components/Staff/ManagePromotion'
 import RiderSalary from '@/components/Rider/Salary'
 import RiderOrders from '@/components/Rider/Orders'
 import RiderCurrentOrder from '@/components/Rider/CurrentOrder'
-import RiderUpdateSchedule from '@/components/Rider/UpdateSchedule'
+import RiderUpdatePTSchedule from '@/components/Rider/UpdatePTSchedule'
+import RiderUpdateFTSchedule from '@/components/Rider/UpdateFTSchedule'
 import RiderSchedule from '@/components/Rider/Schedule'
 import Manager from '@/components/Manager/Manager'
 import ErrorLanding from '@/components/ErrorLanding'
@@ -97,9 +98,16 @@ const router = new VueRouter({
             beforeEnter: (to, from, next) => navGuard(to, from, next, 'Rider')
         },
         {
-            path: '/rider/update-schedule',
-            name: 'RiderUpdateSchedule',
-            component: RiderUpdateSchedule,
+            path: '/rider/update-ft-schedule',
+            name: 'RiderUpdateFTSchedule',
+            component: RiderUpdateFTSchedule,
+            beforeEnter: (to, from, next) => navGuard(to, from, next, 'Rider')
+        },
+        {
+            path: '/rider/update-pt-schedule/:year/:week',
+            name: 'RiderUpdatePTSchedule',
+            component: RiderUpdatePTSchedule,
+            props: true,
             beforeEnter: (to, from, next) => navGuard(to, from, next, 'Rider')
         },
         {

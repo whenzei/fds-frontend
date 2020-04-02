@@ -1,4 +1,9 @@
 const axios = require('axios')
+const RiderTypes = {
+    fullTime: "Full Timer",
+    partTime: "Part Timer"
+}
+
 
 const postScheduleUpdate = async function (payload) {
     return await axios.post("/rider/update-schedule", payload)
@@ -15,5 +20,5 @@ const getStartDaysOfMonth = async function (year, month) {
 }
 
 module.exports = {
-    postScheduleUpdate, getShifts, getStartDaysOfMonth
+    postScheduleUpdate, getShifts, getStartDaysOfMonth, RiderTypes
 }

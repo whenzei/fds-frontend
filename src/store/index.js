@@ -66,6 +66,7 @@ export default new Vuex.Store({
                 const res = await axios(payload);
                 if (res.status == 200 || res.status == 202) {
                     commit('setData', res.data);
+                    this.dispatch('rider/fetchRiderType')
                     return res.data.user.role;
                 }
             } catch (error) {
