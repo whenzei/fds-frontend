@@ -13,6 +13,9 @@ export default {
     mutations: {
         setRid(state, data) {
             state.rid = data.rid;
+        },
+        resetData(state) {
+            state.rid = null;
         }
     },
     actions: {
