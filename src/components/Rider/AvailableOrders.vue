@@ -113,6 +113,7 @@
 </template>
 
 <script>
+import { getAvailableOrders } from "../../helpers/rider";
 const formatCurrency = amountInCents => {
   return `$ ${(amountInCents / 100).toFixed(2)}`;
 };
@@ -128,6 +129,8 @@ const formatDistance = distanceInMetres => {
 export default {
   data() {
     return {
+      lng: 0,
+      lat: 0,
       itemsPerPageArray: [20, 50, 100],
       search: "",
       filter: {},
@@ -142,64 +145,20 @@ export default {
         "Customer Address",
         "Distance to Customer",
         "Payment Method",
-        "Final Price",
-        "Delivery Fee"
+        "Total Price"
       ],
       sortableHeaders: [
         "Restaurant",
         "Distance To Restaurant",
         "Distance to Customer",
-        "Final Price",
-        "Delivery Fee"
+        "Total Price"
       ],
       formattedHeaders: {
         "Distance To Restaurant": formatDistance,
         "Distance to Customer": formatDistance,
-        "Final Price": formatCurrency,
-        "Delivery Fee": formatCurrency
+        "Total Price": formatCurrency
       },
-      items: [
-        {
-          Restaurant: "Bagnonald",
-          "Restaurant Address": "Jalan Bahar",
-          "Distance To Restaurant": 10,
-          "Customer Address": "Choa Chu Kang",
-          "Distance to Customer": 100,
-          "Payment Method": "Cash",
-          "Final Price": 1000,
-          "Delivery Fee": 500
-        },
-        {
-          Restaurant: "WaCnonald",
-          "Restaurant Address": "Jalan Besar",
-          "Distance To Restaurant": 100,
-          "Customer Address": "Yio Chu Kang",
-          "Distance to Customer": 1000,
-          "Payment Method": "Credit",
-          "Final Price": 5000,
-          "Delivery Fee": 500
-        },
-        {
-          Restaurant: "Donald Telur",
-          "Restaurant Address": "Jalan Bakar",
-          "Distance To Restaurant": 1110,
-          "Customer Address": "Lim Chu Kang",
-          "Distance to Customer": 99,
-          "Payment Method": "Cash",
-          "Final Price": 123,
-          "Delivery Fee": 500
-        },
-        {
-          Restaurant: "Caff C",
-          "Restaurant Address": "Jalan Baba",
-          "Distance To Restaurant": 9999,
-          "Customer Address": "Phua Chu Kang",
-          "Distance to Customer": 919,
-          "Payment Method": "Credit",
-          "Final Price": 1231,
-          "Delivery Fee": 500
-        }
-      ]
+      items: []
     };
   },
   computed: {
@@ -220,6 +179,21 @@ export default {
     updateItemsPerPage(number) {
       this.itemsPerPage = number;
     }
+  },
+  async mounted() {
+    try {
+      const coords = await this.$getLocation();
+      this.lng = coords.lng;
+      this.lat = coords.lat;
+    } catch (e) {
+      console.log(e);
+      // No location access so use default position
+      this.lng = 	103.851959;
+      this.lat = 1.290270;
+    }
+    getAvailableOrders(this.lng, this.lat).then(
+      availableOrders => (this.items = availableOrders)
+    );
   }
 };
 </script>
