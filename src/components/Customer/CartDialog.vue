@@ -13,10 +13,9 @@
           v-if="items === undefined || items.length == 0"
         >Cart is empty</v-card-title>
         <v-card-title class="display-1 orangeText" v-else>Cart</v-card-title>
-        <v-divider></v-divider>
-        <v-container>
+        <v-container class="grey darken-4" v-if="items !== undefined && items.length !== 0">
           <v-row v-for="(item,index) in items" :key="item.fname">
-            <v-col lg="6">{{index+1}}) {{item.fname}}</v-col>
+            <v-col lg="6">{{index+1}}) {{item.fname}} ({{priceInStr(item.priceInteger)}})</v-col>
             <v-col lg="1">
               <v-icon @click="minus(item)">mdi-minus-circle</v-icon>
             </v-col>
@@ -28,6 +27,12 @@
             </v-col>
             <v-col lg="1" algin="end">
               <v-icon @click="remove(item)" class="red--text" small>mdi-delete</v-icon>
+            </v-col>
+          </v-row>
+          <v-row justify="end">
+            <v-col class="headline" lg="4">
+              <b>Total:</b>
+              {{totalPriceString}}
             </v-col>
           </v-row>
         </v-container>
@@ -97,6 +102,7 @@
             </v-col>
             <v-col lg="8">
               <v-checkbox
+                v-model="waive"
                 color="orange"
                 label="Use points to wave delivery fee?"
                 v-if="points >= 300"
@@ -107,22 +113,29 @@
         <v-card-actions class="justify-center">
           <v-btn
             color="green darken-3"
-            v-if="items !== null && items.length > 0"
+            v-if="items !== null && items.length > 0 && !submitted"
             :disabled="isNotReady"
             @click="checkout"
           >Checkout</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <LoaderOverlay :load="submitted" />
+    <v-snackbar v-model="successSnack" :timeout="3000" color="green" top>Order submitted</v-snackbar>
+    <v-snackbar v-model="failSnack" :timeout="3000" color="red" top>An error has occured</v-snackbar>
   </div>
 </template>
 
 <script>
 import axios from "axios";
+import LoaderOverlay from "../LoaderOverlay";
 
 export default {
   props: ["items", "rid", "minSpending"],
   data: () => ({
+    submitted: false,
+    successSnack: false,
+    failSnack: false,
     dialog: false,
     isRecent: false,
     unit: null,
@@ -136,14 +149,12 @@ export default {
     selectedRecent: null,
     postalMap: {},
     promos: [],
-    promosMap: {}
+    promosMap: {},
+    waive: false
   }),
   computed: {
     totalPriceString() {
-      return (this.totalPriceInteger / 100).toLocaleString("en-SG", {
-        style: "currency",
-        currency: "SGD"
-      });
+      return this.priceInStr(this.totalPriceInteger);
     },
     totalPriceInteger() {
       return this.items
@@ -180,6 +191,12 @@ export default {
     }
   },
   methods: {
+    priceInStr(price) {
+      return (price / 100).toLocaleString("en-SG", {
+        style: "currency",
+        currency: "SGD"
+      });
+    },
     plus(item) {
       item.qty += 1;
     },
@@ -212,25 +229,31 @@ export default {
     },
     async populatePoints() {
       const res = await axios.get("/customer/account");
-      if (res.status == 200 || res.status == 304) {
+      if (res.status == 200) {
         this.points = res.data[0].points;
       }
     },
     async populateRecentAddresses() {
       const res = await axios.get("/customer/frequents");
-      if (res.status == 200 || res.status == 304) {
+      if (res.status == 200) {
         this.recentAddresses = res.data;
       }
     },
     async populatePromos() {
       const res = await axios.get(`/customer/promos/${this.rid}`);
-      if (res.status == 200 || res.status == 304) {
+      if (res.status == 200) {
+        this.promos.push("None");
+        this.promosMap["None"] = {
+          minSpending: 0,
+          pid: null
+        };
         res.data.forEach(item => {
           let promoStr = `Promo ${item.pid}: `;
           promoStr += item.percentoff > 0 ? `[${item.percentoff}% OFF]` : "";
           promoStr += item.points > 0 ? `[${item.points} points]` : "";
-          let minSpendingStr = this.convertToPriceStr(item.minspending)
-          promoStr += item.minspending > 0 ? `  (Min ${minSpendingStr} spent)` : "";
+          let minSpendingStr = this.convertToPriceStr(item.minspending);
+          promoStr +=
+            item.minspending > 0 ? `  (Min ${minSpendingStr} spent)` : "";
           this.promosMap[promoStr] = {
             minSpending: item.minspending,
             pid: item.pid
@@ -239,22 +262,67 @@ export default {
         });
       }
     },
-    // TO DO: Integrate with backend post order
-    checkout() {
-      const selectedPromo = this.promosMap[this.promo].pid;
-      console.log(selectedPromo);
+    async checkout() {
+      this.submitted = true;
+      this.dialog = false;
+      let orderDetails = this.preprocessOrder();
+      try {
+        const res = await axios.post("/customer/checkout", orderDetails);
+        await this.wait(1000);
+        this.submitted = false;
+        if (res.status == 200) {
+          this.successSnack = true;
+          await this.wait(1000);
+          this.$router.push("/customer/orders");
+        } else {
+          await this.wait(1000);
+          this.failSnack = true;
+        }
+      } catch (error) {
+          await this.wait(1000);
+          this.submitted = false;
+          this.failSnack = true;
+      }
+    },
+    preprocessOrder() {
+      let order = {
+        rid: this.rid,
+        items: this.items,
+        waiveFee: this.waive
+      };
+      if (this.isRecent) {
+        order.addrInfo = this.selectedRecent;
+      } else {
+        order.addrInfo = {
+          address: this.selectedAddress,
+          unit: this.unit,
+          postal: parseInt(this.postalCode)
+        };
+      }
+      if (this.promo !== null) {
+        order.pid = this.promosMap[this.promo].pid;
+      } else {
+        order.pid = null;
+      }
+      return order;
     },
     convertToPriceStr(num) {
       return (num / 100).toLocaleString("en-SG", {
         style: "currency",
         currency: "SGD"
       });
+    },
+    async wait(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
     }
   },
   async created() {
     this.populateRecentAddresses();
     this.populatePoints();
     this.populatePromos();
+  },
+  components: {
+    LoaderOverlay
   }
 };
 </script>
