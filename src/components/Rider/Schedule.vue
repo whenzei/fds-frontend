@@ -3,7 +3,7 @@
     <CurrentSchedule />
     <br />
     <v-row align="center" justify="center">
-      <v-btn v-if="isFullTimer" to="/rider/update-schedule">Update next month's schedule</v-btn>
+      <v-btn v-if="isFullTimer" to="/rider/update-ft-schedule">Update next month's schedule</v-btn>
       <v-card justify="center" v-else-if="isPartTimer" color="secondary">
         <v-card-title>Update Weekly Schedule</v-card-title>
         <v-card-actions class="justify-center">
