@@ -45,6 +45,7 @@
           :event-color="getEventColor"
           :now="today"
           :type="type"
+          :event-name="getEventName"
           @click:event="showEvent"
           @click:more="viewDay"
           @click:date="viewDay"
@@ -101,7 +102,7 @@ export default {
       end: null,
       selectedEvent: {},
       selectedElement: null,
-      selectedOpen: false,
+      selectedOpen: false
     };
   },
   computed: {
@@ -145,12 +146,17 @@ export default {
     this.$refs.calendar.checkChange();
   },
   methods: {
+    getEventName({start, end}) {
+      let temp1 = start.time;
+      let temp2 = end.time;
+      return temp1 + " - " + temp2;
+    },
     viewDay({ date }) {
       this.focus = date;
       this.type = "day";
     },
-    getEventColor(event) {
-      return event.color;
+    getEventColor() {
+      return "orange"
     },
     setToday() {
       this.focus = this.today;
