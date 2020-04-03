@@ -75,6 +75,7 @@ export default new Vuex.Store({
         },
         async logout({ commit }) {
             commit('resetData');
+            commit('rider/resetState')
         }
     },
     modules: {

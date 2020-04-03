@@ -5,12 +5,16 @@ function getEventName(start, end) {
 }
 const axios = require('axios')
 
-export default {
-    namespaced: true,
-    state: {
+const getDefaultState = () => {
+    return {
         timeSlots: [],
         riderType: null
-    },
+    }
+}
+
+export default {
+    namespaced: true,
+    state: getDefaultState(),
     getters: {
         timeSlots(state) {
             return state.timeSlots
@@ -25,6 +29,9 @@ export default {
         },
         setRiderType(state, riderType) {
             state.riderType = riderType
+        },
+        resetState(state) {
+            Object.assign(state, getDefaultState())
         }
     },
     actions: {
