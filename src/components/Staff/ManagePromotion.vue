@@ -88,7 +88,7 @@
                       <v-col cols="12" sm="6" md="4">
                         <v-text-field
                           required
-                          prefix="$"
+                          prefix="S$"
                           :rules="rules.minSpend"
                           v-model="editedItem.minspending"
                           color="orange darken-3"
@@ -142,19 +142,19 @@ export default {
       pid: null,
       startdate: null,
       enddate: null,
-      points: 0,
-      percentoff: 0,
-      minspending: 0,
-      monthswithnoorders: 0
+      points: null,
+      percentoff: null,
+      minspending: null,
+      monthswithnoorders: null
     },
     defaultItem: {
       pid: null,
       startdate: null,
       enddate: null,
-      points: 0,
-      percentoff: 0,
-      minspending: 0,
-      monthswithnoorders: 0
+      points: null,
+      percentoff: null,
+      minspending: null,
+      monthswithnoorders: null
     },
     promoHeaders: [
       { text: "Promo ID", sortable: true, value: "pid" },
