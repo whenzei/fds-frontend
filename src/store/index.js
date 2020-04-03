@@ -73,6 +73,7 @@ export default new Vuex.Store({
             }
         },
         async logout({ commit }) {
+            commit('staff/resetData');
             commit('resetData');
         }
     },
