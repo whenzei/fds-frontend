@@ -30,8 +30,12 @@ export default {
         }
     },
     actions: {
-        async fetchTimeSlots({ commit }, { year, month }) {
-            let timeSlots = (await axios.get(`rider/schedule/${year}/${month}`)).data
+        async fetchTimeSlots({ commit }, { startYear, startMonth, endYear, endMonth }) {
+            let timeSlots = (await axios.get(`rider/schedule/${startYear}/${startMonth}`)).data
+            if (startYear != endYear || startMonth != endMonth) {
+                let endTimeSlots = (await axios.get(`rider/schedule/${endYear}/${endMonth}`)).data
+                timeSlots = timeSlots.concat(endTimeSlots)
+            }
             commit('setTimeSlots', timeSlots)
         },
         async fetchRiderType({ commit }) {

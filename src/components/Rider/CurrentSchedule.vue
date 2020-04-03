@@ -194,10 +194,12 @@ export default {
             1}-${a.getDate()} ${a.getHours()}:${a.getMinutes()}`
         : `${a.getFullYear()}-${a.getMonth() + 1}-${a.getDate()}`;
     },
-    updateCalendar({ start }) {
+    updateCalendar({ start, end }) {
       this.$store.dispatch("rider/fetchTimeSlots", {
-        year: start.year,
-        month: start.month
+        startYear: start.year,
+        startMonth: start.month,
+        endYear: end.year,
+        endMonth: end.month,
       });
     }
   }
