@@ -156,8 +156,7 @@ export default {
           this.$router.push("/rider/schedule");
         })
         .catch(e => {
-          console.log(e.response);
-          alert(e.response);
+          alert(e);
         });
     }
   }
