@@ -140,14 +140,24 @@ export default {
       return interval;
     },
     updateSchedule() {
-      console.log(this.dailySchedules)
+      const totalHours = this.dailySchedules
+        .map(x => x.slots)
+        .flat()
+        .map(y => y.endTime - y.startTime)
+        .reduce((a, b) => a + b);
+      if (totalHours < 10) {
+        return alert("Need to work at least 10 hours in a week");
+      } else if (totalHours > 48) {
+        return alert("Weekly work hours cannot exceed 48");
+      }
       postPTScheduleUpdate(this.year, this.week, this.dailySchedules)
         .then(() => {
           alert("Updated");
-          this.$router.push("/rider/schedule")
+          this.$router.push("/rider/schedule");
         })
         .catch(e => {
-          alert(e);
+          console.log(e.response);
+          alert(e.response);
         });
     }
   }
