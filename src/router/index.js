@@ -7,6 +7,7 @@ import Rider from '@/components/Rider/Rider'
 import Staff from '@/components/Staff/Staff'
 import ViewSummary from '@/components/Staff/ViewSummary'
 import ManagePromotion from '@/components/Staff/ManagePromotion'
+import ManageMenu from '@/components/Staff/ManageMenu'
 import RiderSalary from '@/components/Rider/Salary'
 import RiderOrders from '@/components/Rider/Orders'
 import RiderCurrentOrder from '@/components/Rider/CurrentOrder'
@@ -63,6 +64,11 @@ const router = new VueRouter({
         {
             path: '/staff/manage-promo',
             component: ManagePromotion,
+            beforeEnter: (to, from, next) => navGuard(to, from, next, 'Staff')
+        },
+        {
+            path: '/staff/manage-menu',
+            component: ManageMenu,
             beforeEnter: (to, from, next) => navGuard(to, from, next, 'Staff')
         },
         {

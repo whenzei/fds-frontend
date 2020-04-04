@@ -9,6 +9,9 @@
     <router-link to="/staff/manage-promo">
       <v-btn class="ml-10 orange--text text--darken-1" outlined>Manage Promotions</v-btn>
     </router-link>
+    <router-link to="/staff/manage-menu">
+      <v-btn class="ml-10 orange--text text--darken-1" outlined>Manage Menu</v-btn>
+    </router-link>
     <router-link to="/staff/view-summary">
       <v-btn class="ml-10 orange--text text--darken-1" outlined>View Summary</v-btn>
     </router-link>
