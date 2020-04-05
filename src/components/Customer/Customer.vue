@@ -81,7 +81,7 @@ export default {
   },
   methods: {
     async addCreditCard() {
-      const res = await axios.post("customer/addCreditCard", {
+      const res = await axios.post("customer/add-cc", {
         creditCard: this.creditCardInput
       });
       if (res.status == 200) {
@@ -89,7 +89,7 @@ export default {
       }
     },
     async removeCreditCard() {
-      const res = await axios.post("customer/removeCreditCard");
+      const res = await axios.post("customer/remove-cc");
       if (res.status == 200) {
         this.$router.push("/");
       }
