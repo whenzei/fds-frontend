@@ -8,15 +8,36 @@
       :minSpending="minSpending"
     />
     <v-card-title>
-      <span class="display-2 font-weight-black orangeText">{{rname}}</span>
-      <v-spacer></v-spacer>
-      <v-text-field
-        v-model="search"
-        append-icon="mdi-magnify"
-        label="Search"
-        single-line
-        hide-details
-      ></v-text-field>
+      <v-row>
+        <v-col lg="6">
+          <span class="display-2 font-weight-black orangeText">{{rname}}</span>
+        </v-col>
+        <v-spacer></v-spacer>
+        <v-col lg="6">
+          <v-text-field
+            v-model="search"
+            append-icon="mdi-magnify"
+            label="Search"
+            single-line
+            hide-details
+          ></v-text-field>
+        </v-col>
+        <v-col lg="6">
+          <v-row class="pl-2">
+            <v-rating
+              v-model="stars"
+              color="orange accent"
+              background-color="grey"
+              empty-icon="$ratingFull"
+              hover
+              dense
+              half-increments
+              readonly
+            ></v-rating>
+            <ReviewsDialog :rid="rid" :rname="rname"/>
+          </v-row>
+        </v-col>
+      </v-row>
     </v-card-title>
     <v-data-table :headers="headers" :items="allItems" :search="search" item-key="fname">
       <template v-slot:item.qty="{ item }">
@@ -38,14 +59,14 @@
         </v-row>
       </template>
     </v-data-table>
-    <v-snackbar color="orange darken-4" v-model="snackbar" :timeout="500">
-      Item added to cart.
-    </v-snackbar>
+    <v-snackbar color="orange darken-4" v-model="snackbar" :timeout="500">Item added to cart.</v-snackbar>
   </v-card>
 </template>
 
 <script>
 import CartDialog from "./CartDialog";
+import ReviewsDialog from "./ReviewsDialog";
+import axios from "axios";
 
 export default {
   props: ["menu", "rname", "rid", "minSpending"],
@@ -58,7 +79,8 @@ export default {
       { text: "Quantity", value: "qty" }
     ],
     cart: [],
-    snackbar: false,
+    stars: null,
+    snackbar: false
   }),
   computed: {
     allItems() {
@@ -95,8 +117,13 @@ export default {
       }
     }
   },
+  async created() {
+    const res = await axios.get(`customer/restaurant-rating/${this.rid}`);
+    this.stars = Number(res.data.stars);
+  },
   components: {
-    CartDialog
+    CartDialog,
+    ReviewsDialog
   }
 };
 </script>
