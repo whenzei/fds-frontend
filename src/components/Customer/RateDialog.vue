@@ -36,7 +36,7 @@
 import axios from "axios";
 
 export default {
-  props: ['oid'],
+  props: ["oid"],
   data() {
     return {
       rate: false,
@@ -45,16 +45,20 @@ export default {
   },
   methods: {
     async submit() {
-      this.rate = false;
       try {
-        await axios.post("/customer/rate-rider", {
+        this.rate = false;
+        const res = await axios.post("/customer/rate-rider", {
           stars: this.stars,
           oid: this.oid
         });
+        if (res.status == 200) {
+          this.$emit("rated");
+        } else {
+          alert("An error has occured");
+        }
       } catch (error) {
-        return;
+        alert("An error has occured");
       }
-      this.$emit("rated");
     }
   }
 };

@@ -33,7 +33,6 @@
         <v-row justify="center">
           <v-btn color="red lighten-1" @click="submit">Submit</v-btn>
         </v-row>
-        {{comment}}
       </v-container>
     </v-card>
   </v-dialog>
@@ -53,17 +52,21 @@ export default {
   },
   methods: {
     async submit() {
-      this.review = false;
       try {
-        await axios.post("/customer/review-food", {
+        this.review = false;
+        const res = await axios.post("/customer/review-food", {
           comment: this.comment,
           stars: this.stars,
           oid: this.oid
         });
+        if (res.status == 200) {
+          this.$emit("reviewed");
+        } else {
+          alert("An error has occured");
+        }
       } catch (error) {
-        return;
+        alert("An error has occured");
       }
-      this.$emit("reviewed");
     }
   }
 };
