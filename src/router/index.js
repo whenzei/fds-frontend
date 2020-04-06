@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Landing from '@/components/Landing'
 import Customer from '@/components/Customer/Customer'
 import CustomerBrowse from '@/components/Customer/Browse'
+import CustomerOrders from '@/components/Customer/Orders'
 import Rider from '@/components/Rider/Rider'
 import Staff from '@/components/Staff/Staff'
 import ViewSummary from '@/components/Staff/ViewSummary'
@@ -47,6 +48,11 @@ const router = new VueRouter({
         {
             path: '/customer/browse',
             component: CustomerBrowse,
+            beforeEnter: (to, from, next) => navGuard(to, from, next, 'Customer')
+        },
+        {
+            path: '/customer/orders',
+            component: CustomerOrders,
             beforeEnter: (to, from, next) => navGuard(to, from, next, 'Customer')
         },
         {
