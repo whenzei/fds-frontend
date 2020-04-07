@@ -67,7 +67,7 @@
                   >{{ item[key] }}</v-list-item-content>
                 </v-list-item>
                 <v-list-item class="d-flex justify-center">
-                  <v-btn color="orange" dark large>Select</v-btn>
+                  <v-btn @click="selectOrder(item.oid)" color="orange" dark large>Select</v-btn>
                 </v-list-item>
               </v-list>
               <v-row></v-row>
@@ -113,7 +113,7 @@
 </template>
 
 <script>
-import { getAvailableOrders } from "../../helpers/rider";
+import { postOrderSelection, getAvailableOrders } from "../../helpers/rider";
 import { formatCurrency, formatDistance } from "../../helpers/format";
 
 export default {
@@ -168,6 +168,13 @@ export default {
     },
     updateItemsPerPage(number) {
       this.itemsPerPage = number;
+    },
+    selectOrder(oid) {
+      postOrderSelection(oid).then(() => {
+        this.$router.push({ name: "RiderCurrentOrder" });
+      }).catch((e) => {
+        alert(e)
+      })
     }
   },
   async created() {
