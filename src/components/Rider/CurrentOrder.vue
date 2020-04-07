@@ -4,7 +4,7 @@
       <v-col cols="12" sm="8" md="4">
         <v-card class="elevation-12">
           <v-toolbar :color="statuses[statusIdx].color" dark flat>
-            <v-toolbar-title>Delivery to {{cUsername}}</v-toolbar-title>
+            <v-toolbar-title>Delivery to {{order.cUsername}}</v-toolbar-title>
             <v-spacer />
           </v-toolbar>
           <v-card-text></v-card-text>
@@ -12,27 +12,32 @@
             <v-list-item>
               Restaurant:
               <v-spacer />
-              {{rname}}
+              {{order.Restaurant}}
             </v-list-item>
             <v-list-item>
               Restaurant Address:
               <v-spacer />
-              {{rAddress}}
+              {{order['Restaurant Address']}}
             </v-list-item>
             <v-list-item>
               Distance To Restaurant:
               <v-spacer />
-              {{rDist}}
+              {{formatDistance(order['Distance To Restaurant'])}}
             </v-list-item>
             <v-list-item>
               Customer Address:
               <v-spacer />
-              {{cAddress}}
+              {{order['Customer Address']}}
             </v-list-item>
             <v-list-item>
               Distance To Customer:
               <v-spacer />
-              {{cDist}}
+              {{formatDistance(order['Distance to Customer'])}}
+            </v-list-item>
+            <v-list-item>
+              Total Price:
+              <v-spacer />
+              {{formatCurrency(order['Total Price'])}}
             </v-list-item>
           </v-list>
           <v-card-actions>
@@ -49,18 +54,13 @@
 </template>
 
 <script>
+import { getCurrentOrder } from "../../helpers/rider";
+import { formatCurrency, formatDistance } from "../../helpers/format";
+
 export default {
   data: function() {
     return {
-      rname: "Mumbo Landfood",
-      rAddress: "Jalan Bahar",
-      rDist: 5000,
-      cAddress: "Clementi Street 51",
-      cDist: 2000,
-      paymentMethod: "Credit",
-      finalPrice: 30000,
-      deliveryFee: 2000,
-      cUsername: "zhow",
+      order: {},
       statuses: [
         { statusText: "Arrive at Restaurant", color: "error" },
         { statusText: "Depart from Restaurant", color: "warning" },
@@ -75,7 +75,22 @@ export default {
   methods: {
     handleButtonClick() {
       if (this.statusIdx < this.statuses.length - 1) this.statusIdx += 1;
+    },
+    formatCurrency,
+    formatDistance
+  },
+  async created() {
+    try {
+      const coords = await this.$getLocation();
+      this.lng = coords.lng;
+      this.lat = coords.lat;
+    } catch (e) {
+      console.log(e);
+      // No location access so use default position
+      this.lng = 103.851959;
+      this.lat = 1.29027;
     }
+    getCurrentOrder(this.lng, this.lat).then(order => (this.order = order));
   }
 };
 </script>

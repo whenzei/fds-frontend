@@ -30,6 +30,11 @@ const getAvailableOrders = async function (lng, lat) {
     return res.data
 }
 
+const getCurrentOrder = async function (lng, lat) {
+    const res = await axios.get(`rider/current-order/${lng}/${lat}`)
+    return res.data
+}
+
 module.exports = {
-    postPTScheduleUpdate, postFTScheduleUpdate, getShifts, getStartDaysOfMonth, RiderTypes, getAvailableOrders
+    postPTScheduleUpdate, postFTScheduleUpdate, getShifts, getStartDaysOfMonth, RiderTypes, getAvailableOrders, getCurrentOrder
 }

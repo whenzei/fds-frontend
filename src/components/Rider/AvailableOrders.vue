@@ -114,17 +114,7 @@
 
 <script>
 import { getAvailableOrders } from "../../helpers/rider";
-const formatCurrency = amountInCents => {
-  return `$ ${(amountInCents / 100).toFixed(2)}`;
-};
-
-const formatDistance = distanceInMetres => {
-  if (distanceInMetres > 1000) {
-    return `${(distanceInMetres / 1000).toFixed(2)} km`;
-  } else {
-    return `${distanceInMetres} m`;
-  }
-};
+import { formatCurrency, formatDistance } from "../../helpers/format";
 
 export default {
   data() {
@@ -180,7 +170,7 @@ export default {
       this.itemsPerPage = number;
     }
   },
-  async mounted() {
+  async created() {
     try {
       const coords = await this.$getLocation();
       this.lng = coords.lng;
@@ -188,8 +178,8 @@ export default {
     } catch (e) {
       console.log(e);
       // No location access so use default position
-      this.lng = 	103.851959;
-      this.lat = 1.290270;
+      this.lng = 103.851959;
+      this.lat = 1.29027;
     }
     getAvailableOrders(this.lng, this.lat).then(
       availableOrders => (this.items = availableOrders)
