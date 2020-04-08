@@ -39,6 +39,11 @@
               <v-spacer />
               {{formatCurrency(order['Total Price'])}}
             </v-list-item>
+            <v-list-item>
+              Status:
+              <v-spacer />
+              {{order.status}}
+            </v-list-item>
           </v-list>
           <v-card-actions>
             <v-spacer />
