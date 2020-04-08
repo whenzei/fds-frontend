@@ -5,10 +5,12 @@ import router from './router'
 import store from './store'
 import axios from 'axios'
 import { setUpInterceptors } from './helpers/interceptors'
+import VueGeolocation from 'vue-browser-geolocation';
 
 // Set up axios interceptors (e.g for auth bearer token)
 setUpInterceptors()
 
+Vue.use(VueGeolocation);
 Vue.config.productionTip = false
 axios.defaults.baseURL = process.env.VUE_APP_BACKEND_URL
 

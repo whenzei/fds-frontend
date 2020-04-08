@@ -3,7 +3,11 @@ const RiderTypes = {
     fullTime: "Full Timer",
     partTime: "Part Timer"
 }
-
+const orderStatuses = {
+    toRest: "Moving to restaurant",
+    waiting: "Waiting for order",
+    toCust: "Moving to customer"
+}
 
 const postFTScheduleUpdate = async function (payload) {
     return await axios.post("/rider/update-ft-schedule", payload)
@@ -25,6 +29,37 @@ const getStartDaysOfMonth = async function (year, month) {
     return res.data
 }
 
+const getAvailableOrders = async function (lng, lat) {
+    const res = await axios.get(`/rider/available-orders/${lng}/${lat}`)
+    return res.data
+}
+
+const getCurrentOrder = async function (lng, lat) {
+    const res = await axios.get(`rider/current-order/${lng}/${lat}`)
+    return res.data
+}
+
+const postOrderSelection = async function (oid) {
+    try {
+        return await axios.post("/rider/select-order", { oid })
+    }
+    catch (e) {
+        throw e.response.data
+    }
+}
+
+const postOrderStatusUpdate = async function (oid, currStatus) {
+    try {
+        return await axios.post("/rider/update-order-status", {
+            oid,
+            currStatus
+        })
+    }
+    catch (e) {
+        throw e.response.data
+    }
+}
+
 module.exports = {
-    postPTScheduleUpdate, postFTScheduleUpdate, getShifts, getStartDaysOfMonth, RiderTypes
+    postPTScheduleUpdate, postFTScheduleUpdate, getShifts, getStartDaysOfMonth, RiderTypes, getAvailableOrders, getCurrentOrder, postOrderSelection, postOrderStatusUpdate, orderStatuses
 }

@@ -2,6 +2,7 @@ const axios = require('axios')
 
 const getDefaultState = () => {
     return {
+        availableOrdersViewable: false,
         timeSlots: [],
         riderType: null
     }
@@ -16,6 +17,9 @@ export default {
         },
         riderType(state) {
             return state.riderType
+        },
+        availableOrdersViewable(state) {
+            return state.availableOrdersViewable
         }
     },
     mutations: {
@@ -27,6 +31,9 @@ export default {
         },
         resetState(state) {
             Object.assign(state, getDefaultState())
+        },
+        setAvailableOrdersViewable(state, viewable) {
+            state.availableOrdersViewable = viewable
         }
     },
     actions: {
