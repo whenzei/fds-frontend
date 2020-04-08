@@ -40,7 +40,7 @@
               {{formatCurrency(order['Total Price'])}}
             </v-list-item>
             <v-list-item>
-              Status:
+              Status: {{order.oid}}
               <v-spacer />
               {{order.status}}
             </v-list-item>
@@ -49,7 +49,7 @@
             <v-spacer />
             <v-btn
               :color="statuses[statusIdx].color"
-              @click="handleButtonClick"
+              @click="updateOrderStatus"
             >{{statuses[statusIdx].statusText}}</v-btn>
           </v-card-actions>
         </v-card>
@@ -59,7 +59,11 @@
 </template>
 
 <script>
-import { getCurrentOrder } from "../../helpers/rider";
+import {
+  orderStatuses,
+  getCurrentOrder,
+  postOrderStatusUpdate
+} from "../../helpers/rider";
 import { formatCurrency, formatDistance } from "../../helpers/format";
 
 export default {
@@ -78,24 +82,61 @@ export default {
     source: String
   },
   methods: {
-    handleButtonClick() {
-      if (this.statusIdx < this.statuses.length - 1) this.statusIdx += 1;
+    updateOrderStatus() {
+      postOrderStatusUpdate(this.order.oid, this.order.status)
+        .then(() => {
+          if (this.order.status === orderStatuses.toCust) {
+            this.$router.push({ name: "RiderOrders" });
+          } else {
+            this.fetchOrder();
+          }
+        })
+        .catch(e => {
+          alert(e);
+        });
     },
     formatCurrency,
-    formatDistance
+    formatDistance,
+    async fetchOrder() {
+      try {
+        const coords = await this.$getLocation();
+        this.lng = coords.lng;
+        this.lat = coords.lat;
+      } catch (e) {
+        console.log(e);
+        // No location access so use default position
+        this.lng = 103.851959;
+        this.lat = 1.29027;
+      }
+      getCurrentOrder(this.lng, this.lat).then(order => (this.order = order));
+    }
+  },
+  computed: {
+    action() {
+      if (this.order.status === orderStatuses.toRest) {
+        return "Arrive at Restaurant";
+      } else if (this.order.status === orderStatuses.waiting) {
+        return "Depart from Restaurant";
+      } else if (this.order.status === orderStatuses.toCust) {
+        return "Complete Delivery";
+      } else {
+        return ""
+      }
+    },
+    layoutColor() {
+      if (this.order.status === orderStatuses.toRest) {
+        return "error";
+      } else if (this.order.status === orderStatuses.waiting) {
+        return "warning";
+      } else if (this.order.status === orderStatuses.toCust) {
+        return "success";
+      } else {
+        return "error"
+      }
+    }
   },
   async created() {
-    try {
-      const coords = await this.$getLocation();
-      this.lng = coords.lng;
-      this.lat = coords.lat;
-    } catch (e) {
-      console.log(e);
-      // No location access so use default position
-      this.lng = 103.851959;
-      this.lat = 1.29027;
-    }
-    getCurrentOrder(this.lng, this.lat).then(order => (this.order = order));
+    await this.fetchOrder();
   }
 };
 </script>
