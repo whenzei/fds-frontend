@@ -173,7 +173,7 @@ export default {
         points: item.points == 0 ? "" : "[" + item.points + " points]",
         discount: item.discount == 0 ? "" : "[" + item.discount + "% OFF]",
         pid: item.pid,
-        foodList: item.foodlist.split(","),
+        foodList: item.foodlist,
         waived: item.waived ? "Delivery fee waived with 300 points" : "-",
         restaurant: item.rname,
         reviewed: item.reviewed,
