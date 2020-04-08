@@ -14,15 +14,16 @@
     <v-data-table
       :headers="headers"
       :items="orders"
+      :expanded.sync="ordersExpanded"
       :sort-by="['delivered', 'deliverTime']"
       :sort-desc="[false, true]"
-      :expanded.sync="ordersExpanded"
-      multi-sort
       single-expand
       show-expand
       class="elevation-1"
       item-key="oid"
     >
+      <template v-slot:item.deliverTime="{item}">{{formatDate(item.deliverTime)}}</template>
+      <template v-slot:item.orderTime="{item}">{{formatDate(item.orderTime)}}</template>
       <template v-slot:item.delivered="{ item }">
         <v-row justify="center">
           <v-icon v-if="item.delivered" class="green--text" large>mdi-check-circle</v-icon>
@@ -88,8 +89,20 @@
         </td>
       </template>
     </v-data-table>
-    <v-snackbar v-model="reviewSnack" :timeout="2000" color="red lighten-1" bottom left>Food review submitted</v-snackbar>
-    <v-snackbar v-model="ratingSnack" :timeout="2000" color="teal" bottom left>Rider rating submitted</v-snackbar>
+    <v-snackbar
+      v-model="reviewSnack"
+      :timeout="2000"
+      color="red lighten-1"
+      bottom
+      left
+    >Food review submitted</v-snackbar>
+    <v-snackbar
+      v-model="ratingSnack"
+      :timeout="2000"
+      color="teal"
+      bottom
+      left
+    >Rider rating submitted</v-snackbar>
   </v-container>
 </template>
 <script>
@@ -104,30 +117,35 @@ export default {
         {
           text: "Status",
           align: "center",
-          value: "delivered"
+          value: "delivered",
+          sortable: false
         },
         {
           text: "Order ID#",
           value: "oid",
-          align: "center"
+          align: "center",
+          sortable: false
         },
         {
           text: "Order Date",
           align: "center",
-          value: "orderTime"
+          value: "orderTime",
+          sortable: false
         },
         {
           text: "Deliver Date",
           align: "center",
-          value: "deliverTime"
+          value: "deliverTime",
+          sortable: false
         },
         {
           text: "Restaurant",
           align: "center",
-          value: "restaurant"
+          value: "restaurant",
+          sortable: false
         },
         { text: "Total Price($)", value: "priceStr", sortable: false },
-        { text: "", value: "data-table-expand" }
+        { text: "", value: "data-table-expand", sortable: false }
       ],
       orders: [],
       ordersExpanded: [],
@@ -172,6 +190,16 @@ export default {
     async refreshAfterRate() {
       this.ratingSnack = true;
       await this.refresh();
+    },
+    formatDate(date) {
+      if (date == null) {
+        return "";
+      }
+      const dateTime = date.split(" ");
+      const dateArr = dateTime[0].split("-");
+      return (
+        dateArr[2] + "/" + dateArr[1] + "/" + dateArr[0] + " " + dateTime[1]
+      );
     }
   },
   async created() {
