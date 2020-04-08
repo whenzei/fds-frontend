@@ -3,7 +3,7 @@
     <v-row align="center" justify="center">
       <v-col cols="12" sm="8" md="4">
         <v-card class="elevation-12">
-          <v-toolbar :color="statuses[statusIdx].color" dark flat>
+          <v-toolbar :color="layoutColor" dark flat>
             <v-toolbar-title>Delivery to {{order.cUsername}}</v-toolbar-title>
             <v-spacer />
           </v-toolbar>
@@ -48,9 +48,9 @@
           <v-card-actions>
             <v-spacer />
             <v-btn
-              :color="statuses[statusIdx].color"
+              :color="layoutColor"
               @click="updateOrderStatus"
-            >{{statuses[statusIdx].statusText}}</v-btn>
+            >{{action}}</v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -69,13 +69,7 @@ import { formatCurrency, formatDistance } from "../../helpers/format";
 export default {
   data: function() {
     return {
-      order: {},
-      statuses: [
-        { statusText: "Arrive at Restaurant", color: "error" },
-        { statusText: "Depart from Restaurant", color: "warning" },
-        { statusText: "Complete Delivery", color: "success" }
-      ],
-      statusIdx: 0
+      order: {}
     };
   },
   props: {
