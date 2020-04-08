@@ -45,6 +45,7 @@
           :event-color="getEventColor"
           :now="today"
           :type="type"
+          :event-name="getEventName"
           @click:event="showEvent"
           @click:more="viewDay"
           @click:date="viewDay"
@@ -101,7 +102,7 @@ export default {
       end: null,
       selectedEvent: {},
       selectedElement: null,
-      selectedOpen: false,
+      selectedOpen: false
     };
   },
   computed: {
@@ -145,12 +146,17 @@ export default {
     this.$refs.calendar.checkChange();
   },
   methods: {
+    getEventName({start, end}) {
+      let temp1 = start.time;
+      let temp2 = end.time;
+      return temp1 + " - " + temp2;
+    },
     viewDay({ date }) {
       this.focus = date;
       this.type = "day";
     },
-    getEventColor(event) {
-      return event.color;
+    getEventColor() {
+      return "orange"
     },
     setToday() {
       this.focus = this.today;
@@ -188,10 +194,12 @@ export default {
             1}-${a.getDate()} ${a.getHours()}:${a.getMinutes()}`
         : `${a.getFullYear()}-${a.getMonth() + 1}-${a.getDate()}`;
     },
-    updateCalendar({ start }) {
+    updateCalendar({ start, end }) {
       this.$store.dispatch("rider/fetchTimeSlots", {
-        year: start.year,
-        month: start.month
+        startYear: start.year,
+        startMonth: start.month,
+        endYear: end.year,
+        endMonth: end.month,
       });
     }
   }

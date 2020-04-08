@@ -1,24 +1,37 @@
 <template>
   <v-container fluid>
     <div class="d-flex justify-center">
-      <v-switch inset v-model="onDuty" :label="workStatus" color="orange" value="red" hide-details></v-switch>
+      <v-switch
+        inset
+        v-model="availableOrdersViewable"
+        :label="workStatus"
+        color="orange"
+        value="red"
+        hide-details
+      ></v-switch>
     </div>
-    <AvailableOrders v-if="onDuty" />
+    <AvailableOrders v-if="availableOrdersViewable" />
   </v-container>
 </template>
 
 <script>
 import AvailableOrders from "./AvailableOrders";
 export default {
-  data: () => ({
-    onDuty: false
-  }),
+  data: () => ({}),
   computed: {
     workStatus: function() {
-      if (this.onDuty) {
+      if (this.availableOrdersViewable) {
         return "On";
       }
       return "Off";
+    },
+    availableOrdersViewable: {
+      get: function() {
+        return this.$store.getters["rider/availableOrdersViewable"];
+      },
+      set: function(viewable) {
+        this.$store.commit("rider/setAvailableOrdersViewable", viewable);
+      }
     }
   },
   components: { AvailableOrders }
