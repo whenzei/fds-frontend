@@ -120,7 +120,7 @@ export default {
       } else if (this.order.status === orderStatuses.toCust) {
         return "Complete Delivery";
       } else {
-        return ""
+        return "";
       }
     },
     layoutColor() {
@@ -131,7 +131,7 @@ export default {
       } else if (this.order.status === orderStatuses.toCust) {
         return "success";
       } else {
-        return "error"
+        return "error";
       }
     }
   },
