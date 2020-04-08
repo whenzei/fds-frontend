@@ -40,17 +40,24 @@
               {{formatCurrency(order['Total Price'])}}
             </v-list-item>
             <v-list-item>
-              Status: {{order.oid}}
+              Status:
               <v-spacer />
               {{order.status}}
+            </v-list-item>
+            <v-list-item>
+              Ordered Items:
+              <v-spacer />
+              <v-list dense>
+                <v-list-item v-for="(f, i) in order.orderedItems" :key="i">
+                  <span class="qty">x {{f.qty}}</span>
+                  <span class="fname">{{f.fname}}</span>
+                </v-list-item>
+              </v-list>
             </v-list-item>
           </v-list>
           <v-card-actions>
             <v-spacer />
-            <v-btn
-              :color="layoutColor"
-              @click="updateOrderStatus"
-            >{{action}}</v-btn>
+            <v-btn :color="layoutColor" @click="updateOrderStatus">{{action}}</v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -134,3 +141,16 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+span.qty {
+  display: inline-block;
+  margin: 4px;
+  color: red;
+  font-weight: 900;
+}
+span.fname {
+  display: inline-block;
+  margin: 4px;
+}
+</style>
