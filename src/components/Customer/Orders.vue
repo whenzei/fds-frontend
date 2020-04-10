@@ -52,7 +52,7 @@
                 <v-card-text>
                   Payment Method:
                   <span class="orangeText">
-                    {{item.isCod ? " Credit card" : " Cash on delivery"}}
+                    {{item.isCod ?" Cash on delivery" : " Credit card" }}
                   </span>
                   <br />Promotion:
                   <span
