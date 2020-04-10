@@ -88,7 +88,7 @@
                       <v-col cols="12" sm="6" md="4">
                         <v-text-field
                           required
-                          prefix="$"
+                          prefix="S$"
                           :rules="rules.minSpend"
                           v-model="editedItem.minspending"
                           color="orange darken-3"
@@ -123,6 +123,10 @@
         <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
       </template>
     </v-data-table>
+    <v-snackbar color="success" v-model="successAdd" :timeout="1200">Promotion is added.</v-snackbar>
+    <v-snackbar color="success" v-model="successEdit" :timeout="1200">Promotion is updated.</v-snackbar>
+    <v-snackbar color="success" v-model="successDelete" :timeout="1200">Promotion is deleted.</v-snackbar>
+    <v-snackbar color="error" v-model="error" :timeout="1200">Oops! An error occurred.</v-snackbar>
   </v-container>
 </template>
 
@@ -136,25 +140,29 @@ export default {
     editedIndex: -1,
     rangeDates: [],
     menu: false,
+    successAdd: false,
+    successEdit: false,
+    successDelete: false,
+    error: false,
     dateToday: null,
     validForm: true,
     editedItem: {
       pid: null,
       startdate: null,
       enddate: null,
-      points: 0,
-      percentoff: 0,
-      minspending: 0,
-      monthswithnoorders: 0
+      points: null,
+      percentoff: null,
+      minspending: null,
+      monthswithnoorders: null
     },
     defaultItem: {
       pid: null,
       startdate: null,
       enddate: null,
-      points: 0,
-      percentoff: 0,
-      minspending: 0,
-      monthswithnoorders: 0
+      points: null,
+      percentoff: null,
+      minspending: null,
+      monthswithnoorders: null
     },
     promoHeaders: [
       { text: "Promo ID", sortable: true, value: "pid" },
@@ -241,27 +249,30 @@ export default {
       const params = { item: item };
       const res = await axios.post(`/staff/add-promos/`, params);
       if (res.status == 200) {
+        this.successAdd = true;
         return res.data;
-        // TODO: create status alert
-        //   success = true;
+      } else {
+        this.error = true;
       }
     },
     async updateDatabase(item) {
       const params = { item };
       const res = await axios.post(`/staff/edit-promos/`, params);
       if (res.status == 200) {
+        this.successEdit = true;
         return res.data;
-        // TODO: create status alert
-        //   success = true;
+      } else {
+        this.error = true;
       }
     },
     async deleteFromDatabase(pid) {
       const params = { data: { pid: pid } };
       const res = await axios.delete(`/staff/delete-promos/`, params);
       if (res.status == 200) {
+        this.successDelete = true;
         return res.data;
-        // TODO: create status alert
-        //   success = true;
+      } else {
+        this.error = true;
       }
     },
     editItem(item) {
