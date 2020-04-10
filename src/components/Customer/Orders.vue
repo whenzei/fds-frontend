@@ -50,7 +50,11 @@
               <v-card class="headline grey darken-4" flat>
                 <v-card-title>Checkout Details</v-card-title>
                 <v-card-text>
-                  Promotion:
+                  Payment Method:
+                  <span class="orangeText">
+                    {{item.isCod ? " Credit card" : " Cash on delivery"}}
+                  </span>
+                  <br />Promotion:
                   <span
                     class="orangeText"
                   >{{item.pid == null ? '-' : item.pid + " " + item.points + item.discount}}</span>
@@ -177,7 +181,8 @@ export default {
         waived: item.waived ? "Delivery fee waived with 300 points" : "-",
         restaurant: item.rname,
         reviewed: item.reviewed,
-        rated: item.rated
+        rated: item.rated,
+        isCod: item.iscod
       }));
     },
     async refresh() {
