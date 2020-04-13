@@ -60,6 +60,18 @@ const postOrderStatusUpdate = async function (oid, currStatus) {
     }
 }
 
+const getSalaryInfo = async function (year) {
+    try {
+        const { data } = await axios.get(`/rider/salary/${year}`)
+        return data
+    }
+    catch (e) {
+        throw e.response.data
+    }
+}
+
+
 module.exports = {
-    postPTScheduleUpdate, postFTScheduleUpdate, getShifts, getStartDaysOfMonth, RiderTypes, getAvailableOrders, getCurrentOrder, postOrderSelection, postOrderStatusUpdate, orderStatuses
+    postPTScheduleUpdate, postFTScheduleUpdate, getShifts, getStartDaysOfMonth, RiderTypes, getAvailableOrders, getCurrentOrder, postOrderSelection, postOrderStatusUpdate, orderStatuses,
+    getSalaryInfo
 }
