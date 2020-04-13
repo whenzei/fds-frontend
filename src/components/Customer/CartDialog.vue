@@ -100,13 +100,21 @@
                 color="orange"
               ></v-select>
             </v-col>
-            <v-col lg="8">
+            <v-col lg="6">
               <v-checkbox
                 v-model="waive"
                 color="orange"
                 label="Use points to wave delivery fee?"
                 v-if="points >= 300"
               ></v-checkbox>
+            </v-col>
+            <v-col lg="6">
+              Payment Method
+              <v-divider></v-divider>
+              <v-radio-group v-model="isCod">
+                <v-radio label="Cash on delivery" :value="true"></v-radio>
+                <v-radio v-if="hasCredit" label="Credit card" :value="false"></v-radio>
+              </v-radio-group>
             </v-col>
           </v-row>
         </v-container>
@@ -141,6 +149,8 @@ export default {
     unit: null,
     promo: null,
     points: null,
+    hasCredit: false,
+    isCod: true,
     possibleAddresses: [],
     selectedAddress: null,
     addressSearch: null,
@@ -227,10 +237,11 @@ export default {
         this.possibleAddresses = [];
       }
     },
-    async populatePoints() {
+    async populateAccountInfo() {
       const res = await axios.get("/customer/account");
       if (res.status == 200) {
         this.points = res.data[0].points;
+        this.hasCredit = res.data[0].creditcard != null ? true : false;
       }
     },
     async populateRecentAddresses() {
@@ -288,7 +299,8 @@ export default {
       let order = {
         rid: this.rid,
         items: this.items,
-        waiveFee: this.waive
+        waiveFee: this.waive,
+        isCod: this.isCod
       };
       if (this.isRecent) {
         order.addrInfo = this.selectedRecent;
@@ -318,7 +330,7 @@ export default {
   },
   async created() {
     this.populateRecentAddresses();
-    this.populatePoints();
+    this.populateAccountInfo();
     this.populatePromos();
   },
   components: {
