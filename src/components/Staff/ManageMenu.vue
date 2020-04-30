@@ -320,6 +320,9 @@ export default {
         this.editedItem.minspending = (
           Math.round(this.editedItem.price * 100) / 100
         ).toFixed(2);
+        this.editedItem.price = (
+          Math.round(this.editedItem.price * 100) / 100
+        ).toFixed(2);
         this.foodList.push(this.editedItem);
       }
       this.close();
