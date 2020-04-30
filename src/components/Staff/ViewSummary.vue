@@ -22,10 +22,50 @@
               <v-toolbar flat>
                 <v-toolbar-title>All Orders</v-toolbar-title>
                 <v-spacer></v-spacer>
+                <template v-slot:extension>
+                  <v-row justify="start">
+                    <v-col md="auto">Filter by:</v-col>
+                    <v-col sm="3" md="auto">
+                      <v-checkbox
+                        v-model="filterList"
+                        label="Delivered"
+                        color="green darken-2"
+                        value="Delivered"
+                      ></v-checkbox>
+                    </v-col>
+                    <v-col sm="3" md="auto">
+                      <v-checkbox
+                        v-model="filterList"
+                        label="Delivery in Progress"
+                        color="yellow darken-2"
+                        value="Delivery in Progress"
+                      ></v-checkbox>
+                    </v-col>
+                    <v-col sm="3" md="auto">
+                      <v-checkbox
+                        v-model="filterList"
+                        label="Awaiting Pick Up"
+                        color="red darken-2"
+                        value="Awaiting Pick Up"
+                      ></v-checkbox>
+                    </v-col>
+                    <v-col sm="3" md="auto">
+                      <v-checkbox
+                        v-model="filterList"
+                        label="Not Assigned"
+                        color="grey lighten-2"
+                        value="Not Assigned"
+                      ></v-checkbox>
+                    </v-col>
+                  </v-row>
+                </template>
               </v-toolbar>
             </template>
             <template v-slot:expanded-item="{ headers, item }">
               <td :colspan="headers.length">{{ item.itemsOrdered }}</td>
+            </template>
+            <template v-slot:item.status="{ item }">
+              <v-chip :color="getColor(item.status)" dark>{{ item.status }}</v-chip>
             </template>
           </v-data-table>
         </v-tab-item>
@@ -123,6 +163,7 @@ export default {
     expanded: [],
     toGetMostPopularFoodItems: null,
     orderList: [],
+    filteredOrderList: [],
     orderStats: [],
     promoStats: [],
     limitOptions: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
@@ -140,18 +181,51 @@ export default {
       "Nov",
       "Dec"
     ],
+    ColorEnum: {
+      Delivered: "green darken-2",
+      InProgress: "yellow darken-2",
+      PickUp: "red darken-2",
+      NotAssigned: "grey lighten-2"
+    },
     rid: null,
     menu: false,
     singleExpand: false,
+    filterList: [
+      "Delivered",
+      "Delivery in Progress",
+      "Awaiting Pick Up",
+      "Not Assigned"
+    ],
     foodList: [],
     orderHeaders: [
-      { text: "Order ID", sortable: true, value: "oid" },
-      { text: "Customer Name", sortable: true, value: "cname" },
-      { text: "Order Time", sortable: true, value: "orderTime" },
-      { text: "Delivered Time", sortable: true, value: "deliveredTime" },
-      { text: "Total Price (SGD)", sortable: true, value: "totalPrice" },
-      { text: "Rider Name", sortable: true, value: "rname" },
-      { text: "", value: "data-table-expand" }
+      { text: "Order ID", sortable: true, filterable: false, value: "oid" },
+      { text: "Status", sortable: true, value: "status" },
+      {
+        text: "Customer Name",
+        sortable: true,
+        filterable: false,
+        value: "cname"
+      },
+      {
+        text: "Order Time",
+        sortable: true,
+        filterable: false,
+        value: "orderTime"
+      },
+      {
+        text: "Delivered Time",
+        sortable: true,
+        filterable: false,
+        value: "deliveredTime"
+      },
+      {
+        text: "Total Price (SGD)",
+        sortable: true,
+        filterable: false,
+        value: "totalPrice"
+      },
+      { text: "Rider Name", sortable: true, filterable: false, value: "rname" },
+      { text: "", value: "data-table-expand", filterable: false }
     ],
     foodHeaders: [
       { text: "Food Items", sortable: true, value: "fname" },
@@ -208,12 +282,23 @@ export default {
         minDateArr[0] + "-" + minDateArr[1],
         maxDateArr[0] + "-" + maxDateArr[1]
       ];
+    },
+    getColor(status) {
+      if (status === "Delivered") {
+        return this.ColorEnum.Delivered;
+      } else if (status === "Delivery in Progress") {
+        return this.ColorEnum.InProgress;
+      } else if (status === "Awaiting Pick Up") {
+        return this.ColorEnum.PickUp;
+      }
+      return this.ColorEnum.NotAssigned;
     }
   },
   computed: {
     getAllOrders() {
       let items = this.orderList.map(item => ({
         oid: item.oid,
+        status: item.status,
         rname: item.rname,
         cname: item.cname,
         totalPrice: (item.finalprice / 100).toLocaleString("en-SG", {
@@ -224,7 +309,10 @@ export default {
         deliveredTime: new Date(item.deliveredtime).toLocaleString("en-SG"),
         itemsOrdered: item.itemsordered
       }));
-      return items;
+
+      return items.filter(item => {
+        return this.filterList.includes(item.status);
+      });
     },
     getOrderStatsItems() {
       let items = this.orderStats.map(item => ({
@@ -273,5 +361,10 @@ export default {
 <style scoped>
 .v-radio-group input {
   font-size: 1.1em;
+}
+</style>
+<style scoped>
+.v-chip {
+  font-size: 0.9em;
 }
 </style>
