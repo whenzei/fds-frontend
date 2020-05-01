@@ -70,6 +70,17 @@ const getSalaryInfo = async function (year) {
     }
 }
 
+const getSummaryInfo = async function (year) {
+    try {
+        const { data } = await axios.get(`/rider/summary/${year}`)
+        return data
+    }
+    catch (e) {
+        console.log(e)
+        throw e.response.data
+    }
+}
+
 const getRating = async function () {
     try {
         const { data } = await axios.get(`/rider/rating`)
@@ -83,5 +94,5 @@ const getRating = async function () {
 
 module.exports = {
     postPTScheduleUpdate, postFTScheduleUpdate, getShifts, getStartDaysOfMonth, RiderTypes, getAvailableOrders, getCurrentOrder, postOrderSelection, postOrderStatusUpdate, orderStatuses,
-    getSalaryInfo, getRating
+    getSalaryInfo, getRating, getSummaryInfo
 }
