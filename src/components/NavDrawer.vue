@@ -18,6 +18,7 @@
         <v-list-item-content :v-if="isLoggedIn">
           <v-list-item-title>{{name}}</v-list-item-title>
           <v-list-item-subtitle>{{role}}</v-list-item-subtitle>
+          <v-rating v-if="role === 'Rider'" half-increments x-small readonly :value="rating.value"></v-rating>
         </v-list-item-content>
       </v-list-item>
 
@@ -45,24 +46,37 @@ export default {
     color: "secondary",
     right: true,
     miniVariant: false,
-    expandOnHover: false,
+    expandOnHover: false
   }),
   computed: {
     ...mapGetters(["showNavDrawer", "name", "isLoggedIn", "role"]),
+    ...mapGetters({ rating: "rider/rating" }),
     items() {
       if (!this.isLoggedIn) return [];
       else if (this.role == "Rider") {
         return [
           { title: "Orders", icon: "mdi-cart", linkTo: "/rider/orders" },
-          { title: "Schedule", icon: "mdi-calendar-clock", linkTo: "/rider/schedule" },
-          { title: "Salary", icon: "mdi-cash-usd-outline", linkTo: "/rider/salary" },
-          { title: "Dashboard", icon: "mdi-view-dashboard", linkTo: "/rider/dashboard" },
+          {
+            title: "Schedule",
+            icon: "mdi-calendar-clock",
+            linkTo: "/rider/schedule"
+          },
+          {
+            title: "Salary",
+            icon: "mdi-cash-usd-outline",
+            linkTo: "/rider/salary"
+          },
+          {
+            title: "Dashboard",
+            icon: "mdi-view-dashboard",
+            linkTo: "/rider/dashboard"
+          },
           { title: "About", icon: "mdi-help-box", linkTo: "/rider/about" },
-          { title: "Recent", icon: "mdi-history", linkTo: "/rider/recent" },
+          { title: "Recent", icon: "mdi-history", linkTo: "/rider/recent" }
         ];
       } else return [];
     }
   },
-  methods: {}
+  methods: {},
 };
 </script>
