@@ -305,8 +305,8 @@ export default {
           style: "currency",
           currency: "SGD"
         }),
-        orderTime: new Date(item.ordertime).toLocaleString("en-SG"),
-        deliveredTime: new Date(item.deliveredtime).toLocaleString("en-SG"),
+        orderTime: new Date(item.ordertime).toLocaleString("en-SG", { hour12: false }),
+        deliveredTime: new Date(item.deliveredtime).toLocaleString("en-SG", { hour12: false }),
         itemsOrdered: item.itemsordered
       }));
 
