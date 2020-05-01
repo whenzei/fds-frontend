@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h2 style="color: orange; padding: 50px 50px"> FDS Orders Information</h2>
+        <h2 style="color: orange; padding: 50px 50px"> Most popular areas</h2>
         <v-container fluid>
             <v-row align="center">
                 <div style="width: 50em; display: inline-block">
@@ -13,11 +13,6 @@
                                 single-line
                                 hide-details
                         ></v-text-field>
-                    </v-col>
-                </div>
-                <div style="display: inline-block">
-                    <v-col class="d-flex" cols="12" sm="6">
-                        <v-select :items="years" label="Year" v-model="selectedYear" v-on:change="fetchOrdersSummary()" outlined ></v-select>
                     </v-col>
                 </div>
             </v-row>
@@ -33,37 +28,27 @@
 </template>
 
 <script>
-    const { getFDSOrdersSummary } = require("../../helpers/manager");
-    const _ = require("lodash");
+    const { getHourlyAreaOrdersSummary } = require("../../helpers/manager");
     export default {
         data: function() {
-            const thisYear = new Date().getFullYear();
             const header = [
-                { text: "Month", value: "month" },
-                { text: "Order Count", filterable: false, value: "order_count" },
+                { text: "Area Postal Code", value: "postalcode" },
+                { text: "Number of Orders", value: "count" },
+                { text: "Hour of the Day", value: "hour" },
             ];
-            const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
             return {
-                selectedYear: thisYear,
-                years: _.range(2018, thisYear + 1),
                 headers: header,
-                ordersInfo: [],
+                areaOrdersInfo: [],
                 itemsPerPage: 12,
-                months,
                 search: '',
             };
         },
         methods: {
-            fetchOrdersSummary() {
-                getFDSOrdersSummary()
+            fetchAreaOrderSummary() {
+                getHourlyAreaOrdersSummary()
                     .then(
                         salaryInfo => {
-                            this.ordersInfo = salaryInfo;
-                            let res = this.ordersInfo.filter(i => i.year == this.selectedYear);
-                            res.forEach(element => {
-                                element.month = this.months[element.month - 1];
-                            });
-                            this.ordersInfo = res;
+                            this.areaOrdersInfo = salaryInfo;
                         })
                     .catch(e => {
                         alert(e);
@@ -71,11 +56,11 @@
             }
         },
         created() {
-            this.fetchOrdersSummary();
+            this.fetchAreaOrderSummary();
         },
         computed: {
             tableItems() {
-                return this.ordersInfo;
+                return this.areaOrdersInfo;
             }
         }
     };

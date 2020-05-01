@@ -38,8 +38,7 @@
     export default {
         data: function() {
             const thisYear = new Date().getFullYear();
-            // const search: " ";
-            const fullTimeHeaders = [
+            const header = [
                 { text: "Rider Id", value: "riderid" },
                 { text: "Name", value: "name" },
                 { text: "Month", value: "month" },
@@ -50,8 +49,7 @@
             return {
                 selectedYear: thisYear,
                 years: _.range(2018, thisYear + 1),
-                fullTimeHeaders,
-                headers: fullTimeHeaders,
+                headers: header,
                 deliveryInfo: [],
                 itemsPerPage: 12,
                 months,

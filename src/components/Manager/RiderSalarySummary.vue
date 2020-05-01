@@ -7,7 +7,6 @@
             <v-col cols="12" sm="6">
                     <v-text-field
                             v-model="search"
-                            v-on:change="check"
                             append-icon="mdi-magnify"
                             label="Search"
                             single-line
@@ -38,8 +37,7 @@
     export default {
         data: function() {
             const thisYear = new Date().getFullYear();
-            // const search: " ";
-            const fullTimeHeaders = [
+            const header = [
                 { text: "Rider Id", value: "uid" },
                 { text: "Name", value: "name" },
                 { text: "Month", value: "month" },
@@ -50,13 +48,11 @@
             return {
                 selectedYear: thisYear,
                 years: _.range(2018, thisYear + 1),
-                fullTimeHeaders,
-                headers: fullTimeHeaders,
+                headers: header,
                 salaryInfo: [],
                 itemsPerPage: 12,
                 months,
                 search: '',
-                lol: false
             };
         },
         methods: {
@@ -74,11 +70,6 @@
                     .catch(e => {
                         alert(e);
                     });
-            },
-            check() {
-                this.lol = this.selectedYear === 2019;
-                console.log(this.lol)
-                return this.lol
             }
         },
         created() {

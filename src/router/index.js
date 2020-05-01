@@ -24,6 +24,8 @@ import RiderRatingSummary from "../components/Manager/RiderRatingSummary";
 import CustomerOrderSummary from "../components/Manager/CustomerOrderSummary";
 import FDSSalesSummary from "../components/Manager/FDSSalesSummary";
 import FDSOrderSummary from "../components/Manager/FDSOrderSummary";
+import UserSignupSummary from "../components/Manager/UserSignupSummary";
+import HourlyAreaSummary from "../components/Manager/HourlyAreaSummary";
 
 Vue.use(VueRouter);
 
@@ -167,6 +169,16 @@ const router = new VueRouter({
         {
             path:'/manager/orders/fds-orders-summary',
             component: FDSOrderSummary,
+            beforeEnter: (to, from, next) => navGuard(to, from, next, 'Manager')
+        },
+        {
+            path:'/manager/user-signup-summary',
+            component: UserSignupSummary,
+            beforeEnter: (to, from, next) => navGuard(to, from, next, 'Manager')
+        },
+        {
+            path:'/manager/orders/area-hourly-orders',
+            component: HourlyAreaSummary,
             beforeEnter: (to, from, next) => navGuard(to, from, next, 'Manager')
         }
     ]

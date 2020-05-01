@@ -1,7 +1,9 @@
 <template>
     <div>
-        <h2 style="color: orange; padding: 50px 50px"> Rider Rating Information</h2>
+        <h2 style="color: orange; padding: 50px 50px"> Customer Sign ups Information</h2>
         <v-container fluid>
+            <div style="width: 90%; margin: 0 auto">
+
             <v-row align="center">
                 <div style="width: 50em; display: inline-block">
                     <v-col cols="12" sm="6">
@@ -17,7 +19,7 @@
                 </div>
                 <div style="display: inline-block">
                     <v-col class="d-flex" cols="12" sm="6">
-                        <v-select :items="years" label="Year" v-model="selectedYear" v-on:change="fetchRatingInfo()" outlined ></v-select>
+                        <v-select :items="years" label="Year" v-model="selectedYear" v-on:change="fetchUserSignupSummary()" outlined ></v-select>
                     </v-col>
                 </div>
             </v-row>
@@ -28,45 +30,43 @@
                     :search="search"
             >
             </v-data-table>
+            </div>
         </v-container>
     </div>
 </template>
 
 <script>
-    const { getRiderRatingSummary } = require("../../helpers/manager");
+    const { getUserSignUpSummary } = require("../../helpers/manager");
     const _ = require("lodash");
     export default {
         data: function() {
             const thisYear = new Date().getFullYear();
-            const header = [
-                { text: "Rider Id", value: "uid" },
-                { text: "Name", value: "name" },
+            const headers = [
                 { text: "Month", value: "month" },
-                { text: "Number of ratings", filterable: false, value: "count" },
-                { text: "Average Rating", value: "avg_rating", filterable: false },
+                { text: "Number of sign ups", filterable: false, value: "signups" },
             ];
             const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
             return {
                 selectedYear: thisYear,
                 years: _.range(2018, thisYear + 1),
-                headers: header,
-                ratingsInfo: [],
+                headers: headers,
+                signupInfo: [],
                 itemsPerPage: 12,
                 months,
                 search: '',
             };
         },
         methods: {
-            fetchRatingInfo() {
-                getRiderRatingSummary()
+            fetchUserSignupSummary() {
+                getUserSignUpSummary()
                     .then(
                         salaryInfo => {
-                            this.ratingsInfo = salaryInfo;
-                            let res = this.ratingsInfo.filter(i => i.year == this.selectedYear);
+                            this.signupInfo = salaryInfo;
+                            let res = this.signupInfo.filter(i => i.year == this.selectedYear);
                             res.forEach(element => {
                                 element.month = this.months[element.month - 1];
                             });
-                            this.ratingsInfo = res;
+                            this.signupInfo = res;
                         })
                     .catch(e => {
                         alert(e);
@@ -74,11 +74,12 @@
             }
         },
         created() {
-            this.fetchRatingInfo();
+            this.fetchUserSignupSummary();
         },
         computed: {
             tableItems() {
-                return this.ratingsInfo;
+
+                return this.signupInfo;
             }
         }
     };

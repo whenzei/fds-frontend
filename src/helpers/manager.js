@@ -77,10 +77,30 @@ const signupUser = async function (name, username, Role, rid, password) {
         throw e.response.data
     }
 
-}
+};
+
+const getUserSignUpSummary = async function () {
+    try {
+        const { data } = await axios.get(`/manager/customer-signup-summary/`);
+        return data
+    }
+    catch (e) {
+        throw e.response.data
+    }
+};
+
+const getHourlyAreaOrdersSummary = async function () {
+    try {
+        const {data} = await axios.get(`/manager/orders/area-order-summary/`);
+        return data
+    } catch (e) {
+        throw e.response.data;
+    }
+};
+
 
 
 module.exports = {
      getSalarySummary, getRiderDeliverySummary, getRiderRatingSummary, getCustomerOrderSummary, getRestaurantSalesSummary, getFDSOrdersSummary,
-    signupUser
+    signupUser, getUserSignUpSummary, getHourlyAreaOrdersSummary
 }

@@ -40,8 +40,7 @@
     export default {
         data: function() {
             const thisYear = new Date().getFullYear();
-            // const search: " ";
-            const fullTimeHeaders = [
+            const header = [
                 { text: "Month", value: "month" },
                 { text: "Total Sales", filterable: false, value: "monthly_sales" },
             ];
@@ -49,8 +48,7 @@
             return {
                 selectedYear: thisYear,
                 years: _.range(2018, thisYear + 1),
-                fullTimeHeaders,
-                headers: fullTimeHeaders,
+                headers: header,
                 salesInfo: [],
                 itemsPerPage: 12,
                 months,

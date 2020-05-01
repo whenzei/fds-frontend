@@ -125,6 +125,29 @@
 
                 <v-list-item three-line>
                     <v-list-item-content>
+                        <v-list-item-title class="headline mb-1">Most popular areas</v-list-item-title>
+                        <v-list-item-subtitle>Details about hourly orders from different areas <up></up></v-list-item-subtitle>
+                    </v-list-item-content>
+
+                </v-list-item>
+
+                <v-card-actions>
+                    <router-link to="/manager/orders/area-hourly-orders">
+                        <v-btn text>View Summary</v-btn>
+                    </router-link>
+                </v-card-actions>
+            </v-card>
+
+            <v-card
+                    class="mx-auto card-tile"
+                    max-width="344"
+                    shape
+                    elevation=12
+
+            >
+
+                <v-list-item three-line>
+                    <v-list-item-content>
                         <v-list-item-title class="headline mb-1">User Signup statistics</v-list-item-title>
                         <v-list-item-subtitle>Details about monthly user sign ups <up></up></v-list-item-subtitle>
                     </v-list-item-content>
@@ -132,11 +155,12 @@
                 </v-list-item>
 
                 <v-card-actions>
-                    <router-link to="/manager/rider/user-signup-summary">
+                    <router-link to="/manager/user-signup-summary">
                         <v-btn text>View Summary</v-btn>
                     </router-link>
                 </v-card-actions>
             </v-card>
+
 
             <v-card
                     class="mx-auto card-tile"
