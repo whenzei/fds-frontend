@@ -161,7 +161,6 @@
                 </v-card-actions>
             </v-card>
 
-
             <v-card
                     class="mx-auto card-tile"
                     max-width="344"

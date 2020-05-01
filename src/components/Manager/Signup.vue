@@ -14,7 +14,7 @@
         <v-text-field
                 color="orange"
                 v-model="name"
-                :counter="10"
+                :counter="20"
                 :rules="nameRules"
                 label="Name"
                 required
@@ -74,7 +74,7 @@
             password: '',
             nameRules: [
                 v => !!v || 'Name is required',
-                v => (v && v.length <= 10) || 'Name must be less than 10 characters',
+                v => (v && v.length <= 20) || 'Name must be less than 20 characters',
             ],
             items: [
                 'Rider',
