@@ -52,7 +52,7 @@
             </v-dialog>
           </v-card-text>
 
-          <v-col cols="3" md="3">
+          <v-col cols="4" md="1">
             <v-row justify="end">
               <v-btn color="orange darken-2" dark class="mb-2" @click="getFoodList">
                 <v-icon>mdi-refresh</v-icon>
@@ -62,9 +62,11 @@
 
           <v-dialog v-model="itemDialog" max-width="700px">
             <template v-slot:activator="{ on }">
-              <v-col cols="4" md="2">
+              <v-col cols="4" md="1">
                 <v-row justify="end">
-                  <v-btn color="orange darken-2" dark class="mb-2" v-on="on">New Item</v-btn>
+                  <v-btn color="orange darken-2" dark class="mb-2" v-on="on">
+                    <v-icon>mdi-plus</v-icon>
+                  </v-btn>
                 </v-row>
               </v-col>
             </template>
