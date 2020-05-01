@@ -3,7 +3,7 @@
     <v-data-table :headers="foodHeaders" :items="foodList" class="elevation-1">
       <template v-slot:top>
         <v-toolbar color="black orange--text text--darken-2" flat>
-          <v-card>
+          <v-card color="black orange--text text--darken-2">
             <v-toolbar-title color="orange darken-2">Restaurant Menu</v-toolbar-title>
           </v-card>
           <v-card-text>
@@ -54,7 +54,9 @@
 
           <v-col cols="3" md="3">
             <v-row justify="end">
-              <v-btn color="orange darken-2" dark class="mb-2" @click="getFoodList">Refresh</v-btn>
+              <v-btn color="orange darken-2" dark class="mb-2" @click="getFoodList">
+                <v-icon>mdi-refresh</v-icon>
+              </v-btn>
             </v-row>
           </v-col>
 

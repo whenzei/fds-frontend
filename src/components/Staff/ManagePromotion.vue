@@ -5,9 +5,11 @@
         <v-toolbar color="black orange--text text--darken-2" flat>
           <v-toolbar-title color="orange darken-2">Promotions</v-toolbar-title>
           <v-spacer></v-spacer>
-          <v-col cols="4" md="3">
+          <v-col cols="4" md="2">
             <v-row justify="end">
-              <v-btn color="orange darken-2" dark class="mb-2" @click="getPromos">Refresh</v-btn>
+              <v-btn color="orange darken-2" dark class="mb-2" @click="getPromos" >
+                <v-icon>mdi-refresh</v-icon>
+              </v-btn>
             </v-row>
           </v-col>
 
