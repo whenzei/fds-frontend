@@ -65,11 +65,16 @@ export default new Vuex.Store({
             try {
                 const res = await axios(payload);
                 if (res.status == 200 || res.status == 202) {
-                    commit('setData', res.data);
-                    this.dispatch('rider/fetchRiderType')
+                    commit('setData', res.data);                    
+                    if (res.data.user.role === "Rider") {
+                        this.dispatch('rider/fetchRiderType');
+                    } else if (res.data.user.role === "Staff") {
+                        this.dispatch('staff/fetchRestaurantInfo');
+                    }
                     return res.data.user.role;
                 }
             } catch (error) {
+                console.log(error)
                 return 401;
             }
         },
