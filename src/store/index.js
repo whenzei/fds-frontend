@@ -69,12 +69,11 @@ export default new Vuex.Store({
                     if (res.data.user.role === "Rider") {
                         this.dispatch('rider/fetchRiderType');
                     } else if (res.data.user.role === "Staff") {
-                        this.dispatch('staff/fetchRestaurantInfo');
+                        await this.dispatch('staff/fetchRestaurantInfo');
                     }
                     return res.data.user.role;
                 }
             } catch (error) {
-                console.log(error)
                 return 401;
             }
         },

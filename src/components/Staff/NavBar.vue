@@ -16,28 +16,27 @@
       <v-btn class="ml-10 orange--text text--darken-1" outlined>View Summary</v-btn>
     </router-link>
     <v-spacer></v-spacer>
-    <v-card-text class=text-end>{{ staffName }} ({{ rname }})</v-card-text>
+    <v-card-text class=text-end>{{ getStaffName }} ({{ getRname }})</v-card-text>
     <v-btn outlined color="orange" @click="logout">Logout</v-btn>
   </v-app-bar>
 </template>
 
 <script>
 export default {
-  data: () => ({
-    rname: null,
-    staffName: null
-  }),
-  computed: {},
+  data: () => ({}),
+  computed: {
+    getRname() {
+      return this.$store.getters["staff/restaurantName"];
+    },
+    getStaffName() {
+      return this.$store.getters.name;
+    }
+  },
   methods: {
     async logout() {
       await this.$store.dispatch("logout");
       this.$router.push("/");
     }
-  },
-  created() {
-    console.log(this.$store.getters["staff/restaurantName"])
-    this.rname = this.$store.getters["staff/restaurantName"];
-    this.staffName = this.$store.getters.name;
   }
 };
 </script>
