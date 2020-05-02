@@ -72,7 +72,7 @@ import {
   postOrderStatusUpdate
 } from "../../helpers/rider";
 import { formatCurrency, formatDistance } from "../../helpers/format";
-
+import _ from "lodash"
 export default {
   data: function() {
     return {
@@ -109,7 +109,13 @@ export default {
         this.lng = 103.851959;
         this.lat = 1.29027;
       }
-      getCurrentOrder(this.lng, this.lat).then(order => (this.order = order));
+      getCurrentOrder(this.lng, this.lat).then(order => {
+        if (_.isEmpty(order)) {
+          this.$router.push({ name: "RiderOrders" });
+        } else {
+          this.order = order;
+        }
+      });
     }
   },
   computed: {

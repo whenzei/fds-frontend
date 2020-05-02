@@ -110,7 +110,7 @@
       </template>
     </v-data-iterator>
     <div class="text-center" v-if="loading">
-      <v-progress-circular  :size="50" color="primary" indeterminate></v-progress-circular>
+      <v-progress-circular :size="50" color="primary" indeterminate></v-progress-circular>
     </div>
   </v-container>
 </template>
