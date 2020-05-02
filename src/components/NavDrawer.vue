@@ -66,17 +66,11 @@ export default {
             icon: "mdi-cash-usd-outline",
             linkTo: "/rider/salary"
           },
-          {
-            title: "Dashboard",
-            icon: "mdi-view-dashboard",
-            linkTo: "/rider/dashboard"
-          },
-          { title: "About", icon: "mdi-help-box", linkTo: "/rider/about" },
-          { title: "Recent", icon: "mdi-history", linkTo: "/rider/recent" }
+          { title: "Summary", icon: "mdi-history", linkTo: "/rider/summary" }
         ];
       } else return [];
     }
   },
-  methods: {},
+  methods: {}
 };
 </script>
