@@ -1,6 +1,6 @@
 <template>
   <v-app-bar app color="black" dark>
-    <router-link to="/">
+    <router-link to="/staff/manage-menu">
       <div class="d-flex align-center">
         <v-icon large class="orange--text text--darken-1">mdi-bike-fast</v-icon>
         <span class="ml-2 orangeText">FDS</span>
