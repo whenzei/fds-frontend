@@ -113,7 +113,12 @@
 </template>
 
 <script>
-import { postOrderSelection, getAvailableOrders } from "../../helpers/rider";
+import {
+  postOrderSelection,
+  getAvailableOrders,
+  getCurrentOrder
+} from "../../helpers/rider";
+import _ from "lodash"
 import { formatCurrency, formatDistance } from "../../helpers/format";
 
 export default {
@@ -170,11 +175,13 @@ export default {
       this.itemsPerPage = number;
     },
     selectOrder(oid) {
-      postOrderSelection(oid).then(() => {
-        this.$router.push({ name: "RiderCurrentOrder" });
-      }).catch((e) => {
-        alert(e)
-      })
+      postOrderSelection(oid)
+        .then(() => {
+          this.$router.push({ name: "RiderCurrentOrder" });
+        })
+        .catch(e => {
+          alert(e);
+        });
     }
   },
   async created() {
@@ -188,9 +195,16 @@ export default {
       this.lng = 103.851959;
       this.lat = 1.29027;
     }
-    getAvailableOrders(this.lng, this.lat).then(
-      availableOrders => (this.items = availableOrders)
-    );
+    getCurrentOrder(this.lng, this.lat).then(order => {
+      console.log(order)
+      if (!_.isEmpty(order)) {
+        this.$router.push({ name: "RiderCurrentOrder" });
+      } else {
+        getAvailableOrders(this.lng, this.lat).then(
+          availableOrders => (this.items = availableOrders)
+        );
+      }
+    });
   }
 };
 </script>
