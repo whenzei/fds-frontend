@@ -109,6 +109,9 @@
         </v-row>
       </template>
     </v-data-iterator>
+    <div class="text-center" v-if="loading">
+      <v-progress-circular  :size="50" color="primary" indeterminate></v-progress-circular>
+    </div>
   </v-container>
 </template>
 
@@ -118,12 +121,13 @@ import {
   getAvailableOrders,
   getCurrentOrder
 } from "../../helpers/rider";
-import _ from "lodash"
+import _ from "lodash";
 import { formatCurrency, formatDistance } from "../../helpers/format";
 
 export default {
   data() {
     return {
+      loading: false,
       lng: 0,
       lat: 0,
       itemsPerPageArray: [20, 50, 100],
@@ -185,6 +189,7 @@ export default {
     }
   },
   async created() {
+    this.loading = true;
     try {
       const coords = await this.$getLocation();
       this.lng = coords.lng;
@@ -196,13 +201,13 @@ export default {
       this.lat = 1.29027;
     }
     getCurrentOrder(this.lng, this.lat).then(order => {
-      console.log(order)
       if (!_.isEmpty(order)) {
         this.$router.push({ name: "RiderCurrentOrder" });
       } else {
-        getAvailableOrders(this.lng, this.lat).then(
-          availableOrders => (this.items = availableOrders)
-        );
+        getAvailableOrders(this.lng, this.lat).then(availableOrders => {
+          this.loading = false;
+          this.items = availableOrders;
+        });
       }
     });
   }
