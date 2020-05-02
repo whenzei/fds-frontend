@@ -53,7 +53,7 @@
                       <v-checkbox
                         v-model="filterList"
                         label="Not Assigned"
-                        color="grey lighten-2"
+                        color="grey darken-2"
                         value="Not Assigned"
                       ></v-checkbox>
                     </v-col>
@@ -185,7 +185,7 @@ export default {
       Delivered: "green darken-2",
       InProgress: "yellow darken-2",
       PickUp: "red darken-2",
-      NotAssigned: "grey lighten-2"
+      NotAssigned: "grey darken-2"
     },
     rid: null,
     menu: false,
@@ -224,7 +224,7 @@ export default {
         filterable: false,
         value: "totalPrice"
       },
-      { text: "Rider Name", sortable: true, filterable: false, value: "rname" },
+      { text: "Rider Name", sortable: true, filterable: false, value: "ridername" },
       { text: "", value: "data-table-expand", filterable: false }
     ],
     foodHeaders: [
@@ -299,17 +299,17 @@ export default {
       let items = this.orderList.map(item => ({
         oid: item.oid,
         status: item.status,
-        rname: item.rname,
+        ridername: item.ridername,
         cname: item.cname,
         totalPrice: (item.finalprice / 100).toLocaleString("en-SG", {
           style: "currency",
           currency: "SGD"
         }),
         orderTime: new Date(item.ordertime).toLocaleString("en-SG", { hour12: false }),
-        deliveredTime: new Date(item.deliveredtime).toLocaleString("en-SG", { hour12: false }),
+        deliveredTime: item.deliveredtime ? new Date(item.deliveredtime).toLocaleString("en-SG") : null,
         itemsOrdered: item.itemsordered
       }));
-
+      
       return items.filter(item => {
         return this.filterList.includes(item.status);
       });
