@@ -45,6 +45,11 @@
               {{order.status}}
             </v-list-item>
             <v-list-item>
+              Payment Method:
+              <v-spacer />
+              {{order["Payment Method"]}}
+            </v-list-item>
+            <v-list-item>
               Ordered Items:
               <v-spacer />
               <v-list dense>
