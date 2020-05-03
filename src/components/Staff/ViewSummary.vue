@@ -72,6 +72,19 @@
         <v-tab-item>
           <v-toolbar flat>
             <v-toolbar-title>Monthly Breakdown</v-toolbar-title>
+            <v-spacer></v-spacer>
+            <v-row justify="end">
+              <v-col lg="4">
+                <v-select
+                  class="mt-8"
+                  v-model="selectedYearForSummary"
+                  color="orange darken-2"
+                  item-color="orange darken-2"
+                  :items="yearList"
+                  label="Select year"
+                ></v-select>
+              </v-col>
+            </v-row>
           </v-toolbar>
           <v-col>
             <v-data-table :headers="orderStatsHeaders" :items="getOrderStatsItems"></v-data-table>
@@ -166,6 +179,8 @@ export default {
     filteredOrderList: [],
     orderStats: [],
     promoStats: [],
+    yearList: [],
+    selectedYearForSummary: "All",
     limitOptions: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
     mlist: [
       "Jan",
@@ -224,7 +239,12 @@ export default {
         filterable: false,
         value: "totalPrice"
       },
-      { text: "Rider Name", sortable: true, filterable: false, value: "ridername" },
+      {
+        text: "Rider Name",
+        sortable: true,
+        filterable: false,
+        value: "ridername"
+      },
       { text: "", value: "data-table-expand", filterable: false }
     ],
     foodHeaders: [
@@ -305,11 +325,15 @@ export default {
           style: "currency",
           currency: "SGD"
         }),
-        orderTime: new Date(item.ordertime).toLocaleString("en-SG", { hour12: false }),
-        deliveredTime: item.deliveredtime ? new Date(item.deliveredtime).toLocaleString("en-SG") : null,
+        orderTime: new Date(item.ordertime).toLocaleString("en-SG", {
+          hour12: false
+        }),
+        deliveredTime: item.deliveredtime
+          ? new Date(item.deliveredtime).toLocaleString("en-SG")
+          : null,
         itemsOrdered: item.itemsordered
       }));
-      
+
       return items.filter(item => {
         return this.filterList.includes(item.status);
       });
@@ -324,7 +348,13 @@ export default {
         mth: this.mlist[item.mth - 1],
         yr: item.yr
       }));
-      return items;
+
+      if (this.selectedYearForSummary == "All") {
+        return items;
+      }
+      return items.filter(item => {
+        return item.yr == this.selectedYearForSummary;
+      });
     },
     getFoodItems() {
       let items = this.foodList.map(item => ({
@@ -346,6 +376,17 @@ export default {
   async created() {
     this.rid = this.$store.getters["staff/rid"];
     [this.minDate, this.maxDate] = await this.getMinMaxDate();
+    let yearList = [];
+    for (
+      var i = parseInt(this.minDate.substring(0, 5));
+      i <= parseInt(this.maxDate.substring(0, 5));
+      i++
+    ) {
+      yearList.push(i);
+    }
+    yearList.push("All");
+    console.log(yearList);
+    this.yearList = yearList;
 
     const today = new Date();
     this.chosenDate = today.getFullYear() + "-" + today.getMonth();
