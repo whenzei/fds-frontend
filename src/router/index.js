@@ -5,8 +5,7 @@ import Customer from '@/components/Customer/Customer'
 import CustomerBrowse from '@/components/Customer/Browse'
 import CustomerOrders from '@/components/Customer/Orders'
 import Rider from '@/components/Rider/Rider'
-import Staff from '@/components/Staff/Staff'
-import RiderSalarySummary from '@/components/Manager/RiderSalarySummary'
+import ViewSummary from '@/components/Staff/ViewSummary'
 import ManagePromotion from '@/components/Staff/ManagePromotion'
 import ManageMenu from '@/components/Staff/ManageMenu'
 import RiderSalary from '@/components/Rider/Salary'
@@ -27,6 +26,8 @@ import FDSSalesSummary from "../components/Manager/FDSSalesSummary";
 import FDSOrderSummary from "../components/Manager/FDSOrderSummary";
 import UserSignupSummary from "../components/Manager/UserSignupSummary";
 import HourlyAreaSummary from "../components/Manager/HourlyAreaSummary";
+import RiderSalarySummary from '@/components/Manager/RiderSalarySummary'
+
 
 Vue.use(VueRouter);
 
@@ -67,24 +68,19 @@ const router = new VueRouter({
             beforeEnter: (to, from, next) => navGuard(to, from, next, 'Customer')
         },
         {
-            path: '/staff',
+            path: '/staff/manage-menu',
             name: 'Staff',
-            component: Staff,
+            component: ManageMenu,
             beforeEnter: (to, from, next) => navGuard(to, from, next, 'Staff')
         },
         {
             path: '/staff/view-summary',
-            component: RiderSalarySummary,
+            component: ViewSummary,
             beforeEnter: (to, from, next) => navGuard(to, from, next, 'Staff')
         },
         {
             path: '/staff/manage-promo',
             component: ManagePromotion,
-            beforeEnter: (to, from, next) => navGuard(to, from, next, 'Staff')
-        },
-        {
-            path: '/staff/manage-menu',
-            component: ManageMenu,
             beforeEnter: (to, from, next) => navGuard(to, from, next, 'Staff')
         },
         {

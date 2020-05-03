@@ -5,15 +5,17 @@
         <v-toolbar color="black orange--text text--darken-2" flat>
           <v-toolbar-title color="orange darken-2">Promotions</v-toolbar-title>
           <v-spacer></v-spacer>
-          <v-col cols="4" md="3">
+          <v-col cols="4" md="1">
             <v-row justify="end">
-              <v-btn color="orange darken-2" dark class="mb-2" @click="getPromos">Refresh</v-btn>
+              <v-btn color="orange darken-2" dark class="mb-2" @click="getPromos" >
+                <v-icon>mdi-refresh</v-icon>
+              </v-btn>
             </v-row>
           </v-col>
 
           <v-dialog v-model="dialog" max-width="700px">
             <template v-slot:activator="{ on }">
-              <v-col cols="4" md="2">
+              <v-col cols="4" md="1">
                 <v-row justify="end">
                   <v-btn
                     color="orange darken-2"
@@ -21,7 +23,9 @@
                     class="mb-2"
                     @click="resetDates"
                     v-on="on"
-                  >New Item</v-btn>
+                  >
+                    <v-icon>mdi-plus</v-icon>
+                  </v-btn>
                 </v-row>
               </v-col>
             </template>
