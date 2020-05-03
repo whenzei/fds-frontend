@@ -5,8 +5,27 @@
         <v-card>
           <v-toolbar class="black">
             <v-toolbar-title>Restaurants</v-toolbar-title>
+            <v-spacer></v-spacer>
+            <v-btn class="black" @click="getRestaurants" small>
+              <v-icon class="orange--text">mdi-refresh</v-icon>
+            </v-btn>
+            <v-btn :class="isSearch ? 'gray':'black'" @click="isSearch = (!isSearch)" small>
+              <v-icon class="orange--text">mdi-magnify</v-icon>
+            </v-btn>
           </v-toolbar>
-          <v-list>
+          <v-card flat v-if="isSearch" class="grey darken-4">
+            <div class="ml-4 mt-4 white--text">Filter by food name or restaurant name</div>
+            <v-row class="justify-center ml-3">
+              <v-col lg="8">
+                <v-text-field color="orange" v-model="search" outlined></v-text-field>
+              </v-col>
+              <v-col lg="4">
+                <v-btn color="orange darken-2" @click="filterSearch" :disabled="!search">Apply</v-btn>
+              </v-col>
+            </v-row>
+            <v-divider></v-divider>
+          </v-card>
+          <v-list style="max-height: 800px" class="overflow-y-auto">
             <v-list-item
               @click="getMenu(restaurant)"
               v-for="restaurant in restaurants"
@@ -49,7 +68,9 @@ export default {
     menu: null,
     rname: "",
     minSpending: null,
-    rid: null
+    rid: null,
+    isSearch: false,
+    search: ""
   }),
   methods: {
     async getMenu(restaurant) {
@@ -66,6 +87,12 @@ export default {
       if (res.status == 200) {
         this.restaurants = res.data;
       }
+    },
+    async filterSearch() {
+      const res = await axios.get(`/customer/restaurants/search=${this.search}`)
+      if (res.status == 200) {
+        this.restaurants = res.data
+      }
     }
   },
   async created() {
@@ -79,5 +106,8 @@ export default {
 <style scoped>
 * {
   color: #fb8c00;
+}
+.selected {
+  background-color: gray;
 }
 </style>

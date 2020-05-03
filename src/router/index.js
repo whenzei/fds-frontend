@@ -14,6 +14,7 @@ import RiderCurrentOrder from '@/components/Rider/CurrentOrder'
 import RiderUpdatePTSchedule from '@/components/Rider/UpdatePTSchedule'
 import RiderUpdateFTSchedule from '@/components/Rider/UpdateFTSchedule'
 import RiderSchedule from '@/components/Rider/Schedule'
+import RiderSummary from '@/components/Rider/Summary'
 import Manager from '@/components/Manager/Manager'
 import ErrorLanding from '@/components/ErrorLanding'
 import store from '../store'
@@ -107,6 +108,12 @@ const router = new VueRouter({
             path: '/rider/update-ft-schedule',
             name: 'RiderUpdateFTSchedule',
             component: RiderUpdateFTSchedule,
+            beforeEnter: (to, from, next) => navGuard(to, from, next, 'Rider')
+        },
+        {
+            path: '/rider/summary',
+            name: 'RiderSummary',
+            component: RiderSummary,
             beforeEnter: (to, from, next) => navGuard(to, from, next, 'Rider')
         },
         {

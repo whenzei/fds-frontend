@@ -1,6 +1,6 @@
 <template>
   <v-container class="fill-height" fluid>
-    <v-row align="center" justify="center">
+    <v-row v-if="!loading" align="center" justify="center">
       <v-col cols="12" sm="8" md="4">
         <v-card class="elevation-12">
           <v-toolbar :color="layoutColor" dark flat>
@@ -45,6 +45,11 @@
               {{order.status}}
             </v-list-item>
             <v-list-item>
+              Payment Method:
+              <v-spacer />
+              {{order["Payment Method"]}}
+            </v-list-item>
+            <v-list-item>
               Ordered Items:
               <v-spacer />
               <v-list dense>
@@ -62,6 +67,9 @@
         </v-card>
       </v-col>
     </v-row>
+    <v-row v-if="loading" align="center" justify="center">
+      <v-progress-circular :size="50" color="primary" indeterminate></v-progress-circular>
+    </v-row>
   </v-container>
 </template>
 
@@ -72,11 +80,12 @@ import {
   postOrderStatusUpdate
 } from "../../helpers/rider";
 import { formatCurrency, formatDistance } from "../../helpers/format";
-
+import _ from "lodash";
 export default {
   data: function() {
     return {
-      order: {}
+      order: {},
+      loading: false
     };
   },
   props: {
@@ -99,6 +108,7 @@ export default {
     formatCurrency,
     formatDistance,
     async fetchOrder() {
+      this.loading = true;
       try {
         const coords = await this.$getLocation();
         this.lng = coords.lng;
@@ -109,7 +119,14 @@ export default {
         this.lng = 103.851959;
         this.lat = 1.29027;
       }
-      getCurrentOrder(this.lng, this.lat).then(order => (this.order = order));
+      getCurrentOrder(this.lng, this.lat).then(order => {
+        if (_.isEmpty(order)) {
+          this.$router.push({ name: "RiderOrders" });
+        } else {
+          this.loading = false;
+          this.order = order;
+        }
+      });
     }
   },
   computed: {
