@@ -93,60 +93,63 @@
         <v-tab-item>
           <v-toolbar flat>
             <v-toolbar-title>Food Summary</v-toolbar-title>
-          </v-toolbar>
-          <v-row>
-            <v-col cols="3" class="mt-4">
-              <v-menu
-                v-model="menu"
-                :close-on-content-click="false"
-                :nudge-right="20"
-                transition="scale-transition"
-                offset-y
-                min-width="290px"
-              >
-                <template v-slot:activator="{ on }">
-                  <v-text-field
-                    v-model="chosenDate"
+            <template v-slot:extension>
+              <v-row justify="start">
+                <v-col cols="3" class="mt-4">
+                  <v-menu
+                    v-model="menu"
+                    :close-on-content-click="false"
+                    :nudge-right="20"
+                    transition="scale-transition"
+                    offset-y
+                    min-width="290px"
+                  >
+                    <template v-slot:activator="{ on }">
+                      <v-text-field
+                        v-model="chosenDate"
+                        color="orange darken-2"
+                        label="Choose month and year"
+                        readonly
+                        v-on="on"
+                      ></v-text-field>
+                    </template>
+                    <v-date-picker
+                      v-model="chosenDate"
+                      type="month"
+                      class="mt-4"
+                      :min="minDate"
+                      :max="maxDate"
+                      color="orange darken-3"
+                      @input="getFoodCount(chosenDate); menu = false;"
+                    ></v-date-picker>
+                  </v-menu>
+                </v-col>
+                <v-col cols="2" class="mt-4">
+                  <v-select
+                    v-model="limit"
+                    :items="limitOptions"
+                    max-width="190px"
                     color="orange darken-2"
-                    label="Choose month and year"
-                    readonly
-                    v-on="on"
-                  ></v-text-field>
-                </template>
-                <v-date-picker
-                  v-model="chosenDate"
-                  type="month"
-                  class="mt-4"
-                  :min="minDate"
-                  :max="maxDate"
-                  color="orange darken-3"
-                  @input="getFoodCount(chosenDate); menu = false;"
-                ></v-date-picker>
-              </v-menu>
-            </v-col>
-            <v-col cols="4" class="mt-4">
-              <v-select
-                v-model="limit"
-                :items="limitOptions"
-                max-width="190px"
-                color="orange darken-3"
-                label="Limit number of results"
-                @change="getFoodCount(chosenDate)"
-              ></v-select>
-            </v-col>
-            <v-col class="mt-4">
-              <v-radio-group
-                v-model="toGetMostPopularFoodItems"
-                label="Sort by"
-                :mandatory="true"
-                row
-                @change="getFoodCount(chosenDate)"
-              >
-                <v-radio label="Most popular" color="orange darken-3" value="true"></v-radio>
-                <v-radio label="Least popular" color="orange darken-3" value="false"></v-radio>
-              </v-radio-group>
-            </v-col>
-          </v-row>
+                    item-color="orange darken-3"
+                    label="Limit number of results"
+                    @change="getFoodCount(chosenDate)"
+                  ></v-select>
+                </v-col>
+                <v-col class="mt-4">
+                  <v-radio-group
+                    v-model="toGetMostPopularFoodItems"
+                    label="Sort by"
+                    :mandatory="true"
+                    row
+                    @change="getFoodCount(chosenDate)"
+                  >
+                    <v-radio label="Most popular" color="orange darken-3" value="true"></v-radio>
+                    <v-radio label="Least popular" color="orange darken-3" value="false"></v-radio>
+                  </v-radio-group>
+                </v-col>
+              </v-row>
+            </template>
+          </v-toolbar>
           <v-col>
             <v-data-table :headers="foodHeaders" :items="getFoodItems" hide-default-footer></v-data-table>
           </v-col>
@@ -385,7 +388,6 @@ export default {
       yearList.push(i);
     }
     yearList.push("All");
-    console.log(yearList);
     this.yearList = yearList;
 
     const today = new Date();
