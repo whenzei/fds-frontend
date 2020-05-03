@@ -5,7 +5,6 @@ import Customer from '@/components/Customer/Customer'
 import CustomerBrowse from '@/components/Customer/Browse'
 import CustomerOrders from '@/components/Customer/Orders'
 import Rider from '@/components/Rider/Rider'
-import Staff from '@/components/Staff/Staff'
 import ViewSummary from '@/components/Staff/ViewSummary'
 import ManagePromotion from '@/components/Staff/ManagePromotion'
 import ManageMenu from '@/components/Staff/ManageMenu'
@@ -59,9 +58,9 @@ const router = new VueRouter({
             beforeEnter: (to, from, next) => navGuard(to, from, next, 'Customer')
         },
         {
-            path: '/staff',
+            path: '/staff/manage-menu',
             name: 'Staff',
-            component: Staff,
+            component: ManageMenu,
             beforeEnter: (to, from, next) => navGuard(to, from, next, 'Staff')
         },
         {
@@ -72,11 +71,6 @@ const router = new VueRouter({
         {
             path: '/staff/manage-promo',
             component: ManagePromotion,
-            beforeEnter: (to, from, next) => navGuard(to, from, next, 'Staff')
-        },
-        {
-            path: '/staff/manage-menu',
-            component: ManageMenu,
             beforeEnter: (to, from, next) => navGuard(to, from, next, 'Staff')
         },
         {
