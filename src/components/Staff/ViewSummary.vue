@@ -14,6 +14,7 @@
             :headers="orderHeaders"
             :items="getAllOrders"
             :expanded.sync="expanded"
+            :search="searchOrders"
             item-key="oid"
             show-expand
             class="elevation-1"
@@ -22,6 +23,14 @@
               <v-toolbar flat>
                 <v-toolbar-title>All Orders</v-toolbar-title>
                 <v-spacer></v-spacer>
+                <v-text-field
+                  v-model="searchOrders"
+                  append-icon="mdi-magnify"
+                  color="orange darken-2"
+                  label="Search"
+                  single-line
+                  hide-details
+                ></v-text-field>
                 <template v-slot:extension>
                   <v-row justify="start">
                     <v-col md="auto">Filter by:</v-col>
@@ -184,6 +193,7 @@ export default {
     promoStats: [],
     yearList: [],
     selectedYearForSummary: "All",
+    searchOrders: '',
     limitOptions: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
     mlist: [
       "Jan",
@@ -216,36 +226,31 @@ export default {
     ],
     foodList: [],
     orderHeaders: [
-      { text: "Order ID", sortable: true, filterable: false, value: "oid" },
+      { text: "Order ID", sortable: true, value: "oid" },
       { text: "Status", sortable: true, value: "status" },
       {
         text: "Customer Name",
         sortable: true,
-        filterable: false,
         value: "cname"
       },
       {
         text: "Order Time",
         sortable: true,
-        filterable: false,
         value: "orderTime"
       },
       {
         text: "Delivered Time",
         sortable: true,
-        filterable: false,
         value: "deliveredTime"
       },
       {
         text: "Total Price (SGD)",
         sortable: true,
-        filterable: false,
         value: "totalPrice"
       },
       {
         text: "Rider Name",
         sortable: true,
-        filterable: false,
         value: "ridername"
       },
       { text: "", value: "data-table-expand", filterable: false }
