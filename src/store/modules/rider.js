@@ -4,10 +4,15 @@ const getDefaultState = () => {
     return {
         availableOrdersViewable: false,
         timeSlots: [],
-        riderType: null
+        riderType: null,
+        rating: {
+            value: 0,
+            count: 0
+        }
     }
 }
 
+import { getRating } from "../../helpers/rider"
 export default {
     namespaced: true,
     state: getDefaultState(),
@@ -20,6 +25,9 @@ export default {
         },
         availableOrdersViewable(state) {
             return state.availableOrdersViewable
+        },
+        rating(state) {
+            return state.rating
         }
     },
     mutations: {
@@ -34,6 +42,11 @@ export default {
         },
         setAvailableOrdersViewable(state, viewable) {
             state.availableOrdersViewable = viewable
+        },
+        setRating(state, value, count) {
+            state.rating = {
+                value: parseFloat(value), count
+            }
         }
     },
     actions: {
@@ -48,6 +61,10 @@ export default {
         async fetchRiderType({ commit }) {
             let riderType = (await axios.get(`rider/rider-type`)).data
             commit('setRiderType', riderType)
+        },
+        async fetchRating({ commit }) {
+            let { value, count } = await getRating();
+            commit('setRating', value, count)
         }
     }
 }
