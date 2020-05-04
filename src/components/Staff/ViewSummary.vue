@@ -249,6 +249,11 @@ export default {
         value: "totalPrice"
       },
       {
+        text: "Promo ID",
+        sortable: true,
+        value: "pid"
+      },
+      {
         text: "Rider Name",
         sortable: true,
         value: "ridername"
@@ -328,6 +333,7 @@ export default {
         oid: item.oid,
         status: item.status,
         ridername: item.ridername,
+        pid: item.pid,
         cname: item.cname,
         totalPrice: (item.finalprice / 100).toLocaleString("en-SG", {
           style: "currency",
