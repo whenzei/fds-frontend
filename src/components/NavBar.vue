@@ -9,11 +9,12 @@
     </router-link>
     <v-spacer></v-spacer>
     <v-btn outlined color="orange" @click="logout" v-if="checkLoginStatus">logout</v-btn>
-    <v-btn outlined color="orange" @click="signup" v-else>signup</v-btn>
+    <SignUp v-else/>
   </v-app-bar>
 </template>
 
 <script>
+import SignUp from './SignUp'
 export default {
   data: () => ({}),
   computed: {
@@ -32,6 +33,9 @@ export default {
       await this.$store.dispatch("logout");
       this.$router.push("/");
     }
+  },
+  components: {
+    SignUp
   }
 };
 </script>
