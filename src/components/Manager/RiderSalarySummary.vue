@@ -41,7 +41,7 @@
                 { text: "Rider Id", value: "uid" },
                 { text: "Name", value: "name" },
                 { text: "Month", value: "month" },
-                { text: "Total Salary (SGD)", filterable: false, value: "totalsalary" },
+                { text: "Total Salary (S$)", filterable: false, value: "totalsalary" },
                 { text: "Total hours", value: "totalhours", filterable: false },
             ];
             const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
@@ -64,6 +64,7 @@
                             let res = this.salaryInfo.filter(i => i.year == this.selectedYear);
                             res.forEach(element => {
                                 element.month = this.months[element.month - 1];
+                                element.totalsalary = parseInt(element.totalsalary).toLocaleString("en-SG");
                             });
                             this.salaryInfo = res;
                     })

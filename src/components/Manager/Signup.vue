@@ -61,6 +61,8 @@
     </v-form>
     </v-container>
     </div>
+        <v-snackbar color="success" v-model="isSuccess" :timeout="4000">User is added.</v-snackbar>
+        <v-snackbar color="error" v-model="isError" :timeout="5000">There was a problem adding the user. Check username or restaurant id</v-snackbar>
     </div>
 </template>
 
@@ -84,13 +86,26 @@
             checkbox: false,
             isStaff:false,
             rid: null,
+            isSuccess: false,
+            isError: false
         }),
 
         methods: {
             async validate () {
-                let res = await signupUser(this.name, this.username, this.currRole, this.rid, this.password)
-                window.alert(res);
-                    this.$refs.form.reset()
+                const isConfirmed = confirm(
+                    "Are you sure you want to add the user"
+                );
+                if (isConfirmed) {
+                    let res = await signupUser(this.name, this.username, this.currRole, this.rid, this.password);
+                    console.log(res.status)
+                    if(res.status == 200) {
+                        this.isSuccess = true;
+                        this.$refs.form.reset()
+                    }
+                    else {
+                        this.isError = true;
+                    }
+                }
             },
             reset () {
                 this.$refs.form.reset()

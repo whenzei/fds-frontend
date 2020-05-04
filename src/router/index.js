@@ -18,7 +18,7 @@ import RiderSummary from '@/components/Rider/Summary'
 import ErrorLanding from '@/components/ErrorLanding'
 import store from '../store'
 import Signup from '@/components/Manager/Signup'
-import Test from "../components/Manager/ManagerLanding";
+import ManagerLanding from "../components/Manager/ManagerLanding";
 import RiderDeliverySummary from "../components/Manager/RiderDeliverySummary";
 import RiderRatingSummary from "../components/Manager/RiderRatingSummary";
 import CustomerOrderSummary from "../components/Manager/CustomerOrderSummary";
@@ -136,7 +136,7 @@ const router = new VueRouter({
         {
             path: '/manager',
             name: 'Manager',
-            component: Test,
+            component: ManagerLanding,
             beforeEnter: (to, from, next) => navGuard(to, from, next, 'Manager')
         },
         {

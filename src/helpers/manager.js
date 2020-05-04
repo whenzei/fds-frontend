@@ -70,11 +70,10 @@ const signupUser = async function (name, username, Role, rid, password) {
     };
 
     try {
-        return (await axios.post(`/signupBusiness/`, {user})).data;
+        return (await axios.post(`/signupBusiness/`, {user}));
     }
     catch (e) {
-        window.alert("User could not be added. Check username or restaurant id")
-        throw e.response.data
+        return e.response;
     }
 
 };

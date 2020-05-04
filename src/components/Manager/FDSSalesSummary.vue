@@ -42,7 +42,7 @@
             const thisYear = new Date().getFullYear();
             const header = [
                 { text: "Month", value: "month" },
-                { text: "Total Sales", filterable: false, value: "monthly_sales" },
+                { text: "Total Sales (S$)", filterable: false, value: "monthly_sales" },
             ];
             const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
             return {
@@ -64,6 +64,7 @@
                             let res = this.salesInfo.filter(i => i.year == this.selectedYear);
                             res.forEach(element => {
                                 element.month = this.months[element.month - 1];
+                                element.monthly_sales = parseInt(element.monthly_sales).toLocaleString("en-SG")
                             });
                             this.salesInfo = res;
                         })
