@@ -4,7 +4,7 @@
       <div
         class="ml-2 mt-1 subtitle-1 review"
         v-on="on"
-      >({{reviews!=null && reviews.length > 0 ? reviews.length: 'No '}} reviews)</div>
+      >({{reviews!=null && reviewsLength > 0 ? reviewsLength: 'No '}} reviews)</div>
     </template>
     <v-card class="grey darken-4">
       <v-card-title class="display-1 orangeText">Reviews for {{rname}}</v-card-title>
@@ -43,12 +43,19 @@ export default {
   data() {
     return {
       dialog: false,
+      reviewsLength: 0,
       reviews: null
     };
   },
   async created() {
     const res = await axios(`/customer/restaurant-reviews/${this.rid}`);
-    this.reviews = res.data;
+    let reviews = res.data;
+    this.reviewsLength = reviews.length
+    if (reviews.length > 50) {
+      this.reviews = reviews.slice(0, 50);
+    } else {
+      this.reviews = reviews;
+    }
   }
 };
 </script>
