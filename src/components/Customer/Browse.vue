@@ -20,7 +20,12 @@
                 <v-text-field color="orange" v-model="search" outlined></v-text-field>
               </v-col>
               <v-col lg="4">
-                <v-btn color="orange darken-2" @click="filterSearch" :disabled="!search">Apply</v-btn>
+                <v-btn
+                  color="orange darken-2"
+                  @click="filterSearch"
+                  :disabled="!search"
+                  x-small
+                >Apply</v-btn>
               </v-col>
             </v-row>
             <v-divider></v-divider>
@@ -89,9 +94,11 @@ export default {
       }
     },
     async filterSearch() {
-      const res = await axios.get(`/customer/restaurants/search=${this.search}`)
+      const res = await axios.get(
+        `/customer/restaurants/search=${this.search}`
+      );
       if (res.status == 200) {
-        this.restaurants = res.data
+        this.restaurants = res.data;
       }
     }
   },
