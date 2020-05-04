@@ -62,11 +62,22 @@
                     .then(
                         salaryInfo => {
                             this.ratingsInfo = salaryInfo;
-                            let res = this.ratingsInfo.filter(i => i.year == this.selectedYear);
-                            res.forEach(element => {
-                                element.month = this.months[element.month - 1];
-                            });
-                            this.ratingsInfo = res;
+                            if(this.selectedYear == "No Rating") {
+                                let res = this.ratingsInfo.filter(i => i.year == null);
+                                res.forEach(element => {
+                                    element.month = "N/A"
+                                });
+                                this.ratingsInfo = res;
+                            } else {
+                                let res = this.ratingsInfo.filter(i => i.year == this.selectedYear);
+                                res.forEach(element => {
+                                    element.month = this.months[element.month - 1];
+                                    if (element.year == null) {
+                                        element.month = "N/A"
+                                    }
+                                });
+                                this.ratingsInfo = res;
+                            }
                         })
                     .catch(e => {
                         alert(e);
@@ -74,6 +85,7 @@
             }
         },
         created() {
+            this.years.push("No Rating");
             this.fetchRatingInfo();
         },
         computed: {
