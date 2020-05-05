@@ -54,7 +54,7 @@
                       <v-checkbox
                         v-model="filterList"
                         label="Awaiting Pick Up"
-                        color="red darken-2"
+                        color="blue darken-2"
                         value="Awaiting Pick Up"
                       ></v-checkbox>
                     </v-col>
@@ -64,6 +64,14 @@
                         label="Not Assigned"
                         color="grey darken-2"
                         value="Not Assigned"
+                      ></v-checkbox>
+                    </v-col>
+                    <v-col sm="3" md="auto">
+                      <v-checkbox
+                        v-model="filterList"
+                        label="Error"
+                        color="red darken-2"
+                        value="Error"
                       ></v-checkbox>
                     </v-col>
                   </v-row>
@@ -212,8 +220,9 @@ export default {
     ColorEnum: {
       Delivered: "green darken-2",
       InProgress: "yellow darken-2",
-      PickUp: "red darken-2",
-      NotAssigned: "grey darken-2"
+      PickUp: "blue darken-2",
+      NotAssigned: "grey darken-2",
+      Error: "red darken-2"
     },
     rid: null,
     menu: false,
@@ -222,7 +231,8 @@ export default {
       "Delivered",
       "Delivery in Progress",
       "Awaiting Pick Up",
-      "Not Assigned"
+      "Not Assigned",
+      "Error"
     ],
     foodList: [],
     orderHeaders: [
@@ -323,8 +333,10 @@ export default {
         return this.ColorEnum.InProgress;
       } else if (status === "Awaiting Pick Up") {
         return this.ColorEnum.PickUp;
+      } else if (status === "Not Assigned") {
+        return this.ColorEnum.NotAssigned;
       }
-      return this.ColorEnum.NotAssigned;
+      return this.ColorEnum.Error;
     }
   },
   computed: {
