@@ -75,6 +75,9 @@ export default new Vuex.Store({
                     if (res.data.user.role == "Rider") {
                         this.dispatch('rider/fetchRiderType');
                         this.dispatch("rider/fetchRating");
+                        if (!this.state.showNavDrawer) {
+                            this.commit('toggleNavDrawer')
+                        }
                     } else if (res.data.user.role == "Staff") {
                         await this.dispatch('staff/fetchRestaurantInfo');
                     }
