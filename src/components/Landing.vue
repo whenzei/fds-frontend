@@ -79,7 +79,7 @@ export default {
       const v = this;
       switch (res) {
         case "Rider":
-          this.$router.push({ name: "Rider" });
+          this.$router.push({ name: "RiderOrders" });
           break;
         case "Customer":
           this.$router.push({ name: "Customer" });

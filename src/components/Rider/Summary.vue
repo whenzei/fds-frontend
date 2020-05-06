@@ -4,8 +4,6 @@
     <v-data-table
       :headers="headers"
       :items="summaryInfo"
-      :items-per-page="itemsPerPage"
-      hide-default-footer
       class="elevation-1"
     ></v-data-table>
   </v-container>
@@ -30,7 +28,6 @@ export default {
       years: _.range(2018, thisYear + 1),
       headers,
       summaryInfo: [],
-      itemsPerPage: 12
     };
   },
   methods: {

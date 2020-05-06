@@ -4,8 +4,6 @@
     <v-data-table
       :headers="headers"
       :items="tableItems"
-      :items-per-page="itemsPerPage"
-      hide-default-footer
       class="elevation-1"
     >
       <template v-slot:item.baseSalary="{ item }">
@@ -54,7 +52,6 @@ export default {
       fullTimeHeaders,
       headers: fullTimeHeaders,
       salaryInfo: {},
-      itemsPerPage: 12
     };
   },
   methods: {
