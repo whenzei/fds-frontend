@@ -13,6 +13,7 @@ const debug = process.env.NODE_ENV !== 'production'
 const getDefaultState = () => {
     return {
         name: null,
+        username:null,
         role: null,
         token: null,
         isLoggedIn: false,
@@ -25,6 +26,7 @@ export default new Vuex.Store({
     state: {
         name: null,
         role: null,
+        username:null,
         token: null,
         isLoggedIn: false,
         showNavDrawer: false,
@@ -45,6 +47,9 @@ export default new Vuex.Store({
         showNavDrawer(state) {
             return state.showNavDrawer
         },
+        username(state) {
+            return state.username;
+        }
     },
     mutations: {
         setData(state, data) {
@@ -52,6 +57,7 @@ export default new Vuex.Store({
             state.token = data.token;
             state.role = data.user.role;
             state.isLoggedIn = true;
+            state.username=data.user.username;
         },
         resetData(state) {
             Object.assign(state, getDefaultState());

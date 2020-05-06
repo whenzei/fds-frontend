@@ -15,9 +15,19 @@ import RiderUpdatePTSchedule from '@/components/Rider/UpdatePTSchedule'
 import RiderUpdateFTSchedule from '@/components/Rider/UpdateFTSchedule'
 import RiderSchedule from '@/components/Rider/Schedule'
 import RiderSummary from '@/components/Rider/Summary'
-import Manager from '@/components/Manager/Manager'
 import ErrorLanding from '@/components/ErrorLanding'
 import store from '../store'
+import Signup from '@/components/Manager/Signup'
+import ManagerLanding from "../components/Manager/ManagerLanding";
+import RiderDeliverySummary from "../components/Manager/RiderDeliverySummary";
+import RiderRatingSummary from "../components/Manager/RiderRatingSummary";
+import CustomerOrderSummary from "../components/Manager/CustomerOrderSummary";
+import FDSSalesSummary from "../components/Manager/FDSSalesSummary";
+import FDSOrderSummary from "../components/Manager/FDSOrderSummary";
+import UserSignupSummary from "../components/Manager/UserSignupSummary";
+import HourlyAreaSummary from "../components/Manager/HourlyAreaSummary";
+import RiderSalarySummary from '@/components/Manager/RiderSalarySummary'
+
 
 Vue.use(VueRouter);
 
@@ -126,7 +136,52 @@ const router = new VueRouter({
         {
             path: '/manager',
             name: 'Manager',
-            component: Manager,
+            component: ManagerLanding,
+            beforeEnter: (to, from, next) => navGuard(to, from, next, 'Manager')
+        },
+        {
+            path: '/manager/signup',
+            component: Signup,
+            beforeEnter: (to, from, next) => navGuard(to, from, next, 'Manager')
+        },
+        {
+            path:'/manager/rider/salary-summary',
+            component: RiderSalarySummary,
+            beforeEnter: (to, from, next) => navGuard(to, from, next, 'Manager')
+        },
+        {
+            path:'/manager/rider/delivery-summary',
+            component: RiderDeliverySummary,
+            beforeEnter: (to, from, next) => navGuard(to, from, next, 'Manager')
+        },
+        {
+            path:'/manager/rider/rating-summary',
+            component: RiderRatingSummary,
+            beforeEnter: (to, from, next) => navGuard(to, from, next, 'Manager')
+        },
+        {
+            path:'/manager/orders/customer-order-summary',
+            component: CustomerOrderSummary,
+            beforeEnter: (to, from, next) => navGuard(to, from, next, 'Manager')
+        },
+        {
+            path:'/manager/orders/fds-sales-summary',
+            component: FDSSalesSummary,
+            beforeEnter: (to, from, next) => navGuard(to, from, next, 'Manager')
+        },
+        {
+            path:'/manager/orders/fds-orders-summary',
+            component: FDSOrderSummary,
+            beforeEnter: (to, from, next) => navGuard(to, from, next, 'Manager')
+        },
+        {
+            path:'/manager/user-signup-summary',
+            component: UserSignupSummary,
+            beforeEnter: (to, from, next) => navGuard(to, from, next, 'Manager')
+        },
+        {
+            path:'/manager/orders/area-hourly-orders',
+            component: HourlyAreaSummary,
             beforeEnter: (to, from, next) => navGuard(to, from, next, 'Manager')
         }
     ]
