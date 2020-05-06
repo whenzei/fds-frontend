@@ -65,6 +65,7 @@
                             let res = this.orderInfo.filter(i => i.year == this.selectedYear);
                             res.forEach(element => {
                                 element.month = this.months[element.month - 1];
+                                element.totalprice = parseInt(element.totalprice).toLocaleString("en-SG");
                             });
                             this.orderInfo = res;
                         })
