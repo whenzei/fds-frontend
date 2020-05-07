@@ -5,10 +5,7 @@
       <v-card-title>Month: {{months[month - 1]}}</v-card-title>
       <v-card-title>Shifts:</v-card-title>
       <v-list>
-        <v-list-item
-          v-for="shift in shifts"
-          :key="shift.shiftId"
-        >{{formatShift(shift)}}</v-list-item>
+        <v-list-item v-for="shift in shifts" :key="shift.shiftId">{{formatShift(shift)}}</v-list-item>
         <v-spacer></v-spacer>
       </v-list>
     </v-card>
@@ -69,11 +66,18 @@
       <v-btn :disabled="!valid" color="success" class="mr-4" @click="applySchedule">Apply</v-btn>
 
       <v-btn color="error" class="mr-4" @click="reset">Reset Form</v-btn>
+
+      <v-btn color="red" class="mr-4" @click="clearSchedule">Clear Schedule</v-btn>
     </v-form>
   </v-container>
 </template>
 <script>
-import { postFTScheduleUpdate, getShifts, getStartDaysOfMonth  } from "../../helpers/rider";
+import {
+  postFTScheduleUpdate,
+  getShifts,
+  getStartDaysOfMonth,
+  postClearFTSchedule
+} from "../../helpers/rider";
 
 export default {
   data: () => {
@@ -108,13 +112,38 @@ export default {
     };
   },
   methods: {
+    clearSchedule() {
+      postClearFTSchedule(this.year, this.month)
+        .then(() => {
+          alert("Schedule cleared");
+          this.$router.push("/rider/schedule");
+        })
+        .catch(e => {
+          alert(e);
+        });
+    },
     formatShift(shift) {
-      const s1 = shift.starttime1, s2 = shift.starttime2, e1 = shift.endtime1, e2 = shift.endtime2;
-      const interval1 = (s1 > 9 ? "" : "0") + s1 + "00hr - " + (e1 > 9 ? "" : "0") + e1 + "00hr";
-      const interval2 = (s2 > 9 ? "" : "0") + s2 + "00hr - " + (e2 > 9 ? "" : "0") + e2 + "00hr";
+      const s1 = shift.starttime1,
+        s2 = shift.starttime2,
+        e1 = shift.endtime1,
+        e2 = shift.endtime2;
+      const interval1 =
+        (s1 > 9 ? "" : "0") +
+        s1 +
+        "00hr - " +
+        (e1 > 9 ? "" : "0") +
+        e1 +
+        "00hr";
+      const interval2 =
+        (s2 > 9 ? "" : "0") +
+        s2 +
+        "00hr - " +
+        (e2 > 9 ? "" : "0") +
+        e2 +
+        "00hr";
       return `
       Shift ${shift.shiftid}: ${interval1} | ${interval2} 
-      `
+      `;
     },
     validate() {
       return this.$refs.form.validate();
@@ -139,7 +168,7 @@ export default {
       postFTScheduleUpdate(payLoad)
         .then(() => {
           alert("Updated");
-          this.$router.push("/rider/schedule")
+          this.$router.push("/rider/schedule");
         })
         .catch(err => alert(err));
     }
@@ -148,7 +177,6 @@ export default {
     this.shifts = await getShifts();
     this.startDaysOfMonth = await getStartDaysOfMonth(this.year, this.month);
   }
-  ,
 };
 </script>
 
