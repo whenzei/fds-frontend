@@ -81,6 +81,52 @@
 
                 <v-list-item three-line>
                     <v-list-item-content>
+                        <v-list-item-title class="headline mb-1">Manage Users</v-list-item-title>
+                        <v-list-item-subtitle>View and delete staff or rider</v-list-item-subtitle>
+                    </v-list-item-content>
+
+                </v-list-item>
+
+                <v-card-actions>
+                    <router-link to="/manager/all-staff-rider">
+                        <v-btn text>Manager user</v-btn>
+                    </router-link>
+                </v-card-actions>
+            </v-card>
+
+            <v-card
+                    class="mx-auto card-tile"
+                    max-width="344"
+                    shape
+                    elevation=12
+
+            >
+
+                <v-list-item three-line>
+                    <v-list-item-content>
+                        <v-list-item-title class="headline mb-1">Manage Global Promotions</v-list-item-title>
+                        <v-list-item-subtitle>Add, edit and delete promotions</v-list-item-subtitle>
+                    </v-list-item-content>
+
+                </v-list-item>
+
+                <v-card-actions>
+                    <router-link to="/manager/manage-global-promotions">
+                        <v-btn text>Manage promos</v-btn>
+                    </router-link>
+                </v-card-actions>
+            </v-card>
+
+            <v-card
+                    class="mx-auto card-tile"
+                    max-width="344"
+                    shape
+                    elevation=12
+
+            >
+
+                <v-list-item three-line>
+                    <v-list-item-content>
                         <v-list-item-title class="headline mb-1">Customer Orders Summary</v-list-item-title>
                         <v-list-item-subtitle>Details about customer and their orders</v-list-item-subtitle>
                     </v-list-item-content>
@@ -126,7 +172,7 @@
                 <v-list-item three-line>
                     <v-list-item-content>
                         <v-list-item-title class="headline mb-1">Most popular areas</v-list-item-title>
-                        <v-list-item-subtitle>Details about hourly orders from different areas <up></up></v-list-item-subtitle>
+                        <v-list-item-subtitle>Details about hourly orders from different areas </v-list-item-subtitle>
                     </v-list-item-content>
 
                 </v-list-item>
@@ -149,7 +195,7 @@
                 <v-list-item three-line>
                     <v-list-item-content>
                         <v-list-item-title class="headline mb-1">User Signup statistics</v-list-item-title>
-                        <v-list-item-subtitle>Details about monthly user sign ups <up></up></v-list-item-subtitle>
+                        <v-list-item-subtitle>Details about monthly user sign ups </v-list-item-subtitle>
                     </v-list-item-content>
 
                 </v-list-item>

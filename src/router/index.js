@@ -27,6 +27,8 @@ import FDSOrderSummary from "../components/Manager/FDSOrderSummary";
 import UserSignupSummary from "../components/Manager/UserSignupSummary";
 import HourlyAreaSummary from "../components/Manager/HourlyAreaSummary";
 import RiderSalarySummary from '@/components/Manager/RiderSalarySummary'
+import ManageUser from "../components/Manager/ManageUser";
+import ManageGlobalPromo from "../components/Manager/ManageGlobalPromo";
 
 
 Vue.use(VueRouter);
@@ -182,6 +184,16 @@ const router = new VueRouter({
         {
             path:'/manager/orders/area-hourly-orders',
             component: HourlyAreaSummary,
+            beforeEnter: (to, from, next) => navGuard(to, from, next, 'Manager')
+        },
+        {
+            path:'/manager/manage-global-promotions',
+            component: ManageGlobalPromo,
+            beforeEnter: (to, from, next) => navGuard(to, from, next, 'Manager')
+        },
+        {
+            path:'/manager/all-staff-rider',
+            component: ManageUser,
             beforeEnter: (to, from, next) => navGuard(to, from, next, 'Manager')
         }
     ]

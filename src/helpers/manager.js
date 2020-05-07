@@ -97,9 +97,32 @@ const getHourlyAreaOrdersSummary = async function () {
     }
 };
 
+const getAllStaffRider = async function () {
+    try {
+        const {data} = await axios.get(`/manager/all-staff-rider/`);
+        return data
+    } catch (e) {
+        throw e.response.data;
+    }
+};
+
+const deleteUser = async function (user) {
+    const body = {
+        name:user.name,
+        uid:user.uid,
+        role: user.role,
+    };
+    try {
+        return (await axios.post(`/manager/delete-user`, body));
+    }
+    catch (e) {
+        return e.response;
+    }
+
+};
 
 
 module.exports = {
      getSalarySummary, getRiderDeliverySummary, getRiderRatingSummary, getCustomerOrderSummary, getRestaurantSalesSummary, getFDSOrdersSummary,
-    signupUser, getUserSignUpSummary, getHourlyAreaOrdersSummary
+    signupUser, getUserSignUpSummary, getHourlyAreaOrdersSummary, getAllStaffRider, deleteUser
 }
