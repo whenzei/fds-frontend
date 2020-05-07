@@ -28,7 +28,6 @@ import UserSignupSummary from "../components/Manager/UserSignupSummary";
 import HourlyAreaSummary from "../components/Manager/HourlyAreaSummary";
 import RiderSalarySummary from '@/components/Manager/RiderSalarySummary'
 import ManageUser from "../components/Manager/ManageUser";
-import ManageRestaurant from "../components/Manager/ManageRestaurant";
 import ManageGlobalPromo from "../components/Manager/ManageGlobalPromo";
 
 
@@ -195,11 +194,6 @@ const router = new VueRouter({
         {
             path:'/manager/all-staff-rider',
             component: ManageUser,
-            beforeEnter: (to, from, next) => navGuard(to, from, next, 'Manager')
-        },
-        {
-            path:'/manager/manage-restaurant',
-            component: ManageRestaurant,
             beforeEnter: (to, from, next) => navGuard(to, from, next, 'Manager')
         }
     ]
