@@ -195,7 +195,7 @@
                 <v-list-item three-line>
                     <v-list-item-content>
                         <v-list-item-title class="headline mb-1">Most popular areas</v-list-item-title>
-                        <v-list-item-subtitle>Details about hourly orders from different areas <up></up></v-list-item-subtitle>
+                        <v-list-item-subtitle>Details about hourly orders from different areas </v-list-item-subtitle>
                     </v-list-item-content>
 
                 </v-list-item>
@@ -218,7 +218,7 @@
                 <v-list-item three-line>
                     <v-list-item-content>
                         <v-list-item-title class="headline mb-1">User Signup statistics</v-list-item-title>
-                        <v-list-item-subtitle>Details about monthly user sign ups <up></up></v-list-item-subtitle>
+                        <v-list-item-subtitle>Details about monthly user sign ups </v-list-item-subtitle>
                     </v-list-item-content>
 
                 </v-list-item>
