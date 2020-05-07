@@ -35,6 +35,7 @@
               {{totalPriceString}}
             </v-col>
           </v-row>
+        <div class="red--text text--lighten-2">Minimum spending of {{resMinSpendingStr}}</div>
         </v-container>
         <v-container v-if="items !== null && items.length > 0">
           <v-row>
@@ -190,6 +191,12 @@ export default {
           this.unit == null
         );
       }
+    },
+    resMinSpendingStr() {
+      return (this.minSpending / 100).toLocaleString("en-SG", {
+          style: "currency",
+          currency: "SGD"
+        })
     }
   },
   watch: {
