@@ -10,13 +10,24 @@ const orderStatuses = {
 }
 
 const postFTScheduleUpdate = async function (payload) {
-    return await axios.post("/rider/update-ft-schedule", payload)
+    try {
+        return await axios.post("/rider/update-ft-schedule", payload)
+    }
+    catch (e) {
+        throw e.response.data
+    }
 }
 
 const postPTScheduleUpdate = async function (year, week, dailySchedules) {
-    return await axios.post("/rider/update-pt-schedule", {
-        year, week, dailySchedules
-    })
+
+    try {
+        return await axios.post("/rider/update-pt-schedule", {
+            year, week, dailySchedules
+        })
+    }
+    catch (e) {
+        throw e.response.data
+    }
 }
 
 const getShifts = async function () {
@@ -91,8 +102,32 @@ const getRating = async function () {
     }
 }
 
+const postClearPTSchedule = async function (year, week) {
+    try {
+        return await axios.post("/rider/clear-pt-schedule", {
+            year,
+            week
+        })
+    }
+    catch (e) {
+        throw e.response.data
+    }
+}
+
+const postClearFTSchedule = async function (year, month) {
+    try {
+        return await axios.post("/rider/clear-ft-schedule", {
+            year,
+            month
+        })
+    }
+    catch (e) {
+        console.log(e.response.data)
+        throw e.response.data
+    }
+}
 
 module.exports = {
     postPTScheduleUpdate, postFTScheduleUpdate, getShifts, getStartDaysOfMonth, RiderTypes, getAvailableOrders, getCurrentOrder, postOrderSelection, postOrderStatusUpdate, orderStatuses,
-    getSalaryInfo, getRating, getSummaryInfo
+    getSalaryInfo, getRating, getSummaryInfo, postClearPTSchedule, postClearFTSchedule
 }

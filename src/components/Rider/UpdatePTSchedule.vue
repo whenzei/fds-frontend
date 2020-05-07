@@ -40,12 +40,13 @@
         </v-list-item>
       </v-list>
       <v-btn color="orange" class="mr-4" @click="updateSchedule">Update</v-btn>
+      <v-btn color="red" class="mr-4" @click="clearSchedule">Clear schedule</v-btn>
     </v-form>
   </v-container>
 </template>
 <script>
 import moment from "moment";
-import { postPTScheduleUpdate } from "../../helpers/rider";
+import { postPTScheduleUpdate, postClearPTSchedule } from "../../helpers/rider";
 export default {
   props: ["year", "week"],
   data: function() {
@@ -153,6 +154,16 @@ export default {
       postPTScheduleUpdate(this.year, this.week, this.dailySchedules)
         .then(() => {
           alert("Updated");
+          this.$router.push("/rider/schedule");
+        })
+        .catch(e => {
+          alert(e);
+        });
+    },
+    clearSchedule() {
+      postClearPTSchedule(this.year, this.week)
+        .then(() => {
+          alert("Schedule cleared");
           this.$router.push("/rider/schedule");
         })
         .catch(e => {
