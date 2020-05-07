@@ -1,6 +1,6 @@
 <template>
     <v-container>
-        <h2 style="color: orange; padding: 50px 50px"> Manager Restaurants</h2>
+        <h2 style="color: orange; padding: 50px 50px"> Manage Restaurants</h2>
         <v-data-table :headers="restaurantHeaders" :items="restList" class="elevation-1">
             <template v-slot:top>
                 <v-toolbar color="black orange--text text--darken-2" flat>
@@ -142,7 +142,15 @@
             async getRestaurants() {
                 const res = await axios.get(`/manager/get-restaurants/`);
                 if (res.status == 200 || res.status == 304) {
-                    console.log(res.data)
+                    res.data.forEach(item => {
+                        item.minspending = (item.minspending / 100).toLocaleString(
+                            undefined,
+                            {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2
+                            }
+                        );
+                    })
                     this.restList = res.data;
                 }
             },

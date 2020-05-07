@@ -112,7 +112,7 @@
 
                 <v-card-actions>
                     <router-link to="/manager/manage-restaurant">
-                        <v-btn text>Manager restaurants</v-btn>
+                        <v-btn text>Manage restaurants</v-btn>
                     </router-link>
                 </v-card-actions>
             </v-card>
